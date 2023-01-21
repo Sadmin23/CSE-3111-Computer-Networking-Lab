@@ -1,10 +1,10 @@
-package EchoApplication;
+package FactorialServer;
 
 import java.net.Socket;
 import java.net.ServerSocket;
 import java.io.*;
 
-public class EchoServer {
+public class FactorialServer {
     public static void main(String[] args) {
 
         try {
