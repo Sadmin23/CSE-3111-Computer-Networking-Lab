@@ -1,4 +1,4 @@
-package SocketProgrammingPractise.SimpleClientServer;
+package SimpleClientServer.SimpleClientServer;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -15,6 +15,5 @@ public class server {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 }
