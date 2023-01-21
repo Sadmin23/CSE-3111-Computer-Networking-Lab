@@ -1,4 +1,4 @@
-package EchoApplication.EchoApplication;
+package EchoApplication;
 
 import java.net.Socket;
 import java.io.BufferedReader;

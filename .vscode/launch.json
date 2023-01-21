@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch client",
+            "request": "launch",
+            "mainClass": "SimpleClientServer.client",
+            "projectName": "CSE 3101-Computer Networking_c602924d"
+        },
+        {
+            "type": "java",
+            "name": "Launch EchoClient",
+            "request": "launch",
+            "mainClass": "EchoApplication.EchoClient",
+            "projectName": "CSE 3101-Computer Networking_c602924d"
+        },
+        {
+            "type": "java",
+            "name": "Launch server",
+            "request": "launch",
+            "mainClass": "SimpleClientServer.server",
+            "projectName": "CSE 3101-Computer Networking_c602924d"
+        },
+        {
+            "type": "java",
             "name": "Launch EchoClient",
             "request": "launch",
             "mainClass": "EchoApplication.EchoApplication.EchoClient",
