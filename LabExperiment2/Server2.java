@@ -54,9 +54,9 @@ public class Server2 {
 
         users = new Server2[3];
 
-        users[0] = new Server2("a", "a", 50000);
+        users[0] = new Server2("Rahim", "1234", 50000);
         users[1] = new Server2("Karim", "1234", 60000);
-        users[2] = new Server2("rafiq", "1234", 40000);
+        users[2] = new Server2("Rafiq", "1234", 40000);
 
         System.out.println("Server started");
         System.out.println("Waiting for Clients...");
@@ -91,30 +91,90 @@ public class Server2 {
 
                 if (userNo >= 0) {
                     if (command.equals("c")) {
+
+                        while (true) {
+                            if (error() == true)
+                                break;
+                        }
+
                         oos.writeObject("Enter amount to be credited:\n");
+
                         Object cMsg4 = ois.readObject();
                         int value = (int) cMsg4;
+
                         users[userNo].credit(value);
+
+                        while (true) {
+                            if (error() == true)
+                                break;
+                        }
+
                         oos.writeObject("Your account has been credited by " + value + " taka\n"
                                 + users[userNo].checkBalance());
+
                     } else if (command.equals("d")) {
+
+                        while (true) {
+                            if (error() == true)
+                                break;
+                        }
+
                         oos.writeObject("Enter amount to be debited:\n");
+
                         Object cMsg4 = ois.readObject();
                         int value = (int) cMsg4;
+
+                        while (true) {
+                            if (error() == true)
+                                break;
+                        }
+
                         if (users[userNo].debit(value) == true)
                             oos.writeObject("Your account has been debited by " + value + " taka\n"
                                     + users[userNo].checkBalance());
+                        else
+                            oos.writeObject("Insufficient Balance\n" + users[userNo].checkBalance());
                     } else if (command.equals("q")) {
-                        System.out.println("System shutting down...");
+                        while (true) {
+                            if (error() == true)
+                                break;
+                        }
+
                         oos.writeObject("Log Out Successful...\n");
+
+                        System.out.println("System shutting down...\n");
+
                         break;
                     } else if (command.equals("b")) {
+
+                        while (true) {
+                            if (error() == true)
+                                break;
+                        }
+
                         oos.writeObject(users[userNo].checkBalance());
                     }
                 }
             }
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    static boolean error() {
+
+        int num = (int) Math.floor(Math.random() * (100));
+
+        // int num = (int) Math.random() * 100;
+
+        // System.out.println(num);
+
+        if (num < 50) {
+            System.out.println("\nData packets sent successfully to the Client...\n");
+            return true;
+        } else {
+            System.out.println("\nData packets not sent to the Client\nResending packets...\n");
+            return false;
         }
     }
 }

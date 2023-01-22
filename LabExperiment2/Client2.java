@@ -45,6 +45,11 @@ public class Client2 {
                 str = scanner.nextLine();
                 objectOutputStream.writeObject(str);
 
+                while (true) {
+                    if (error() == true)
+                        break;
+                }
+
                 if (str.equals("q")) {
 
                     Object fromServer = objectInputStream.readObject();
@@ -61,6 +66,11 @@ public class Client2 {
                         val = scanner.nextInt();
                         scanner.nextLine();
                         objectOutputStream.writeObject(val);
+
+                        while (true) {
+                            if (error() == true)
+                                break;
+                        }
 
                         try {
                             Object fromServer2 = objectInputStream.readObject();
@@ -84,11 +94,18 @@ public class Client2 {
 
     static boolean error() {
 
-        int num = (int) Math.random() * 100;
+        int num = (int) Math.floor(Math.random() * (100));
 
-        if (num < 70) {
+        // int num = (int) Math.random() * 100;
+
+        // System.out.println(num);
+
+        if (num < 50) {
+            System.out.println("\nData packets sent successfully to the Server...\n");
             return true;
-        } else
+        } else {
+            System.out.println("\nData packets not sent to the server\nResending packets...\n");
             return false;
+        }
     }
 }
