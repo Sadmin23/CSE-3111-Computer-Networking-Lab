@@ -6,6 +6,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Server2",
+            "request": "launch",
+            "mainClass": "Server2",
+            "projectName": "CSE 3101-Computer Networking_c602924d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Client2",
+            "request": "launch",
+            "mainClass": "Client2",
+            "projectName": "CSE 3101-Computer Networking_c602924d"
+        },
+        {
+            "type": "java",
             "name": "Launch FactorialServer",
             "request": "launch",
             "mainClass": "FactorialServer.FactorialServer",
