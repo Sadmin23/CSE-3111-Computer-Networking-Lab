@@ -1,4 +1,4 @@
-package EchoApplication;
+package Practise.EchoApplication;
 
 import java.net.Socket;
 import java.io.*;

@@ -1,4 +1,4 @@
-package SimpleClientServer;
+package Practise.SimpleClientServer;
 
 import java.net.ServerSocket;
 import java.net.Socket;

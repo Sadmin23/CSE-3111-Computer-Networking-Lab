@@ -1,4 +1,4 @@
-package FactorialServer;
+package Practise.FactorialServer;
 
 import java.net.Socket;
 import java.io.*;
