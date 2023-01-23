@@ -57,11 +57,17 @@ public class Server2 {
         users[1] = new Server2("Karim", "1234", 60000);
         users[2] = new Server2("Rafiq", "1234", 40000);
 
-        System.out.println("Server started");
-        System.out.println("Waiting for Clients...");
-        ServerSocket serverSocket = new ServerSocket(5000);
+        delay();
 
+        System.out.println("Server started");
+
+        delay();
+
+        System.out.println("Waiting for Clients...");
+
+        ServerSocket serverSocket = new ServerSocket(5000);
         Socket socket = serverSocket.accept();
+        delay();
         System.out.println("Client Accepted");
         ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
         ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -84,9 +90,6 @@ public class Server2 {
             while (true) {
                 Object cMsg3 = ois.readObject();
                 String command = (String) cMsg3;
-
-                // Object cMsg4 = ois.readObject();
-                // int value = (int) cMsg4;
 
                 if (userNo >= 0) {
                     if (command.equals("c")) {
@@ -127,6 +130,8 @@ public class Server2 {
 
                         oos.writeObject("Log Out Successful...\n");
 
+                        delay();
+
                         System.out.println("System shutting down...\n");
 
                         break;
@@ -148,9 +153,11 @@ public class Server2 {
         int num = (int) Math.floor(Math.random() * (100));
 
         if (num < 50) {
+            delay();
             System.out.println("\nData packets sent successfully to the Client...\n");
             return true;
         } else {
+            delay();
             System.out.println("\nData packets not sent to the Client\nResending packets...\n");
             return false;
         }
@@ -160,6 +167,14 @@ public class Server2 {
         while (true) {
             if (error() == true)
                 break;
+        }
+    }
+
+    static void delay() {
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
