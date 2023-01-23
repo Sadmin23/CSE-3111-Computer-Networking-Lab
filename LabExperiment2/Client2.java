@@ -4,6 +4,7 @@ import java.io.ObjectOutputStream;
 import java.lang.Math;
 import java.net.Socket;
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Client2 {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -45,10 +46,7 @@ public class Client2 {
                 str = scanner.nextLine();
                 objectOutputStream.writeObject(str);
 
-                while (true) {
-                    if (error() == true)
-                        break;
-                }
+                sendPackets();
 
                 if (str.equals("q")) {
 
@@ -67,10 +65,7 @@ public class Client2 {
                         scanner.nextLine();
                         objectOutputStream.writeObject(val);
 
-                        while (true) {
-                            if (error() == true)
-                                break;
-                        }
+                        sendPackets();
 
                         try {
                             Object fromServer2 = objectInputStream.readObject();
@@ -96,10 +91,6 @@ public class Client2 {
 
         int num = (int) Math.floor(Math.random() * (100));
 
-        // int num = (int) Math.random() * 100;
-
-        // System.out.println(num);
-
         if (num < 50) {
             System.out.println("\nData packets sent successfully to the Server...\n");
             return true;
@@ -108,4 +99,12 @@ public class Client2 {
             return false;
         }
     }
+
+    static void sendPackets() {
+        while (true) {
+            if (error() == true)
+                break;
+        }
+    }
+
 }

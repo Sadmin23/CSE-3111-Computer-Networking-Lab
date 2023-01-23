@@ -1,7 +1,6 @@
-
-// A Java program for a Server
 import java.net.*;
 import java.io.*;
+import java.util.concurrent.TimeUnit;
 
 public class Server2 {
     String user;
@@ -92,10 +91,7 @@ public class Server2 {
                 if (userNo >= 0) {
                     if (command.equals("c")) {
 
-                        while (true) {
-                            if (error() == true)
-                                break;
-                        }
+                        sendPackets();
 
                         oos.writeObject("Enter amount to be credited:\n");
 
@@ -104,30 +100,21 @@ public class Server2 {
 
                         users[userNo].credit(value);
 
-                        while (true) {
-                            if (error() == true)
-                                break;
-                        }
+                        sendPackets();
 
                         oos.writeObject("Your account has been credited by " + value + " taka\n"
                                 + users[userNo].checkBalance());
 
                     } else if (command.equals("d")) {
 
-                        while (true) {
-                            if (error() == true)
-                                break;
-                        }
+                        sendPackets();
 
                         oos.writeObject("Enter amount to be debited:\n");
 
                         Object cMsg4 = ois.readObject();
                         int value = (int) cMsg4;
 
-                        while (true) {
-                            if (error() == true)
-                                break;
-                        }
+                        sendPackets();
 
                         if (users[userNo].debit(value) == true)
                             oos.writeObject("Your account has been debited by " + value + " taka\n"
@@ -135,10 +122,8 @@ public class Server2 {
                         else
                             oos.writeObject("Insufficient Balance\n" + users[userNo].checkBalance());
                     } else if (command.equals("q")) {
-                        while (true) {
-                            if (error() == true)
-                                break;
-                        }
+
+                        sendPackets();
 
                         oos.writeObject("Log Out Successful...\n");
 
@@ -147,10 +132,7 @@ public class Server2 {
                         break;
                     } else if (command.equals("b")) {
 
-                        while (true) {
-                            if (error() == true)
-                                break;
-                        }
+                        sendPackets();
 
                         oos.writeObject(users[userNo].checkBalance());
                     }
@@ -165,16 +147,19 @@ public class Server2 {
 
         int num = (int) Math.floor(Math.random() * (100));
 
-        // int num = (int) Math.random() * 100;
-
-        // System.out.println(num);
-
         if (num < 50) {
             System.out.println("\nData packets sent successfully to the Client...\n");
             return true;
         } else {
             System.out.println("\nData packets not sent to the Client\nResending packets...\n");
             return false;
+        }
+    }
+
+    static void sendPackets() {
+        while (true) {
+            if (error() == true)
+                break;
         }
     }
 }
