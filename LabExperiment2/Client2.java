@@ -1,10 +1,7 @@
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.lang.Math;
 import java.net.Socket;
-import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
+import java.util.*;;
 
 public class Client2 {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -70,10 +67,27 @@ public class Client2 {
 
                         val = scanner.nextInt();
                         scanner.nextLine();
-                        objectOutputStream.writeObject(val);
 
-                        sendPackets();
+                        int loop = req_error();
 
+                        objectOutputStream.writeObject(loop);
+
+                        for (int i = 0; i < loop; i++) {
+
+                            String time = "";
+
+                            if (i == 0)
+                                time = "once...";
+                            else if (i == 1)
+                                time = "twice...";
+
+                            System.out.println("\nSending data packets " + time);
+                            delay();
+
+                            objectOutputStream.writeObject(val);
+
+                            sendPackets();
+                        }
                         try {
                             Object fromServer2 = objectInputStream.readObject();
                             delay();
@@ -96,11 +110,15 @@ public class Client2 {
         }
     }
 
+    static int req_error() {
+        return (int) Math.floor(Math.random() * (2)) + 1;
+    }
+
     static boolean error() {
 
         int num = (int) Math.floor(Math.random() * (100));
 
-        if (num < 50) {
+        if (num < 70) {
             delay();
             System.out.println("\nData packets sent successfully to the Server...\n");
             return true;

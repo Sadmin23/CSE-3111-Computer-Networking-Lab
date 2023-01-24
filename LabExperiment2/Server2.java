@@ -1,12 +1,11 @@
 import java.net.*;
 import java.io.*;
-import java.util.concurrent.TimeUnit;
+import java.util.*;
 
 public class Server2 {
     String user;
     String password;
     int balance;
-    int req_id;
 
     Server2(String user, String password, int balance) {
         this.user = user;
@@ -20,14 +19,6 @@ public class Server2 {
 
     public int getBalance() {
         return this.balance;
-    }
-
-    public int getReq_id() {
-        return this.req_id;
-    }
-
-    public void setReq_id() {
-        this.req_id = getReq_id() + 1;
     }
 
     public String checkBalance() {
@@ -99,14 +90,32 @@ public class Server2 {
                         oos.writeObject("Enter amount to be credited:\n");
 
                         Object cMsg4 = ois.readObject();
-                        int value = (int) cMsg4;
+                        int loop = (int) cMsg4;
 
-                        users[userNo].credit(value);
+                        if (loop == 1) {
+                            Object cMsg5 = ois.readObject();
+                            int value = (int) cMsg5;
 
-                        sendPackets();
+                            users[userNo].credit(value);
 
-                        oos.writeObject("Your account has been credited by " + value + " taka\n"
-                                + users[userNo].checkBalance());
+                            sendPackets();
+
+                            oos.writeObject("Your account has been credited by " + value + " taka\n"
+                                    + users[userNo].checkBalance());
+                        } else if (loop == 2) {
+                            Object cMsg5 = ois.readObject();
+                            int value = (int) cMsg5;
+
+                            Object cMsg6 = ois.readObject();
+                            int value1 = (int) cMsg6;
+
+                            users[userNo].credit(value);
+
+                            sendPackets();
+
+                            oos.writeObject("Your account has been credited by " + value + " taka\n"
+                                    + users[userNo].checkBalance());
+                        }
 
                     } else if (command.equals("d")) {
 
@@ -115,15 +124,35 @@ public class Server2 {
                         oos.writeObject("Enter amount to be debited:\n");
 
                         Object cMsg4 = ois.readObject();
-                        int value = (int) cMsg4;
+                        int loop = (int) cMsg4;
 
-                        sendPackets();
+                        if (loop == 1) {
+                            Object cMsg5 = ois.readObject();
+                            int value = (int) cMsg5;
 
-                        if (users[userNo].debit(value) == true)
-                            oos.writeObject("Your account has been debited by " + value + " taka\n"
-                                    + users[userNo].checkBalance());
-                        else
-                            oos.writeObject("Insufficient Balance\n" + users[userNo].checkBalance());
+                            sendPackets();
+
+                            if (users[userNo].debit(value) == true)
+                                oos.writeObject("Your account has been debited by " + value + " taka\n"
+                                        + users[userNo].checkBalance());
+                            else
+                                oos.writeObject("Insufficient Balance\n" + users[userNo].checkBalance());
+
+                        } else if (loop == 2) {
+                            Object cMsg5 = ois.readObject();
+                            int value = (int) cMsg5;
+
+                            Object cMsg6 = ois.readObject();
+                            int value1 = (int) cMsg6;
+
+                            sendPackets();
+
+                            if (users[userNo].debit(value) == true)
+                                oos.writeObject("Your account has been debited by " + value + " taka\n"
+                                        + users[userNo].checkBalance());
+                            else
+                                oos.writeObject("Insufficient Balance\n" + users[userNo].checkBalance());
+                        }
                     } else if (command.equals("q")) {
 
                         sendPackets();
@@ -152,7 +181,7 @@ public class Server2 {
 
         int num = (int) Math.floor(Math.random() * (100));
 
-        if (num < 50) {
+        if (num < 70) {
             delay();
             System.out.println("\nData packets sent successfully to the Client...\n");
             return true;
