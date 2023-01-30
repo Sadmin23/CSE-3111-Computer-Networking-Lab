@@ -7,7 +7,8 @@ import java.util.Scanner;
 public class Client1b {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
         System.out.println("Client Started...");
-        Socket socket = new Socket("10.33.2.75", 5000);
+        // Socket socket = new Socket("10.33.2.75", 5000);
+        Socket socket = new Socket("localhost", 5000);
         System.out.println("Client Connected...");
 
         ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
