@@ -1,5 +1,3 @@
-package LabExperiment4;
-
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -11,14 +9,16 @@ public class DnsClient {
         DatagramSocket socket = new DatagramSocket();
         InetAddress serverAddress = InetAddress.getByName("localhost");
 
+        DnsMessage packet = new DnsMessage((short) 0, (short) 0, (short) 0, (short) 0, (short) 0, (short) 0);
+
         // Construct the header data for the DNS message
         ByteBuffer buffer = ByteBuffer.allocate(12);
-        buffer.putShort((short) 12345);
-        buffer.putShort((short) 0x0100);
-        buffer.putShort((short) 1);
-        buffer.putShort((short) 0);
-        buffer.putShort((short) 0);
-        buffer.putShort((short) 0);
+        buffer.putShort((short) packet.identification);
+        buffer.putShort((short) packet.flags);
+        buffer.putShort((short) packet.numQuestions);
+        buffer.putShort((short) packet.numAnswerRRs);
+        buffer.putShort((short) packet.numAuthorityRRs);
+        buffer.putShort((short) packet.numAdditionalRRs);
 
         byte[] headerData = buffer.array();
 
@@ -27,5 +27,7 @@ public class DnsClient {
 
         DatagramPacket sendPacket = new DatagramPacket(message, message.length, serverAddress, 53);
         socket.send(sendPacket);
+
+        socket.close();
     }
 }

@@ -1,14 +1,12 @@
-package LabExperiment4;
-
 import java.nio.ByteBuffer;
 
 public class DnsMessage {
-    private short identification;
-    private short flags;
-    private short numQuestions;
-    private short numAnswerRRs;
-    private short numAuthorityRRs;
-    private short numAdditionalRRs;
+    public short identification;
+    public short flags;
+    public short numQuestions;
+    public short numAnswerRRs;
+    public short numAuthorityRRs;
+    public short numAdditionalRRs;
 
     public DnsMessage(short identification, short flags, short numQuestions, short numAnswerRRs,
             short numAuthorityRRs, short numAdditionalRRs) {
