@@ -1,7 +1,7 @@
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.nio.ByteBuffer;
+import java.io.*;
+import java.net.*;
+import java.nio.*;
+import java.util.*;
 
 public class DnsServer {
     public static void main(String[] args) throws IOException {
@@ -31,6 +31,25 @@ public class DnsServer {
 
         // Add your logic for processing the header data and constructing a response
         // here
+        DatagramPacket receivePacket2 = new DatagramPacket(receiveData, receiveData.length);
+        socket.receive(receivePacket2);
+
+        byte[] received = receivePacket2.getData();
+
+        ByteBuffer buffer2 = ByteBuffer.wrap(received);
+        int len1 = buffer2.getInt();
+        byte[] strBytes1 = new byte[len1];
+        buffer2.get(strBytes1, 0, len1);
+
+        // int len2 = buffer2.getInt();
+        // byte[] strBytes2 = new byte[len2];
+        // buffer2.get(strBytes2, 0, len2);
+
+        String str1Received = new String(strBytes1);
+        // String str2Received = new String(strBytes2);
+
+        System.out.println(str1Received + ".");
+        // System.out.println(str2Received + ".");
 
         socket.close();
     }
