@@ -27,22 +27,17 @@ public class DnsClient {
         DatagramPacket sendPacket = new DatagramPacket(message, message.length, serverAddress, 53);
         socket.send(sendPacket);
 
-        String str1 = "Hello";
-        String str2 = "World";
+        String Name = "cse.du.ac.bd";
+        String Value = "ns1.cse.du.ac.bd.";
+        String Type = "NS";
+        String TTL = "86400";
 
-        byte[] bytes1 = str1.getBytes();
-        byte[] bytes2 = str2.getBytes();
+        String message2 = Name + "##" + Value + "##" + Type + "##" + TTL;
 
-        int totalLength = bytes1.length + bytes2.length + 4; // 4 bytes for storing lengths of each string
-        byte[] combined = new byte[totalLength];
-
-        ByteBuffer buffer2 = ByteBuffer.wrap(combined);
-        buffer2.putInt(bytes1.length);
-        buffer2.put(bytes1);
-
-        DatagramPacket sendPacket2 = new DatagramPacket(combined, combined.length, serverAddress, 53);
-        socket.send(sendPacket2);
-
-        socket.close();
+        byte[] buffer2 = message2.getBytes();
+        InetAddress address = InetAddress.getByName("localhost");
+        int port = 53;
+        DatagramPacket packet2 = new DatagramPacket(buffer2, buffer2.length, address, port);
+        socket.send(packet2);
     }
 }

@@ -29,27 +29,22 @@ public class DnsServer {
         System.out.println("No. of Authority RRs: " + authorityRRs);
         System.out.println("No. of Additional RRs: " + additionalRRs);
 
-        // Add your logic for processing the header data and constructing a response
-        // here
-        DatagramPacket receivePacket2 = new DatagramPacket(receiveData, receiveData.length);
-        socket.receive(receivePacket2);
+        byte[] buffer2 = new byte[1024];
+        DatagramPacket packet = new DatagramPacket(buffer2, buffer2.length);
+        socket.receive(packet);
+        String message = new String(packet.getData(), 0, packet.getLength());
 
-        byte[] received = receivePacket2.getData();
+        String[] strings = message.split("##");
 
-        ByteBuffer buffer2 = ByteBuffer.wrap(received);
-        int len1 = buffer2.getInt();
-        byte[] strBytes1 = new byte[len1];
-        buffer2.get(strBytes1, 0, len1);
+        String Name = strings[0];
+        String Value = strings[1];
+        String Type = strings[2];
+        String TTL = strings[3];
 
-        // int len2 = buffer2.getInt();
-        // byte[] strBytes2 = new byte[len2];
-        // buffer2.get(strBytes2, 0, len2);
-
-        String str1Received = new String(strBytes1);
-        // String str2Received = new String(strBytes2);
-
-        System.out.println(str1Received + ".");
-        // System.out.println(str2Received + ".");
+        System.out.println("Name: " + Name);
+        System.out.println("Value: " + Value);
+        System.out.println("Type: " + Type);
+        System.out.println("TTL: " + TTL);
 
         socket.close();
     }
