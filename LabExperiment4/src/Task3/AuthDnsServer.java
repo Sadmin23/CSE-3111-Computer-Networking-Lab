@@ -1,15 +1,18 @@
-package Task1;
+package Task3;
 
-import java.io.*;
-import java.net.*;
-import java.nio.*;
+import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.nio.ByteBuffer;
+
 public class AuthDnsServer {
 
     public static void main(String[] args) throws IOException {
         DatagramSocket socket = new DatagramSocket(9876);
         InetAddress address = InetAddress.getByName("localhost");
 
-        //Receiving domain name from client
+        //Receiving message from TLD DNS Server
 
         byte[] receiveData = new byte[1024];
 
@@ -23,7 +26,7 @@ public class AuthDnsServer {
         receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
         String domain = new String(messageBytes);
 
-        //Sending IP address to client
+        //Sending message to TLD DNS Server
 
         byte[] sendData;
 
@@ -46,4 +49,5 @@ public class AuthDnsServer {
         socket.close();
 
     }
+
 }

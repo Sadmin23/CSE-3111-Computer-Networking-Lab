@@ -1,15 +1,15 @@
-package Task1;
+package Task2;
 
 import java.io.*;
 import java.net.*;
 import java.nio.*;
-public class AuthDnsServer {
+public class TLDDnsServer {
 
     public static void main(String[] args) throws IOException {
         DatagramSocket socket = new DatagramSocket(9876);
         InetAddress address = InetAddress.getByName("localhost");
 
-        //Receiving domain name from client
+        //Receiving message from Local DNS Server
 
         byte[] receiveData = new byte[1024];
 
@@ -23,7 +23,7 @@ public class AuthDnsServer {
         receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
         String domain = new String(messageBytes);
 
-        //Sending IP address to client
+        //Sending message from Local DNS Server
 
         byte[] sendData;
 
