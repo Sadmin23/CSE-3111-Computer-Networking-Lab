@@ -23,6 +23,8 @@ public class TLDDnsServer {
         receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
         String domain = new String(messageBytes);
 
+        System.out.println("Receiving from local DNS: " + domain);
+
         //Sending message from Local DNS Server
 
         byte[] sendData;
@@ -40,7 +42,7 @@ public class TLDDnsServer {
 
         sendData = buffer.array();
 
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 500);
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);
 
         socket.close();

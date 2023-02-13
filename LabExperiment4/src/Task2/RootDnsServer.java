@@ -28,7 +28,7 @@ public class RootDnsServer {
 
         byte[] sendData;
 
-        String IP = "0.0.0.0";
+        String IP = "0.0.0.1";
         byte[] messageBytes2 = IP.getBytes();
         int messageLength2 = messageBytes2.length;
 

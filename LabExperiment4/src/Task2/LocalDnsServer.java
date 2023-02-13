@@ -68,8 +68,41 @@ public class LocalDnsServer {
 
         //send message to Root TLD DNS Server
 
+        String IP2="0.1.0.1";
+
+        byte[] sendData2;
+
+        System.out.println("Sending to TLD DNS: " + IP2);
+
+        byte[] messageBytes4 = IP2.getBytes();
+        int messageLength4 = messageBytes4.length;
+
+        ByteBuffer buffer2 = ByteBuffer.allocate(12 + messageLength4);
+        buffer2.putShort((short) 1);
+        buffer2.put((byte) 2);
+        buffer2.put((byte) 2);
+        buffer2.putInt(messageLength4);
+        buffer2.put(messageBytes4);
+
+        sendData2 = buffer2.array();
+
+        DatagramPacket sendPacket2 = new DatagramPacket(sendData2, sendData2.length, address, 9876);
+        socket.send(sendPacket2);
+
         //receive message from TLD DNS Server
 
+        byte[] receiveData3 = new byte[1024];
+
+        DatagramPacket receivePacket3 = new DatagramPacket(receiveData3, receiveData3.length);
+        socket.receive(receivePacket3);
+
+        ByteBuffer receivedBuffer3 = ByteBuffer.wrap(receiveData3);
+
+        int messageLength5 = receivedBuffer3.getInt();
+        byte[] messageBytes5 = new byte[messageLength5];
+        receivedBuffer3.get(messageBytes5, 0, Math.min(messageLength5, receivedBuffer3.remaining()));
+        String domain3 = new String(messageBytes5);
+        System.out.println("Received from TLD DNS: " + domain3);
 
         //send message to Root Auth DNS Server
 
