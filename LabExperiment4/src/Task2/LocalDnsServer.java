@@ -51,19 +51,21 @@ public class LocalDnsServer {
         socket.send(sendPacket);
 
         //receive message from Root DNS Server
-/*
+
         byte[] receiveData2 = new byte[1024];
 
         DatagramPacket receivePacket2 = new DatagramPacket(receiveData2, receiveData2.length);
         socket.receive(receivePacket2);
 
-        ByteBuffer receivedBuffer2 = ByteBuffer.wrap(receiveData);
+        ByteBuffer receivedBuffer2 = ByteBuffer.wrap(receiveData2);
 
-        int messageLength3 = receivedBuffer.getInt();
+        int messageLength3 = receivedBuffer2.getInt();
         byte[] messageBytes3 = new byte[messageLength3];
-        receivedBuffer.get(messageBytes, 0, Math.min(messageLength3, receivedBuffer2.remaining()));
-        String domain2 = new String(messageBytes);
-*/
+        receivedBuffer2.get(messageBytes3, 0, Math.min(messageLength3, receivedBuffer2.remaining()));
+        String domain2 = new String(messageBytes3);
+        System.out.println("Received from Root DNS: " + domain2);
+
+
         //send message to Root TLD DNS Server
 
         //receive message from TLD DNS Server
@@ -75,6 +77,8 @@ public class LocalDnsServer {
 
 
         //send message to client
+
+        socket.close();
 
     }
 
