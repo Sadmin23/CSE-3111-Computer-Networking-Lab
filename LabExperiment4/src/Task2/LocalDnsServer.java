@@ -144,6 +144,26 @@ public class LocalDnsServer {
 
         //send message to client
 
+        String IP4="0.0.1.0";
+
+        byte[] sendData4;
+
+        System.out.println("Sending to Client: " + IP4);
+
+        byte[] messageBytes8 = IP4.getBytes();
+        int messageLength8 = messageBytes8.length;
+
+        ByteBuffer buffer4 = ByteBuffer.allocate(12 + messageLength8);
+        buffer4.putShort((short) 1);
+        buffer4.put((byte) 2);
+        buffer4.put((byte) 2);
+        buffer3.putInt(messageLength8);
+        buffer4.put(messageBytes8);
+
+        sendData4 = buffer4.array();
+
+        DatagramPacket sendPacket4 = new DatagramPacket(sendData4, sendData4.length, address, 1234);
+        socket.send(sendPacket4);
         socket.close();
 
     }

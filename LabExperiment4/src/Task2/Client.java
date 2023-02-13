@@ -15,7 +15,7 @@ public class Client {
         byte[] sendData;
 
         String domain = "www.cse.du.ac.bd";
-        System.out.println("Sending to Local DNS: " + domain);
+        System.out.println("Sent Domain: " + domain);
         byte[] messageBytes = domain.getBytes();
         int messageLength = messageBytes.length;
 
@@ -32,23 +32,20 @@ public class Client {
         socket.send(sendPacket);
 
         //Receiving IP from the Local DNS Server
-/*
+
         byte[] receiveData = new byte[1024];
 
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
-        int queryId2 = receivedBuffer.getShort();
-        byte queryType2 = receivedBuffer.get();
-        byte queryClass2 = receivedBuffer.get();
-        int messageLength2 = receivedBuffer.getInt();
-        byte[] messageBytes2 = new byte[messageLength];
-        receivedBuffer.get(messageBytes2, 0, messageLength2);
-        String IP = new String(messageBytes2);
 
-        System.out.println("Recieved: " + IP);
-*/
+        int messageLength2 = receivedBuffer.getInt();
+        byte[] messageBytes2 = new byte[messageLength2];
+        receivedBuffer.get(messageBytes2, 0, Math.min(messageLength2, receivedBuffer.remaining()));
+        String IP = new String(messageBytes2);
+        System.out.println("Received IP: " + IP);
+
         socket.close();
     }
 
