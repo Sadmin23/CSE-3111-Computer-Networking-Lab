@@ -9,7 +9,7 @@ import java.nio.ByteBuffer;
 public class AuthDnsServer {
 
     public static void main(String[] args) throws IOException {
-        DatagramSocket socket = new DatagramSocket(9876);
+        DatagramSocket socket = new DatagramSocket(9000);
         InetAddress address = InetAddress.getByName("localhost");
 
         //Receiving message from TLD DNS Server
@@ -25,14 +25,18 @@ public class AuthDnsServer {
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
         String domain = new String(messageBytes);
+        System.out.println("Received from TLD DNS: " + domain);
+
 
         //Sending message to TLD DNS Server
 
         byte[] sendData;
 
-        String IP = "0.0.0.0";
+        String IP = "1.1.0.0";
         byte[] messageBytes2 = IP.getBytes();
         int messageLength2 = messageBytes2.length;
+
+        System.out.println("Sending to TLD DNS: " + IP);
 
         ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength2);
         buffer.putShort((short) 1);

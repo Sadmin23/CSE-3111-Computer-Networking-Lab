@@ -3,18 +3,19 @@ package Task1;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
+
 public class Client {
 
     public static void main(String[] args) throws IOException {
         DatagramSocket socket = new DatagramSocket(1234);
         InetAddress address = InetAddress.getByName("localhost");
 
-        //Sending Domain to Auth DNS Server
+        // Sending Domain to Auth DNS Server
 
         byte[] sendData;
 
         String domain = "www.cse.du.ac.bd";
-        System.out.println("Sending: "+domain);
+        System.out.println("Sending: " + domain);
         byte[] messageBytes = domain.getBytes();
         int messageLength = messageBytes.length;
 
@@ -30,7 +31,7 @@ public class Client {
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 9876);
         socket.send(sendPacket);
 
-        //Receiving IP from the Auth DNS Server
+        // Receiving IP from the Auth DNS Server
 
         byte[] receiveData = new byte[1024];
 
