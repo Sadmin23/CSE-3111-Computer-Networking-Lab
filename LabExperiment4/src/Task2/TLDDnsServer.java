@@ -29,7 +29,7 @@ public class TLDDnsServer {
 
         byte[] sendData;
 
-        String IP = "0.0.0.0";
+        String IP = "0.0.1.0";
         byte[] messageBytes2 = IP.getBytes();
         int messageLength2 = messageBytes2.length;
 
@@ -41,6 +41,8 @@ public class TLDDnsServer {
         buffer.put(messageBytes2);
 
         sendData = buffer.array();
+
+        System.out.println("Sending to Local DNS: " + IP);
 
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);

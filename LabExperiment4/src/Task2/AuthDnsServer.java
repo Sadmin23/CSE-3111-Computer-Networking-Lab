@@ -6,7 +6,7 @@ import java.nio.*;
 public class AuthDnsServer {
 
     public static void main(String[] args) throws IOException {
-        DatagramSocket socket = new DatagramSocket(900);
+        DatagramSocket socket = new DatagramSocket(9000);
         InetAddress address = InetAddress.getByName("localhost");
 
         //Receiving message from Local DNS Server
@@ -22,12 +22,13 @@ public class AuthDnsServer {
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
         String domain = new String(messageBytes);
+        System.out.println("Receiving from local DNS: " + domain);
 
         //Sending message from Local DNS Server
 
         byte[] sendData;
 
-        String IP = "0.0.0.0";
+        String IP = "1.0.2.1";
         byte[] messageBytes2 = IP.getBytes();
         int messageLength2 = messageBytes2.length;
 
@@ -40,7 +41,9 @@ public class AuthDnsServer {
 
         sendData = buffer.array();
 
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 500);
+        System.out.println("Sending to Local DNS: " + IP);
+
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);
 
         socket.close();

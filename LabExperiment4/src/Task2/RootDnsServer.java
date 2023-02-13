@@ -41,7 +41,7 @@ public class RootDnsServer {
 
         sendData = buffer.array();
 
-        System.out.println("Sending to Local DNS: " + domain);
+        System.out.println("Sending to Local DNS: " + IP);
 
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);
