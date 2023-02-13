@@ -6,7 +6,7 @@ import java.nio.*;
 public class RootDnsServer {
 
     public static void main(String[] args) throws IOException {
-        DatagramSocket socket = new DatagramSocket(9876);
+        DatagramSocket socket = new DatagramSocket(7000);
         InetAddress address = InetAddress.getByName("localhost");
 
         //Receiving message from Local DNS Server
@@ -22,9 +22,10 @@ public class RootDnsServer {
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
         String domain = new String(messageBytes);
+        System.out.println("Received from Local DNS: " + domain);
 
         //Sending message from Local DNS Server
-
+/*
         byte[] sendData;
 
         String IP = "0.0.0.0";
@@ -40,9 +41,9 @@ public class RootDnsServer {
 
         sendData = buffer.array();
 
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 1234);
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 500);
         socket.send(sendPacket);
-
+*/
         socket.close();
 
     }

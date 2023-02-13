@@ -6,7 +6,7 @@ import java.nio.*;
 public class AuthDnsServer {
 
     public static void main(String[] args) throws IOException {
-        DatagramSocket socket = new DatagramSocket(9876);
+        DatagramSocket socket = new DatagramSocket(900);
         InetAddress address = InetAddress.getByName("localhost");
 
         //Receiving message from Local DNS Server
@@ -40,7 +40,7 @@ public class AuthDnsServer {
 
         sendData = buffer.array();
 
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 1234);
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 500);
         socket.send(sendPacket);
 
         socket.close();

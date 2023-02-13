@@ -40,7 +40,7 @@ public class TLDDnsServer {
 
         sendData = buffer.array();
 
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 1234);
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 500);
         socket.send(sendPacket);
 
         socket.close();

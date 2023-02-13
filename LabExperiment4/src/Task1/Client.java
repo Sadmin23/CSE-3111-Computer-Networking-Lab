@@ -38,12 +38,9 @@ public class Client {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
-        int queryId2 = receivedBuffer.getShort();
-        byte queryType2 = receivedBuffer.get();
-        byte queryClass2 = receivedBuffer.get();
         int messageLength2 = receivedBuffer.getInt();
-        byte[] messageBytes2 = new byte[messageLength];
-        receivedBuffer.get(messageBytes2, 0, messageLength2);
+        byte[] messageBytes2 = new byte[messageLength2];
+        receivedBuffer.get(messageBytes2, 0, Math.min(messageLength2, receivedBuffer.remaining()));
         String IP = new String(messageBytes2);
 
         System.out.println("Recieved: " + IP);
