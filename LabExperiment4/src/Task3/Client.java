@@ -31,7 +31,7 @@ public class Client {
         socket.send(sendPacket);
 
         //Receiving IP from the Local DNS Server
-/*
+
         byte[] receiveData = new byte[1024];
 
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -46,8 +46,8 @@ public class Client {
         receivedBuffer.get(messageBytes2, 0, messageLength2);
         String IP = new String(messageBytes2);
 
-        System.out.println("Recieved: " + IP);
-*/
+        System.out.println("Received IP: " + IP);
+
         socket.close();
     }
 

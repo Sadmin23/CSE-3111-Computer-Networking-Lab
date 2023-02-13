@@ -32,7 +32,7 @@ public class AuthDnsServer {
 
         byte[] sendData;
 
-        String IP = "1.1.0.0";
+        String IP = "1.1.1.1";
         byte[] messageBytes2 = IP.getBytes();
         int messageLength2 = messageBytes2.length;
 
@@ -47,7 +47,7 @@ public class AuthDnsServer {
 
         sendData = buffer.array();
 
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 1234);
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 9800);
         socket.send(sendPacket);
 
         socket.close();
