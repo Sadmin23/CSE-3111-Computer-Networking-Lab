@@ -14,7 +14,7 @@ public class Client {
         byte[] sendData;
 
         String domain = "www.cse.du.ac.bd";
-        System.out.println("Sending: "+domain);
+        System.out.println("Sending domain: " + domain);
         byte[] messageBytes = domain.getBytes();
         int messageLength = messageBytes.length;
 
@@ -27,11 +27,11 @@ public class Client {
 
         sendData = buffer.array();
 
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 9876);
+        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);
 
         //Receiving IP from the Local DNS Server
-
+/*
         byte[] receiveData = new byte[1024];
 
         DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -47,7 +47,7 @@ public class Client {
         String IP = new String(messageBytes2);
 
         System.out.println("Recieved: " + IP);
-
+*/
         socket.close();
     }
 
