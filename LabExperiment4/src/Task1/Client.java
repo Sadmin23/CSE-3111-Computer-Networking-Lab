@@ -3,7 +3,6 @@ package Task1;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
-
 public class Client {
 
     public static void main(String[] args) throws IOException {

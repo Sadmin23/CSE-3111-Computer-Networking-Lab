@@ -22,7 +22,11 @@ public class AuthDnsServer {
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
         String domain = new String(messageBytes);
-        System.out.println(domain);
+        //►
+        String[] strings = domain.split("►");
+
+
+        //System.out.println(strings[0]);
 
         //Sending IP address to client
 
