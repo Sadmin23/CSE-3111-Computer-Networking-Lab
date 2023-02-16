@@ -69,8 +69,9 @@ public class AuthDnsServer {
         String[] strings = message.split("##");
 
         Name = strings[0];
-        Type = strings[1];
-        TTL = strings[2];
+        Value = strings[1];
+        Type = strings[2];
+        TTL = strings[3];
 
         switch (Type) {
             case "A":

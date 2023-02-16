@@ -44,8 +44,16 @@ public class TLDDnsServer {
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
+        String[] strings = message.split("##");
+
+        Name = strings[0];
+        Type = strings[2];
+        TTL = strings[3];
+        Value = "9000";
 
         System.out.println("Receiving from local DNS: " + message);
+
+        message = Name + "##" + Value + "##" + Type + "##" + TTL;
 
         // Sending message from Local DNS Server
 
