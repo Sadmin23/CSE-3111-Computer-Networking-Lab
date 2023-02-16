@@ -28,8 +28,8 @@ public class Client {
 
         byte[] sendData;
 
-        Name = "cse.du.ac.bd.";
-        Type = "NS";
+        Name = "ns1.cse.du.ac.bd.";
+        Type = "A";
         TTL = "86400";
 
         message = Name + "##" + Type + "##" + TTL;

@@ -73,6 +73,42 @@ public class LocalDnsServer {
         Type = strings[1];
         TTL = strings[2];
 
+        switch (Type) {
+            case "A":
+                if (A.containsKey(Name))
+                    Value = A.get(Name);
+                else
+                    Value = "Requested data not found";
+                break;
+            case "AAAA":
+                if (AAAA.containsKey(Name))
+                    Value = AAAA.get(Name);
+                else
+                    Value = "Requested data not found";
+                break;
+            case "CNAME":
+                if (CNAME.containsKey(Name))
+                    Value = CNAME.get(Name);
+                else
+                    Value = "Requested data not found";
+                break;
+            case "MX":
+                if (MX.containsKey(Name))
+                    Value = MX.get(Name);
+                else
+                    Value = "Requested data not found";
+                break;
+            case "NS":
+                if (NS.containsKey(Name))
+                    Value = NS.get(Name);
+                else
+                    Value = "Requested data not found";
+                break;
+            default:
+                Value = "Requested data not found";
+                break;
+        }
+        System.out.println("Value: " + Value);
         System.out.println("Received from client: " + message);
 
         // send message to Root DNS Server
