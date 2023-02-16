@@ -3,13 +3,14 @@ package Task2;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
+
 public class RootDnsServer {
 
     public static void main(String[] args) throws IOException {
         DatagramSocket socket = new DatagramSocket(7000);
         InetAddress address = InetAddress.getByName("localhost");
 
-        //Receiving message from Local DNS Server
+        // Receiving message from Local DNS Server
 
         byte[] receiveData = new byte[1024];
 
@@ -24,20 +25,20 @@ public class RootDnsServer {
         String domain = new String(messageBytes);
         System.out.println("Received from Local DNS: " + domain);
 
-        //Sending message from Local DNS Server
+        // Sending message from Local DNS Server
 
         byte[] sendData;
 
         String IP = "0.0.0.1";
-        byte[] messageBytes2 = IP.getBytes();
-        int messageLength2 = messageBytes2.length;
+        messageBytes = IP.getBytes();
+        messageLength = messageBytes.length;
 
-        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength2);
+        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength);
         buffer.putShort((short) 1);
         buffer.put((byte) 2);
         buffer.put((byte) 2);
-        buffer.putInt(messageLength2);
-        buffer.put(messageBytes2);
+        buffer.putInt(messageLength);
+        buffer.put(messageBytes);
 
         sendData = buffer.array();
 

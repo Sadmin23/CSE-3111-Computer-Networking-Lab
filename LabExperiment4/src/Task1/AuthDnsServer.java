@@ -50,7 +50,10 @@ public class AuthDnsServer {
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
         System.out.println("Message Length: " + messageLength);
-        System.out.println("Message: " + strings[0]);
+        System.out.println("Name: " + strings[0]);
+        System.out.println("Value: " + strings[1]);
+        System.out.println("Type: " + strings[2]);
+        System.out.println("TTL: " + strings[3]);
 
         // Sending IP address to client
 
