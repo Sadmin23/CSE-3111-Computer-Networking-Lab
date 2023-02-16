@@ -29,7 +29,7 @@ public class Client {
         byte[] sendData;
 
         Name = "cse.du.ac.bd.";
-        Type = "NS";
+        Type = "A";
         TTL = "86400";
 
         message = Name + "##" + Type + "##" + TTL;
@@ -56,6 +56,8 @@ public class Client {
         buffer.put(messageBytes);
 
         sendData = buffer.array();
+
+        long startTime = System.nanoTime();
 
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);
@@ -94,6 +96,13 @@ public class Client {
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
         System.out.println("\nReceived IP: " + Value + "\n");
+
+        long endTime = System.nanoTime();
+
+        long duration = (endTime - startTime); // duration in nanoseconds
+        double seconds = (double) duration / 1_000_000.0; // duration in milliseconds
+
+        System.out.println("Execution time: " + seconds + " ms");
 
         socket.close();
     }

@@ -57,6 +57,8 @@ public class Client {
 
         sendData = buffer.array();
 
+        long startTime = System.nanoTime();
+
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);
 
@@ -93,8 +95,14 @@ public class Client {
         System.out.println("numAnswerRRs: " + numAnswerRRs);
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
-        System.out.println("Message Length: " + messageLength);
         System.out.println("Value: " + Value);
+
+        long endTime = System.nanoTime();
+
+        long duration = (endTime - startTime); // duration in nanoseconds
+        double seconds = (double) duration / 1_000_000.0; // duration in milliseconds
+
+        System.out.println("Execution time: " + seconds + " ms");
 
         socket.close();
     }
