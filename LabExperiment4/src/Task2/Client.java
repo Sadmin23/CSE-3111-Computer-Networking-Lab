@@ -79,7 +79,7 @@ public class Client {
 
         messageLength = receivedBuffer.getInt();
         messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
+        receivedBuffer.get(messageBytes, 0, messageLength);
         String IP = new String(messageBytes);
         System.out.println("Received IP: " + IP);
 

@@ -1,10 +1,8 @@
 package Task3;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.nio.ByteBuffer;
+import java.io.*;
+import java.net.*;
+import java.nio.*;
 
 public class AuthDnsServer {
 
@@ -12,7 +10,21 @@ public class AuthDnsServer {
         DatagramSocket socket = new DatagramSocket(9000);
         InetAddress address = InetAddress.getByName("localhost");
 
-        // Receiving message from TLD DNS Server
+        short identification;
+        short flags;
+        short numQuestions;
+        short numAnswerRRs;
+        short numAuthorityRRs;
+        short numAdditionalRRs;
+
+        String Name;
+        String Value;
+        String Type;
+        String TTL;
+
+        String message;
+
+        // Receiving message from Local DNS Server
 
         byte[] receiveData = new byte[1024];
 
@@ -21,30 +33,40 @@ public class AuthDnsServer {
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
 
+        identification = receivedBuffer.getShort();
+        flags = receivedBuffer.getShort();
+        numQuestions = receivedBuffer.getShort();
+        numAnswerRRs = receivedBuffer.getShort();
+        numAuthorityRRs = receivedBuffer.getShort();
+        numAdditionalRRs = receivedBuffer.getShort();
+
         int messageLength = receivedBuffer.getInt();
         byte[] messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
+        receivedBuffer.get(messageBytes, 0, messageLength);
         String domain = new String(messageBytes);
-        System.out.println("Received from TLD DNS: " + domain);
+        System.out.println("Receiving from TLD DNS: " + domain);
 
-        // Sending message to TLD DNS Server
+        // Sending message from Local DNS Server
 
         byte[] sendData;
 
-        String IP = "1.1.1.1";
+        String IP = "1.0.2.1";
         messageBytes = IP.getBytes();
         messageLength = messageBytes.length;
 
-        System.out.println("Sending to TLD DNS: " + IP);
-
-        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength);
-        buffer.putShort((short) 1);
-        buffer.put((byte) 2);
-        buffer.put((byte) 2);
+        ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
+        buffer.putShort(identification);
+        buffer.putShort(flags);
+        buffer.putShort(numQuestions);
+        buffer.putShort(numAnswerRRs);
+        buffer.putShort(numAuthorityRRs);
+        buffer.putShort(numAdditionalRRs);
         buffer.putInt(messageLength);
         buffer.put(messageBytes);
 
         sendData = buffer.array();
+
+        System.out.println("Sending to TLD DNS: " + IP);
 
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 9800);
         socket.send(sendPacket);

@@ -33,6 +33,7 @@ public class LocalDnsServer {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
+
         identification = receivedBuffer.getShort();
         flags = receivedBuffer.getShort();
         numQuestions = receivedBuffer.getShort();
