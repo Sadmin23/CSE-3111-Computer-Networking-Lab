@@ -4,7 +4,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-public class UDPClient {
+public class UDPClient extends DnsMessage {
     public static void main(String[] args) throws Exception {
         // Create a DatagramSocket
         DatagramSocket socket = new DatagramSocket();

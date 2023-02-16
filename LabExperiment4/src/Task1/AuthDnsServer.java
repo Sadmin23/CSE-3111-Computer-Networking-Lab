@@ -3,7 +3,7 @@ package Task1;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
-public class AuthDnsServer {
+public class AuthDnsServer extends DnsMessage {
 
     public static void main(String[] args) throws IOException {
         DatagramSocket socket = new DatagramSocket(9876);
@@ -17,22 +17,32 @@ public class AuthDnsServer {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
+        identification = receivedBuffer.getShort();
+        flags = receivedBuffer.getShort();
+        numQuestions = receivedBuffer.getShort();
+        numAnswerRRs = receivedBuffer.getShort();
+        numAuthorityRRs = receivedBuffer.getShort();
+        numAdditionalRRs = receivedBuffer.getShort();
+
 
         int messageLength = receivedBuffer.getInt();
         byte[] messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
-        String domain = new String(messageBytes);
-        //►
-        String[] strings = domain.split("►");
+        receivedBuffer.get(messageBytes, 0, messageLength);
+        String message = new String(messageBytes);
 
-
-        //System.out.println(strings[0]);
-
+        System.out.println("identification: " + identification);
+        System.out.println("flags: " + flags);
+        System.out.println("numQuestions: " + numQuestions);
+        System.out.println("numAnswerRRs: " + numAnswerRRs);
+        System.out.println("numAuthorityRRs: " + numAuthorityRRs);
+        System.out.println("numAdditionalRRs: " + numAdditionalRRs);
+        System.out.println("Message Length: " + messageLength);
+        System.out.println("Message: " + message);
         //Sending IP address to client
 
         byte[] sendData;
 
-        String IP = "www.cse.du.ac.bd";
+        String IP = message;
         byte[] messageBytes2 = IP.getBytes();
         int messageLength2 = messageBytes2.length;
 

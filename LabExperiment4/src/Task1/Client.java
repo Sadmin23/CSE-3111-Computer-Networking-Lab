@@ -3,7 +3,7 @@ package Task1;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
-public class Client {
+public class Client extends DnsMessage {
 
     public static void main(String[] args) throws IOException {
         DatagramSocket socket = new DatagramSocket(1234);
@@ -18,10 +18,20 @@ public class Client {
         byte[] messageBytes = domain.getBytes();
         int messageLength = messageBytes.length;
 
+        identification=1;
+        flags=1;
+        numQuestions=1;
+        numAnswerRRs=1;
+        numAuthorityRRs=1;
+        numAdditionalRRs=1;
+
         ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength);
-        buffer.putShort((short) 1);
-        buffer.put((byte) 2);
-        buffer.put((byte) 2);
+        buffer.putShort(identification);
+        buffer.putShort(flags);
+        buffer.putShort(numQuestions);
+        buffer.putShort(numAnswerRRs);
+        buffer.putShort(numAuthorityRRs);
+        buffer.putShort(numAdditionalRRs);
         buffer.putInt(messageLength);
         buffer.put(messageBytes);
 
@@ -38,12 +48,19 @@ public class Client {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
+        int queryId = receivedBuffer.getShort();
+        byte queryType = receivedBuffer.get();
+        byte queryClass = receivedBuffer.get();
         int messageLength2 = receivedBuffer.getInt();
-        byte[] messageBytes2 = new byte[messageLength2];
-        receivedBuffer.get(messageBytes2, 0, Math.min(messageLength2, receivedBuffer.remaining()));
-        String IP = new String(messageBytes2);
+        byte[] messageBytes2 = new byte[messageLength];
+        receivedBuffer.get(messageBytes2, 0, messageLength);
+        String message = new String(messageBytes2);
 
-        System.out.println("Recieved: " + IP);
+        System.out.println("Query ID: " + queryId);
+        System.out.println("Query Type: " + queryType);
+        System.out.println("Query Class: " + queryClass);
+        System.out.println("Message Length: " + messageLength2);
+        System.out.println("Message: " + message);
 
         socket.close();
     }
