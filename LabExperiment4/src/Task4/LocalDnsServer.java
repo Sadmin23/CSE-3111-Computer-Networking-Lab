@@ -111,181 +111,211 @@ public class LocalDnsServer {
         System.out.println("Value: " + Value);
         System.out.println("Received from client: " + message);
 
-        // send message to Root DNS Server
+        if (Value.equals("Requested data not found")) {
 
-        byte[] sendData;
+            // send message to Root DNS Server
 
-        System.out.println("Sending to Root DNS: " + message);
+            byte[] sendData;
 
-        messageBytes = message.getBytes();
-        messageLength = messageBytes.length;
+            System.out.println("Sending to Root DNS: " + message);
 
-        ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
-        buffer.putShort(identification);
-        buffer.putShort(flags);
-        buffer.putShort(numQuestions);
-        buffer.putShort(numAnswerRRs);
-        buffer.putShort(numAuthorityRRs);
-        buffer.putShort(numAdditionalRRs);
-        buffer.putInt(messageLength);
-        buffer.put(messageBytes);
+            messageBytes = message.getBytes();
+            messageLength = messageBytes.length;
 
-        sendData = buffer.array();
+            ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
+            buffer.putShort(identification);
+            buffer.putShort(flags);
+            buffer.putShort(numQuestions);
+            buffer.putShort(numAnswerRRs);
+            buffer.putShort(numAuthorityRRs);
+            buffer.putShort(numAdditionalRRs);
+            buffer.putInt(messageLength);
+            buffer.put(messageBytes);
 
-        DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 7000);
-        socket.send(sendPacket);
+            sendData = buffer.array();
 
-        // receive message from Root DNS Server
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 7000);
+            socket.send(sendPacket);
 
-        receiveData = new byte[1024];
+            // receive message from Root DNS Server
 
-        receivePacket = new DatagramPacket(receiveData, receiveData.length);
-        socket.receive(receivePacket);
+            receiveData = new byte[1024];
 
-        receivedBuffer = ByteBuffer.wrap(receiveData);
-        identification = receivedBuffer.getShort();
-        flags = receivedBuffer.getShort();
-        numQuestions = receivedBuffer.getShort();
-        numAnswerRRs = receivedBuffer.getShort();
-        numAuthorityRRs = receivedBuffer.getShort();
-        numAdditionalRRs = receivedBuffer.getShort();
+            receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            socket.receive(receivePacket);
 
-        messageLength = receivedBuffer.getInt();
-        messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, messageLength);
-        message = new String(messageBytes);
-        System.out.println("Received from Root DNS: " + message);
+            receivedBuffer = ByteBuffer.wrap(receiveData);
+            identification = receivedBuffer.getShort();
+            flags = receivedBuffer.getShort();
+            numQuestions = receivedBuffer.getShort();
+            numAnswerRRs = receivedBuffer.getShort();
+            numAuthorityRRs = receivedBuffer.getShort();
+            numAdditionalRRs = receivedBuffer.getShort();
 
-        strings = message.split("##");
+            messageLength = receivedBuffer.getInt();
+            messageBytes = new byte[messageLength];
+            receivedBuffer.get(messageBytes, 0, messageLength);
+            message = new String(messageBytes);
+            System.out.println("Received from Root DNS: " + message);
 
-        Name = strings[0];
-        Value = strings[1];
-        Type = strings[2];
-        TTL = strings[3];
+            strings = message.split("##");
 
-        port = Integer.valueOf(Value);
+            Name = strings[0];
+            Value = strings[1];
+            Type = strings[2];
+            TTL = strings[3];
 
-        // send message to Root TLD DNS Server
+            port = Integer.valueOf(Value);
 
-        System.out.println("Sending to TLD DNS: " + message);
+            // send message to Root TLD DNS Server
 
-        messageBytes = message.getBytes();
-        messageLength = messageBytes.length;
+            System.out.println("Sending to TLD DNS: " + message);
 
-        buffer = ByteBuffer.allocate(24 + messageLength);
-        buffer.putShort(identification);
-        buffer.putShort(flags);
-        buffer.putShort(numQuestions);
-        buffer.putShort(numAnswerRRs);
-        buffer.putShort(numAuthorityRRs);
-        buffer.putShort(numAdditionalRRs);
-        buffer.putInt(messageLength);
-        buffer.put(messageBytes);
+            messageBytes = message.getBytes();
+            messageLength = messageBytes.length;
 
-        sendData = buffer.array();
+            buffer = ByteBuffer.allocate(24 + messageLength);
+            buffer.putShort(identification);
+            buffer.putShort(flags);
+            buffer.putShort(numQuestions);
+            buffer.putShort(numAnswerRRs);
+            buffer.putShort(numAuthorityRRs);
+            buffer.putShort(numAdditionalRRs);
+            buffer.putInt(messageLength);
+            buffer.put(messageBytes);
 
-        sendPacket = new DatagramPacket(sendData, sendData.length, address, port);
-        socket.send(sendPacket);
+            sendData = buffer.array();
 
-        // receive message from TLD DNS Server
+            sendPacket = new DatagramPacket(sendData, sendData.length, address, port);
+            socket.send(sendPacket);
 
-        receiveData = new byte[1024];
+            // receive message from TLD DNS Server
 
-        receivePacket = new DatagramPacket(receiveData, receiveData.length);
-        socket.receive(receivePacket);
+            receiveData = new byte[1024];
 
-        receivedBuffer = ByteBuffer.wrap(receiveData);
+            receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            socket.receive(receivePacket);
 
-        identification = receivedBuffer.getShort();
-        flags = receivedBuffer.getShort();
-        numQuestions = receivedBuffer.getShort();
-        numAnswerRRs = receivedBuffer.getShort();
-        numAuthorityRRs = receivedBuffer.getShort();
-        numAdditionalRRs = receivedBuffer.getShort();
+            receivedBuffer = ByteBuffer.wrap(receiveData);
 
-        messageLength = receivedBuffer.getInt();
-        messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, messageLength);
-        message = new String(messageBytes);
-        System.out.println("Received from TLD DNS: " + message);
+            identification = receivedBuffer.getShort();
+            flags = receivedBuffer.getShort();
+            numQuestions = receivedBuffer.getShort();
+            numAnswerRRs = receivedBuffer.getShort();
+            numAuthorityRRs = receivedBuffer.getShort();
+            numAdditionalRRs = receivedBuffer.getShort();
 
-        strings = message.split("##");
+            messageLength = receivedBuffer.getInt();
+            messageBytes = new byte[messageLength];
+            receivedBuffer.get(messageBytes, 0, messageLength);
+            message = new String(messageBytes);
+            System.out.println("Received from TLD DNS: " + message);
 
-        Name = strings[0];
-        Value = strings[1];
-        Type = strings[2];
-        TTL = strings[3];
+            strings = message.split("##");
 
-        port = Integer.valueOf(Value);
+            Name = strings[0];
+            Value = strings[1];
+            Type = strings[2];
+            TTL = strings[3];
 
-        // send message to Root Auth DNS Server
+            port = Integer.valueOf(Value);
 
-        System.out.println("Sending to Auth DNS: " + message);
+            // send message to Root Auth DNS Server
 
-        messageBytes = message.getBytes();
-        messageLength = messageBytes.length;
+            System.out.println("Sending to Auth DNS: " + message);
 
-        buffer = ByteBuffer.allocate(24 + messageLength);
-        buffer.putShort(identification);
-        buffer.putShort(flags);
-        buffer.putShort(numQuestions);
-        buffer.putShort(numAnswerRRs);
-        buffer.putShort(numAuthorityRRs);
-        buffer.putShort(numAdditionalRRs);
-        buffer.putInt(messageLength);
-        buffer.put(messageBytes);
+            messageBytes = message.getBytes();
+            messageLength = messageBytes.length;
 
-        sendData = buffer.array();
+            buffer = ByteBuffer.allocate(24 + messageLength);
+            buffer.putShort(identification);
+            buffer.putShort(flags);
+            buffer.putShort(numQuestions);
+            buffer.putShort(numAnswerRRs);
+            buffer.putShort(numAuthorityRRs);
+            buffer.putShort(numAdditionalRRs);
+            buffer.putInt(messageLength);
+            buffer.put(messageBytes);
 
-        sendPacket = new DatagramPacket(sendData, sendData.length, address, port);
-        socket.send(sendPacket);
+            sendData = buffer.array();
 
-        // receive message from Auth DNS Server
+            sendPacket = new DatagramPacket(sendData, sendData.length, address, port);
+            socket.send(sendPacket);
 
-        receiveData = new byte[1024];
+            // receive message from Auth DNS Server
 
-        receivePacket = new DatagramPacket(receiveData, receiveData.length);
-        socket.receive(receivePacket);
+            receiveData = new byte[1024];
 
-        receivedBuffer = ByteBuffer.wrap(receiveData);
+            receivePacket = new DatagramPacket(receiveData, receiveData.length);
+            socket.receive(receivePacket);
 
-        identification = receivedBuffer.getShort();
-        flags = receivedBuffer.getShort();
-        numQuestions = receivedBuffer.getShort();
-        numAnswerRRs = receivedBuffer.getShort();
-        numAuthorityRRs = receivedBuffer.getShort();
-        numAdditionalRRs = receivedBuffer.getShort();
+            receivedBuffer = ByteBuffer.wrap(receiveData);
 
-        messageLength = receivedBuffer.getInt();
-        messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, messageLength);
-        message = new String(messageBytes);
-        System.out.println("Received from TLD DNS: " + message);
+            identification = receivedBuffer.getShort();
+            flags = receivedBuffer.getShort();
+            numQuestions = receivedBuffer.getShort();
+            numAnswerRRs = receivedBuffer.getShort();
+            numAuthorityRRs = receivedBuffer.getShort();
+            numAdditionalRRs = receivedBuffer.getShort();
 
-        // send message to client
+            messageLength = receivedBuffer.getInt();
+            messageBytes = new byte[messageLength];
+            receivedBuffer.get(messageBytes, 0, messageLength);
+            message = new String(messageBytes);
+            System.out.println("Received from Auth DNS: " + message);
 
-        System.out.println("Sending to Client: " + message);
+            // send message to client
 
-        messageBytes = message.getBytes();
-        messageLength = messageBytes.length;
+            System.out.println("Sending to Client: " + message);
 
-        buffer = ByteBuffer.allocate(24 + messageLength);
-        buffer.putShort(identification);
-        buffer.putShort(flags);
-        buffer.putShort(numQuestions);
-        buffer.putShort(numAnswerRRs);
-        buffer.putShort(numAuthorityRRs);
-        buffer.putShort(numAdditionalRRs);
-        buffer.putInt(messageLength);
-        buffer.put(messageBytes);
-        buffer.putInt(messageLength);
+            messageBytes = message.getBytes();
+            messageLength = messageBytes.length;
 
-        sendData = buffer.array();
+            buffer = ByteBuffer.allocate(24 + messageLength);
+            buffer.putShort(identification);
+            buffer.putShort(flags);
+            buffer.putShort(numQuestions);
+            buffer.putShort(numAnswerRRs);
+            buffer.putShort(numAuthorityRRs);
+            buffer.putShort(numAdditionalRRs);
+            buffer.putInt(messageLength);
+            buffer.put(messageBytes);
+            buffer.putInt(messageLength);
 
-        sendPacket = new DatagramPacket(sendData, sendData.length, address, 1234);
-        socket.send(sendPacket);
+            sendData = buffer.array();
 
-        socket.close();
+            sendPacket = new DatagramPacket(sendData, sendData.length, address, 1234);
+            socket.send(sendPacket);
+
+            socket.close();
+
+        } else {
+
+            message = Name + "##" + Value + "##" + Type + "##" + TTL;
+
+            byte[] sendData;
+
+            System.out.println("Sending to Root DNS: " + message);
+
+            messageBytes = message.getBytes();
+            messageLength = messageBytes.length;
+
+            ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
+            buffer.putShort(identification);
+            buffer.putShort(flags);
+            buffer.putShort(numQuestions);
+            buffer.putShort(numAnswerRRs);
+            buffer.putShort(numAuthorityRRs);
+            buffer.putShort(numAdditionalRRs);
+            buffer.putInt(messageLength);
+            buffer.put(messageBytes);
+
+            sendData = buffer.array();
+
+            DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 1234);
+            socket.send(sendPacket);
+        }
+
     }
 
 }
