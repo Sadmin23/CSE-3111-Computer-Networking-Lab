@@ -47,7 +47,7 @@ public class AuthDnsServer {
 
         String message;
 
-        // Receiving message from Local DNS Server
+        // Receiving domain name from client
 
         byte[] receiveData = new byte[1024];
 
@@ -55,7 +55,6 @@ public class AuthDnsServer {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
-
         identification = receivedBuffer.getShort();
         flags = receivedBuffer.getShort();
         numQuestions = receivedBuffer.getShort();
@@ -67,15 +66,59 @@ public class AuthDnsServer {
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
-        System.out.println("Receiving from local DNS: " + message);
+        String[] strings = message.split("##");
 
-        // Sending message from Local DNS Server
+        Name = strings[0];
+        Type = strings[1];
+        TTL = strings[2];
+
+        switch (Type) {
+            case "A":
+                Value = A.get(Name);
+                break;
+            case "AAAA":
+                Value = AAAA.get(Name);
+                break;
+            case "CNAME":
+                Value = CNAME.get(Name);
+                break;
+            case "MX":
+                Value = MX.get(Name);
+                break;
+            case "NS":
+                Value = NS.get(Name);
+                break;
+            default:
+                Value = "Requested data not found";
+                break;
+        }
+
+        System.out.println("identification: " + identification);
+        System.out.println("flags: " + flags);
+        System.out.println("numQuestions: " + numQuestions);
+        System.out.println("numAnswerRRs: " + numAnswerRRs);
+        System.out.println("numAuthorityRRs: " + numAuthorityRRs);
+        System.out.println("numAdditionalRRs: " + numAdditionalRRs);
+        System.out.println("Message Length: " + messageLength);
+        System.out.println("Name: " + Name);
+        System.out.println("Type: " + Type);
+        System.out.println("TTL: " + TTL);
+
+        // Sending IP address to client
 
         byte[] sendData;
 
-        String IP = "1.0.2.1";
-        messageBytes = IP.getBytes();
+        message = Name + "##" + Value + "##" + Type + "##" + TTL;
+
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
+
+        identification = 1;
+        flags = 1;
+        numQuestions = 1;
+        numAnswerRRs = 1;
+        numAuthorityRRs = 1;
+        numAdditionalRRs = 1;
 
         ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
         buffer.putShort(identification);
@@ -89,13 +132,10 @@ public class AuthDnsServer {
 
         sendData = buffer.array();
 
-        System.out.println("Sending to Local DNS: " + IP);
-
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);
 
         socket.close();
 
     }
-
 }
