@@ -42,15 +42,14 @@ public class RootDnsServer {
         int messageLength = receivedBuffer.getInt();
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
-        String domain = new String(messageBytes);
-        System.out.println("Received from Local DNS: " + domain);
+        message = new String(messageBytes);
+        System.out.println("Received from Local DNS: " + message);
 
         // Sending message from Local DNS Server
 
         byte[] sendData;
 
-        String IP = "0.0.0.1";
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
@@ -65,7 +64,7 @@ public class RootDnsServer {
 
         sendData = buffer.array();
 
-        System.out.println("Sending to Local DNS: " + IP);
+        System.out.println("Sending to Local DNS: " + message);
 
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);

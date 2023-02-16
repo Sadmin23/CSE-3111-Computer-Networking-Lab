@@ -50,13 +50,11 @@ public class LocalDnsServer {
 
         // send message to Root DNS Server
 
-        String IP = "0.0.0.0";
-
         byte[] sendData;
 
-        System.out.println("Sending to Root DNS: " + IP);
+        System.out.println("Sending to Root DNS: " + message);
 
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
@@ -97,11 +95,9 @@ public class LocalDnsServer {
 
         // send message to Root TLD DNS Server
 
-        IP = "0.0.0.1";
+        System.out.println("Sending to TLD DNS: " + message);
 
-        System.out.println("Sending to TLD DNS: " + IP);
-
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         buffer = ByteBuffer.allocate(24 + messageLength);
@@ -143,11 +139,9 @@ public class LocalDnsServer {
 
         // send message to Root Auth DNS Server
 
-        IP = "0.0.1.0";
+        System.out.println("Sending to Auth DNS: " + message);
 
-        System.out.println("Sending to Auth DNS: " + IP);
-
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         buffer = ByteBuffer.allocate(24 + messageLength);
@@ -189,11 +183,9 @@ public class LocalDnsServer {
 
         // send message to client
 
-        IP = "0.0.1.0";
+        System.out.println("Sending to Client: " + message);
 
-        System.out.println("Sending to Client: " + IP);
-
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         buffer = ByteBuffer.allocate(24 + messageLength);

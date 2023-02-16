@@ -43,8 +43,8 @@ public class AuthDnsServer {
         int messageLength = receivedBuffer.getInt();
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
-        String domain = new String(messageBytes);
-        System.out.println("Receiving from local DNS: " + domain);
+        message = new String(messageBytes);
+        System.out.println("Receiving from local DNS: " + message);
 
         // Sending message from Local DNS Server
 
