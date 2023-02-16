@@ -49,13 +49,13 @@ public class LocalDnsServer {
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
 
-        System.out.println("Received from client: " + message);
+        System.out.println("Received message from client ...");
 
         // send message to Root DNS Server
 
         byte[] sendData;
 
-        System.out.println("Sending to Root DNS: " + message);
+        System.out.println("Sending message to Root DNS ...");
 
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;
@@ -94,7 +94,7 @@ public class LocalDnsServer {
         messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
-        System.out.println("Received from Root DNS: " + message);
+        System.out.println("Received message from Root DNS ...");
 
         strings = message.split("##");
 
@@ -107,7 +107,7 @@ public class LocalDnsServer {
 
         // send message to Root TLD DNS Server
 
-        System.out.println("Sending to TLD DNS: " + message);
+        System.out.println("Sending message to TLD DNS ...");
 
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;
@@ -147,7 +147,7 @@ public class LocalDnsServer {
         messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
-        System.out.println("Received from TLD DNS: " + message);
+        System.out.println("Received message from TLD DNS ...");
 
         strings = message.split("##");
 
@@ -160,7 +160,7 @@ public class LocalDnsServer {
 
         // send message to Root Auth DNS Server
 
-        System.out.println("Sending to Auth DNS: " + message);
+        System.out.println("Sending to Auth DNS ...");
 
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;
@@ -200,11 +200,11 @@ public class LocalDnsServer {
         messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
-        System.out.println("Received from TLD DNS: " + message);
+        System.out.println("Received message from Auth DNS ...");
 
         // send message to client
 
-        System.out.println("Sending to Client: " + message);
+        System.out.println("Sending message to Client ...");
 
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;

@@ -50,7 +50,7 @@ public class RootDnsServer {
         TTL = strings[2];
         Value = "9876";
 
-        System.out.println("Received from Local DNS: " + message);
+        System.out.println("Received message from Local DNS ...");
 
         message = Name + "##" + Value + "##" + Type + "##" + TTL;
 
@@ -73,7 +73,7 @@ public class RootDnsServer {
 
         sendData = buffer.array();
 
-        System.out.println("Sending to Local DNS: " + message);
+        System.out.println("Sending message to Local DNS ...");
 
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);

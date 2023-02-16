@@ -101,7 +101,7 @@ public class AuthDnsServer {
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
         System.out.println("Message Length: " + messageLength);
-        System.out.println("Name: " + Name);
+        System.out.println("\nName: " + Name);
         System.out.println("Type: " + Type);
         System.out.println("TTL: " + TTL);
 
