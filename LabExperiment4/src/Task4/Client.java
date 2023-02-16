@@ -28,7 +28,7 @@ public class Client {
 
         byte[] sendData;
 
-        Name = "ns1.cse.du.ac.bd.";
+        Name = "ns2.cse.du.ac.bd.";
         Type = "A";
         TTL = "86400";
 
