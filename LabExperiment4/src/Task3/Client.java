@@ -89,20 +89,20 @@ public class Client {
         Type = strings[2];
         TTL = strings[3];
 
-        System.out.println("identification: " + identification);
+        System.out.println("\nidentification: " + identification);
         System.out.println("flags: " + flags);
         System.out.println("numQuestions: " + numQuestions);
         System.out.println("numAnswerRRs: " + numAnswerRRs);
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
-        System.out.println("Value: " + Value);
+        System.out.println("\nIP received: " + Value);
 
         long endTime = System.nanoTime();
 
         long duration = (endTime - startTime); // duration in nanoseconds
         double seconds = (double) duration / 1_000_000.0; // duration in milliseconds
 
-        System.out.println("Execution time: " + seconds + " ms");
+        System.out.println("\nExecution time: " + seconds + " ms");
 
         socket.close();
     }

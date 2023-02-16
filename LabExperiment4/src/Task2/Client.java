@@ -89,7 +89,7 @@ public class Client {
         Type = strings[2];
         TTL = strings[3];
 
-        System.out.println("identification: " + identification);
+        System.out.println("\nidentification: " + identification);
         System.out.println("flags: " + flags);
         System.out.println("numQuestions: " + numQuestions);
         System.out.println("numAnswerRRs: " + numAnswerRRs);
