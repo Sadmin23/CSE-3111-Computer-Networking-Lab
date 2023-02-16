@@ -34,7 +34,7 @@ public class Client {
 
         message = Name + "##" + Type + "##" + TTL;
 
-        System.out.println("Sending: " + message);
+        System.out.println("Sending domaain: " + Name);
         byte[] messageBytes = message.getBytes();
         int messageLength = messageBytes.length;
 
@@ -94,7 +94,7 @@ public class Client {
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
         System.out.println("Message Length: " + messageLength);
-        System.out.println("Value: " + Value);
+        System.out.println("\nReceived IP: " + Value);
 
         socket.close();
     }

@@ -34,7 +34,7 @@ public class Client {
 
         message = Name + "##" + Type + "##" + TTL;
 
-        System.out.println("Sending: " + message);
+        System.out.println("Sending domain: " + Name);
         byte[] messageBytes = message.getBytes();
         int messageLength = messageBytes.length;
 

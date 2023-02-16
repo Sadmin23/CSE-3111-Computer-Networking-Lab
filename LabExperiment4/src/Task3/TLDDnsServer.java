@@ -48,13 +48,13 @@ public class TLDDnsServer {
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
 
-        System.out.println("Received from Root DNS: " + message);
+        System.out.println("Received message from Root DNS ...");
 
         // send message to Auth DNS Server
 
         byte[] sendData;
 
-        System.out.println("Sending to Auth DNS: " + message);
+        System.out.println("Sending to Auth DNS ...");
 
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;
@@ -95,11 +95,11 @@ public class TLDDnsServer {
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
 
-        System.out.println("Received from Auth DNS: " + message);
+        System.out.println("Received message from Auth DNS ...");
 
         // send message to Root DNS Server
 
-        System.out.println("Sending to Root DNS: " + message);
+        System.out.println("Sending message to Root DNS ...");
 
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;

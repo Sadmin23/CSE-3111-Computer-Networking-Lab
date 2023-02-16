@@ -48,13 +48,13 @@ public class LocalDnsServer {
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
 
-        System.out.println("Received from client: " + message);
+        System.out.println("Received message from client ...");
 
         // send message to Root DNS Server
 
         byte[] sendData;
 
-        System.out.println("Sending to Root DNS: " + message);
+        System.out.println("Sending message to Root DNS ...");
 
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;
@@ -95,11 +95,11 @@ public class LocalDnsServer {
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
 
-        System.out.println("Received from Root DNS: " + message);
+        System.out.println("Received message from Root DNS ... ");
 
         // send message to client
 
-        System.out.println("Sending to Client: " + message);
+        System.out.println("Sending message to Client ...");
 
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;
