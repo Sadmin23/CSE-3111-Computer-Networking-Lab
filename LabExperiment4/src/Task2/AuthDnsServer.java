@@ -3,12 +3,35 @@ package Task2;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
+import java.util.*;
 
 public class AuthDnsServer {
 
     public static void main(String[] args) throws IOException {
         DatagramSocket socket = new DatagramSocket(9000);
         InetAddress address = InetAddress.getByName("localhost");
+
+        Map<String, String> A = new HashMap<>();
+        Map<String, String> AAAA = new HashMap<>();
+        Map<String, String> CNAME = new HashMap<>();
+        Map<String, String> MX = new HashMap<>();
+        Map<String, String> NS = new HashMap<>();
+
+        A.put("cse.du.ac.bd.", "192.0.2.1");
+        A.put("ns1.cse.du.ac.bd.", "192.0.2.2");
+        A.put("ns2.cse.du.ac.bd.", "192.0.2.3");
+        A.put("mail.cse.du.ac.bd.", "192.0.2.4");
+
+        AAAA.put("cse.du.ac.bd.", "2001:db8::1");
+        AAAA.put("ns1.cse.du.ac.bd.", "2001:db8::2");
+        AAAA.put("ns2.cse.du.ac.bd.", "2001:db8::3");
+        AAAA.put("mail.cse.du.ac.bd.", "2001:db8::4");
+
+        CNAME.put("www.cse.du.ac.bd.", "cse.du.ac.bd.");
+
+        MX.put("cse.du.ac.bd.", "10 mail.cse.du.ac.bd.");
+
+        NS.put("cse.du.ac.bd.", "ns1.cse.du.ac.bd.");
 
         short identification;
         short flags;
