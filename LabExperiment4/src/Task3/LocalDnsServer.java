@@ -13,7 +13,7 @@ public class LocalDnsServer {
         DatagramSocket socket = new DatagramSocket(5000);
         InetAddress address = InetAddress.getByName("localhost");
 
-        //receive message from client
+        // receive message from client
 
         byte[] receiveData = new byte[1024];
 
@@ -29,67 +29,64 @@ public class LocalDnsServer {
 
         System.out.println("Received from client: " + domain);
 
-        //send message to Root DNS Server
+        // send message to Root DNS Server
 
-        String IP="0.0.0.0";
+        String IP = "0.0.0.0";
 
         byte[] sendData;
 
         System.out.println("Sending to Root DNS: " + IP);
 
-        byte[] messageBytes2 = IP.getBytes();
-        int messageLength2 = messageBytes2.length;
+        messageBytes = IP.getBytes();
+        messageLength = messageBytes.length;
 
-        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength2);
+        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength);
         buffer.putShort((short) 1);
         buffer.put((byte) 2);
         buffer.put((byte) 2);
-        buffer.putInt(messageLength2);
-        buffer.put(messageBytes2);
+        buffer.putInt(messageLength);
+        buffer.put(messageBytes);
 
         sendData = buffer.array();
 
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 7000);
         socket.send(sendPacket);
 
-        //receive message from Root DNS Server
+        // receive message from Root DNS Server
 
-        byte[] receiveData2 = new byte[1024];
+        receiveData = new byte[1024];
 
-        DatagramPacket receivePacket2 = new DatagramPacket(receiveData2, receiveData2.length);
-        socket.receive(receivePacket2);
+        receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        socket.receive(receivePacket);
 
-        ByteBuffer receivedBuffer2 = ByteBuffer.wrap(receiveData2);
+        receivedBuffer = ByteBuffer.wrap(receiveData);
 
-        int messageLength3 = receivedBuffer2.getInt();
-        byte[] messageBytes3 = new byte[messageLength3];
-        receivedBuffer2.get(messageBytes3, 0, Math.min(messageLength3, receivedBuffer2.remaining()));
-        String domain2 = new String(messageBytes3);
+        messageLength = receivedBuffer.getInt();
+        messageBytes = new byte[messageLength];
+        receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
+        String domain2 = new String(messageBytes);
 
         System.out.println("Received from Root DNS: " + domain2);
 
-        //send message to client
+        // send message to client
 
+        IP = "1.1.1.1";
 
-        String IP2="1.1.1.1";
+        System.out.println("Sending to Client: " + IP);
 
-        byte[] sendData2;
+        messageBytes = IP.getBytes();
+        messageLength = messageBytes.length;
 
-        System.out.println("Sending to Client: " + IP2);
+        buffer = ByteBuffer.allocate(12 + messageLength);
+        buffer.putShort((short) 1);
+        buffer.put((byte) 2);
+        buffer.put((byte) 2);
+        buffer.putInt(messageLength);
+        buffer.put(messageBytes);
 
-        byte[] messageBytes5 = IP2.getBytes();
-        int messageLength5 = messageBytes5.length;
+        sendData = buffer.array();
 
-        ByteBuffer buffer2 = ByteBuffer.allocate(12 + messageLength5);
-        buffer2.putShort((short) 1);
-        buffer2.put((byte) 2);
-        buffer2.put((byte) 2);
-        buffer2.putInt(messageLength5);
-        buffer2.put(messageBytes5);
-
-        sendData2 = buffer2.array();
-
-        DatagramPacket sendPacket2 = new DatagramPacket(sendData2, sendData2.length, address, 1234);
+        DatagramPacket sendPacket2 = new DatagramPacket(sendData, sendData.length, address, 1234);
         socket.send(sendPacket2);
 
     }

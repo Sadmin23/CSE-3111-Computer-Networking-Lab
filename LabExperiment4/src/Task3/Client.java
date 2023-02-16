@@ -3,13 +3,14 @@ package Task3;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
+
 public class Client {
 
     public static void main(String[] args) throws IOException {
         DatagramSocket socket = new DatagramSocket(1234);
         InetAddress address = InetAddress.getByName("localhost");
 
-        //Sending Domain to Local DNS Server
+        // Sending Domain to Local DNS Server
 
         byte[] sendData;
 
@@ -30,7 +31,7 @@ public class Client {
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);
 
-        //Receiving IP from the Local DNS Server
+        // Receiving IP from the Local DNS Server
 
         byte[] receiveData = new byte[1024];
 
@@ -41,10 +42,10 @@ public class Client {
         int queryId2 = receivedBuffer.getShort();
         byte queryType2 = receivedBuffer.get();
         byte queryClass2 = receivedBuffer.get();
-        int messageLength2 = receivedBuffer.getInt();
-        byte[] messageBytes2 = new byte[messageLength];
-        receivedBuffer.get(messageBytes2, 0, messageLength2);
-        String IP = new String(messageBytes2);
+        messageLength = receivedBuffer.getInt();
+        messageBytes = new byte[messageLength];
+        receivedBuffer.get(messageBytes, 0, messageLength);
+        String IP = new String(messageBytes);
 
         System.out.println("Received IP: " + IP);
 

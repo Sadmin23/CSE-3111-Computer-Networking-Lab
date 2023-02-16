@@ -12,7 +12,7 @@ public class AuthDnsServer {
         DatagramSocket socket = new DatagramSocket(9000);
         InetAddress address = InetAddress.getByName("localhost");
 
-        //Receiving message from TLD DNS Server
+        // Receiving message from TLD DNS Server
 
         byte[] receiveData = new byte[1024];
 
@@ -27,23 +27,22 @@ public class AuthDnsServer {
         String domain = new String(messageBytes);
         System.out.println("Received from TLD DNS: " + domain);
 
-
-        //Sending message to TLD DNS Server
+        // Sending message to TLD DNS Server
 
         byte[] sendData;
 
         String IP = "1.1.1.1";
-        byte[] messageBytes2 = IP.getBytes();
-        int messageLength2 = messageBytes2.length;
+        messageBytes = IP.getBytes();
+        messageLength = messageBytes.length;
 
         System.out.println("Sending to TLD DNS: " + IP);
 
-        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength2);
+        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength);
         buffer.putShort((short) 1);
         buffer.put((byte) 2);
         buffer.put((byte) 2);
-        buffer.putInt(messageLength2);
-        buffer.put(messageBytes2);
+        buffer.putInt(messageLength);
+        buffer.put(messageBytes);
 
         sendData = buffer.array();
 
