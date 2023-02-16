@@ -28,12 +28,11 @@ public class Client {
 
         byte[] sendData;
 
-        Name = "www.cse.du.ac.bd";
-        Value = "ns1.cse.du.ac.bd.";
+        Name = "cse.du.ac.bd.";
         Type = "NS";
         TTL = "86400";
 
-        message = Name + "##" + Value + "##" + Type + "##" + TTL;
+        message = Name + "##" + Type + "##" + TTL;
 
         System.out.println("Sending: " + message);
         byte[] messageBytes = message.getBytes();
@@ -80,6 +79,12 @@ public class Client {
         messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
+        String[] strings = message.split("##");
+
+        Name = strings[0];
+        Value = strings[1];
+        Type = strings[2];
+        TTL = strings[3];
 
         System.out.println("identification: " + identification);
         System.out.println("flags: " + flags);
@@ -88,7 +93,7 @@ public class Client {
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
         System.out.println("Message Length: " + messageLength);
-        System.out.println("Message: " + message);
+        System.out.println("Value: " + Value);
 
         socket.close();
     }

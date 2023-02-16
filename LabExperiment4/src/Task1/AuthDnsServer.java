@@ -69,9 +69,29 @@ public class AuthDnsServer {
         String[] strings = message.split("##");
 
         Name = strings[0];
-        Value = strings[1];
-        Type = strings[2];
-        TTL = strings[3];
+        Type = strings[1];
+        TTL = strings[2];
+
+        switch (Type) {
+            case "A":
+                Value = A.get(Name);
+                break;
+            case "AAAA":
+                Value = AAAA.get(Name);
+                break;
+            case "CNAME":
+                Value = CNAME.get(Name);
+                break;
+            case "MX":
+                Value = MX.get(Name);
+                break;
+            case "NS":
+                Value = NS.get(Name);
+                break;
+            default:
+                Value = "Requested data not found";
+                break;
+        }
 
         System.out.println("identification: " + identification);
         System.out.println("flags: " + flags);
@@ -81,7 +101,6 @@ public class AuthDnsServer {
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
         System.out.println("Message Length: " + messageLength);
         System.out.println("Name: " + Name);
-        System.out.println("Value: " + Value);
         System.out.println("Type: " + Type);
         System.out.println("TTL: " + TTL);
 
@@ -89,9 +108,10 @@ public class AuthDnsServer {
 
         byte[] sendData;
 
-        String IP = message;
-        byte[] messageBytes2 = IP.getBytes();
-        int messageLength2 = messageBytes2.length;
+        message = Name + "##" + Value + "##" + Type + "##" + TTL;
+
+        messageBytes = message.getBytes();
+        messageLength = messageBytes.length;
 
         identification = 1;
         flags = 1;
@@ -100,7 +120,7 @@ public class AuthDnsServer {
         numAuthorityRRs = 1;
         numAdditionalRRs = 1;
 
-        ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength2);
+        ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
         buffer.putShort(identification);
         buffer.putShort(flags);
         buffer.putShort(numQuestions);
