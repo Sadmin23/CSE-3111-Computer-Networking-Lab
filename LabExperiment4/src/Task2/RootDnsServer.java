@@ -10,6 +10,20 @@ public class RootDnsServer {
         DatagramSocket socket = new DatagramSocket(7000);
         InetAddress address = InetAddress.getByName("localhost");
 
+        short identification;
+        short flags;
+        short numQuestions;
+        short numAnswerRRs;
+        short numAuthorityRRs;
+        short numAdditionalRRs;
+
+        String Name;
+        String Value;
+        String Type;
+        String TTL;
+
+        String message;
+
         // Receiving message from Local DNS Server
 
         byte[] receiveData = new byte[1024];
@@ -18,10 +32,16 @@ public class RootDnsServer {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
+        identification = receivedBuffer.getShort();
+        flags = receivedBuffer.getShort();
+        numQuestions = receivedBuffer.getShort();
+        numAnswerRRs = receivedBuffer.getShort();
+        numAuthorityRRs = receivedBuffer.getShort();
+        numAdditionalRRs = receivedBuffer.getShort();
 
         int messageLength = receivedBuffer.getInt();
         byte[] messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
+        receivedBuffer.get(messageBytes, 0, messageLength);
         String domain = new String(messageBytes);
         System.out.println("Received from Local DNS: " + domain);
 
@@ -33,10 +53,13 @@ public class RootDnsServer {
         messageBytes = IP.getBytes();
         messageLength = messageBytes.length;
 
-        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength);
-        buffer.putShort((short) 1);
-        buffer.put((byte) 2);
-        buffer.put((byte) 2);
+        ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
+        buffer.putShort(identification);
+        buffer.putShort(flags);
+        buffer.putShort(numQuestions);
+        buffer.putShort(numAnswerRRs);
+        buffer.putShort(numAuthorityRRs);
+        buffer.putShort(numAdditionalRRs);
         buffer.putInt(messageLength);
         buffer.put(messageBytes);
 

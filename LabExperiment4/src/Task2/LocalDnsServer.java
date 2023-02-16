@@ -11,6 +11,20 @@ public class LocalDnsServer {
         DatagramSocket socket = new DatagramSocket(5000);
         InetAddress address = InetAddress.getByName("localhost");
 
+        short identification;
+        short flags;
+        short numQuestions;
+        short numAnswerRRs;
+        short numAuthorityRRs;
+        short numAdditionalRRs;
+
+        String Name;
+        String Value;
+        String Type;
+        String TTL;
+
+        String message;
+
         // receive message from client
 
         byte[] receiveData = new byte[1024];
@@ -19,13 +33,19 @@ public class LocalDnsServer {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
+        identification = receivedBuffer.getShort();
+        flags = receivedBuffer.getShort();
+        numQuestions = receivedBuffer.getShort();
+        numAnswerRRs = receivedBuffer.getShort();
+        numAuthorityRRs = receivedBuffer.getShort();
+        numAdditionalRRs = receivedBuffer.getShort();
 
         int messageLength = receivedBuffer.getInt();
         byte[] messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
-        String domain = new String(messageBytes);
+        receivedBuffer.get(messageBytes, 0, messageLength);
+        message = new String(messageBytes);
 
-        System.out.println("Received from client: " + domain);
+        System.out.println("Received from client: " + message);
 
         // send message to Root DNS Server
 
@@ -38,10 +58,13 @@ public class LocalDnsServer {
         messageBytes = IP.getBytes();
         messageLength = messageBytes.length;
 
-        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength);
-        buffer.putShort((short) 1);
-        buffer.put((byte) 2);
-        buffer.put((byte) 2);
+        ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
+        buffer.putShort(identification);
+        buffer.putShort(flags);
+        buffer.putShort(numQuestions);
+        buffer.putShort(numAnswerRRs);
+        buffer.putShort(numAuthorityRRs);
+        buffer.putShort(numAdditionalRRs);
         buffer.putInt(messageLength);
         buffer.put(messageBytes);
 
@@ -52,18 +75,24 @@ public class LocalDnsServer {
 
         // receive message from Root DNS Server
 
-        byte[] receiveData2 = new byte[1024];
+        receiveData = new byte[1024];
 
-        DatagramPacket receivePacket2 = new DatagramPacket(receiveData2, receiveData2.length);
-        socket.receive(receivePacket2);
+        receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        socket.receive(receivePacket);
 
-        receivedBuffer = ByteBuffer.wrap(receiveData2);
+        receivedBuffer = ByteBuffer.wrap(receiveData);
+        identification = receivedBuffer.getShort();
+        flags = receivedBuffer.getShort();
+        numQuestions = receivedBuffer.getShort();
+        numAnswerRRs = receivedBuffer.getShort();
+        numAuthorityRRs = receivedBuffer.getShort();
+        numAdditionalRRs = receivedBuffer.getShort();
 
         messageLength = receivedBuffer.getInt();
         messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
-        domain = new String(messageBytes);
-        System.out.println("Received from Root DNS: " + domain);
+        receivedBuffer.get(messageBytes, 0, messageLength);
+        message = new String(messageBytes);
+        System.out.println("Received from Root DNS: " + message);
 
         // send message to Root TLD DNS Server
 
@@ -74,14 +103,17 @@ public class LocalDnsServer {
         messageBytes = IP.getBytes();
         messageLength = messageBytes.length;
 
-        ByteBuffer buffer2 = ByteBuffer.allocate(12 + messageLength);
-        buffer2.putShort((short) 1);
-        buffer2.put((byte) 2);
-        buffer2.put((byte) 2);
-        buffer2.putInt(messageLength);
-        buffer2.put(messageBytes);
+        buffer = ByteBuffer.allocate(24 + messageLength);
+        buffer.putShort(identification);
+        buffer.putShort(flags);
+        buffer.putShort(numQuestions);
+        buffer.putShort(numAnswerRRs);
+        buffer.putShort(numAuthorityRRs);
+        buffer.putShort(numAdditionalRRs);
+        buffer.putInt(messageLength);
+        buffer.put(messageBytes);
 
-        sendData = buffer2.array();
+        sendData = buffer.array();
 
         sendPacket = new DatagramPacket(sendData, sendData.length, address, 9876);
         socket.send(sendPacket);
@@ -95,25 +127,35 @@ public class LocalDnsServer {
 
         receivedBuffer = ByteBuffer.wrap(receiveData);
 
+        identification = receivedBuffer.getShort();
+        flags = receivedBuffer.getShort();
+        numQuestions = receivedBuffer.getShort();
+        numAnswerRRs = receivedBuffer.getShort();
+        numAuthorityRRs = receivedBuffer.getShort();
+        numAdditionalRRs = receivedBuffer.getShort();
+
         messageLength = receivedBuffer.getInt();
         messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
-        domain = new String(messageBytes);
-        System.out.println("Received from TLD DNS: " + domain);
+        receivedBuffer.get(messageBytes, 0, messageLength);
+        message = new String(messageBytes);
+        System.out.println("Received from TLD DNS: " + message);
 
         // send message to Root Auth DNS Server
 
         IP = "0.0.1.0";
 
-        System.out.println("Sending to TLD DNS: " + IP);
+        System.out.println("Sending to Auth DNS: " + IP);
 
         messageBytes = IP.getBytes();
         messageLength = messageBytes.length;
 
-        buffer = ByteBuffer.allocate(12 + messageLength);
-        buffer.putShort((short) 1);
-        buffer.put((byte) 2);
-        buffer.put((byte) 2);
+        buffer = ByteBuffer.allocate(24 + messageLength);
+        buffer.putShort(identification);
+        buffer.putShort(flags);
+        buffer.putShort(numQuestions);
+        buffer.putShort(numAnswerRRs);
+        buffer.putShort(numAuthorityRRs);
+        buffer.putShort(numAdditionalRRs);
         buffer.putInt(messageLength);
         buffer.put(messageBytes);
 
@@ -131,11 +173,18 @@ public class LocalDnsServer {
 
         receivedBuffer = ByteBuffer.wrap(receiveData);
 
+        identification = receivedBuffer.getShort();
+        flags = receivedBuffer.getShort();
+        numQuestions = receivedBuffer.getShort();
+        numAnswerRRs = receivedBuffer.getShort();
+        numAuthorityRRs = receivedBuffer.getShort();
+        numAdditionalRRs = receivedBuffer.getShort();
+
         messageLength = receivedBuffer.getInt();
         messageBytes = new byte[messageLength];
-        receivedBuffer.get(messageBytes, 0, Math.min(messageLength, receivedBuffer.remaining()));
-        domain = new String(messageBytes);
-        System.out.println("Received from TLD DNS: " + domain);
+        receivedBuffer.get(messageBytes, 0, messageLength);
+        message = new String(messageBytes);
+        System.out.println("Received from TLD DNS: " + message);
 
         // send message to client
 
@@ -146,12 +195,16 @@ public class LocalDnsServer {
         messageBytes = IP.getBytes();
         messageLength = messageBytes.length;
 
-        buffer = ByteBuffer.allocate(12 + messageLength);
-        buffer.putShort((short) 1);
-        buffer.put((byte) 2);
-        buffer.put((byte) 2);
+        buffer = ByteBuffer.allocate(24 + messageLength);
+        buffer.putShort(identification);
+        buffer.putShort(flags);
+        buffer.putShort(numQuestions);
+        buffer.putShort(numAnswerRRs);
+        buffer.putShort(numAuthorityRRs);
+        buffer.putShort(numAdditionalRRs);
         buffer.putInt(messageLength);
         buffer.put(messageBytes);
+        buffer.putInt(messageLength);
 
         sendData = buffer.array();
 

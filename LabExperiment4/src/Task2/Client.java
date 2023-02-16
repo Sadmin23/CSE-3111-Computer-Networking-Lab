@@ -10,19 +10,49 @@ public class Client {
         DatagramSocket socket = new DatagramSocket(1234);
         InetAddress address = InetAddress.getByName("localhost");
 
+        short identification;
+        short flags;
+        short numQuestions;
+        short numAnswerRRs;
+        short numAuthorityRRs;
+        short numAdditionalRRs;
+
+        String Name;
+        String Value;
+        String Type;
+        String TTL;
+
+        String message;
+
         // Sending Domain to Local DNS Server
 
         byte[] sendData;
 
-        String domain = "www.cse.du.ac.bd";
-        System.out.println("Sent Domain: " + domain);
-        byte[] messageBytes = domain.getBytes();
+        Name = "www.cse.du.ac.bd";
+        Value = "ns1.cse.du.ac.bd.";
+        Type = "NS";
+        TTL = "86400";
+
+        message = Name + "##" + Value + "##" + Type + "##" + TTL;
+
+        System.out.println("Sending: " + message);
+        byte[] messageBytes = message.getBytes();
         int messageLength = messageBytes.length;
 
-        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength);
-        buffer.putShort((short) 1);
-        buffer.put((byte) 2);
-        buffer.put((byte) 2);
+        identification = 1;
+        flags = 1;
+        numQuestions = 1;
+        numAnswerRRs = 1;
+        numAuthorityRRs = 1;
+        numAdditionalRRs = 1;
+
+        ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
+        buffer.putShort(identification);
+        buffer.putShort(flags);
+        buffer.putShort(numQuestions);
+        buffer.putShort(numAnswerRRs);
+        buffer.putShort(numAuthorityRRs);
+        buffer.putShort(numAdditionalRRs);
         buffer.putInt(messageLength);
         buffer.put(messageBytes);
 
@@ -39,6 +69,13 @@ public class Client {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
+
+        identification = receivedBuffer.getShort();
+        flags = receivedBuffer.getShort();
+        numQuestions = receivedBuffer.getShort();
+        numAnswerRRs = receivedBuffer.getShort();
+        numAuthorityRRs = receivedBuffer.getShort();
+        numAdditionalRRs = receivedBuffer.getShort();
 
         messageLength = receivedBuffer.getInt();
         messageBytes = new byte[messageLength];

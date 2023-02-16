@@ -22,7 +22,7 @@ public class Client {
         String Type;
         String TTL;
 
-        String Combined;
+        String message;
 
         // Sending Domain to Auth DNS Server
 
@@ -33,10 +33,10 @@ public class Client {
         Type = "NS";
         TTL = "86400";
 
-        Combined = Name + "##" + Value + "##" + Type + "##" + TTL;
+        message = Name + "##" + Value + "##" + Type + "##" + TTL;
 
-        System.out.println("Sending: " + Combined);
-        byte[] messageBytes = Combined.getBytes();
+        System.out.println("Sending: " + message);
+        byte[] messageBytes = message.getBytes();
         int messageLength = messageBytes.length;
 
         identification = 1;
@@ -79,7 +79,7 @@ public class Client {
         messageLength = receivedBuffer.getInt();
         messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
-        String message = new String(messageBytes);
+        message = new String(messageBytes);
 
         System.out.println("identification: " + identification);
         System.out.println("flags: " + flags);

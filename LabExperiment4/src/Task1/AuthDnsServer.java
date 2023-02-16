@@ -22,6 +22,8 @@ public class AuthDnsServer {
         String Type;
         String TTL;
 
+        String message;
+
         // Receiving domain name from client
 
         byte[] receiveData = new byte[1024];
@@ -40,8 +42,13 @@ public class AuthDnsServer {
         int messageLength = receivedBuffer.getInt();
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
-        String message = new String(messageBytes);
+        message = new String(messageBytes);
         String[] strings = message.split("##");
+
+        Name = strings[0];
+        Value = strings[1];
+        Type = strings[2];
+        TTL = strings[3];
 
         System.out.println("identification: " + identification);
         System.out.println("flags: " + flags);
@@ -50,10 +57,10 @@ public class AuthDnsServer {
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
         System.out.println("Message Length: " + messageLength);
-        System.out.println("Name: " + strings[0]);
-        System.out.println("Value: " + strings[1]);
-        System.out.println("Type: " + strings[2]);
-        System.out.println("TTL: " + strings[3]);
+        System.out.println("Name: " + Name);
+        System.out.println("Value: " + Value);
+        System.out.println("Type: " + Type);
+        System.out.println("TTL: " + TTL);
 
         // Sending IP address to client
 
