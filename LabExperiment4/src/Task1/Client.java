@@ -3,7 +3,8 @@ package Task1;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
-public class Client extends DnsMessage {
+
+public class Client {
 
     public static void main(String[] args) throws IOException {
         DatagramSocket socket = new DatagramSocket(1234);
@@ -18,14 +19,14 @@ public class Client extends DnsMessage {
         byte[] messageBytes = domain.getBytes();
         int messageLength = messageBytes.length;
 
-        identification=1;
-        flags=1;
-        numQuestions=1;
-        numAnswerRRs=1;
-        numAuthorityRRs=1;
-        numAdditionalRRs=1;
+        short identification = 1;
+        short flags = 1;
+        short numQuestions = 1;
+        short numAnswerRRs = 1;
+        short numAuthorityRRs = 1;
+        short numAdditionalRRs = 1;
 
-        ByteBuffer buffer = ByteBuffer.allocate(12 + messageLength);
+        ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
         buffer.putShort(identification);
         buffer.putShort(flags);
         buffer.putShort(numQuestions);
@@ -48,18 +49,25 @@ public class Client extends DnsMessage {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
-        int queryId = receivedBuffer.getShort();
-        byte queryType = receivedBuffer.get();
-        byte queryClass = receivedBuffer.get();
-        int messageLength2 = receivedBuffer.getInt();
-        byte[] messageBytes2 = new byte[messageLength];
-        receivedBuffer.get(messageBytes2, 0, messageLength);
-        String message = new String(messageBytes2);
+        identification = receivedBuffer.getShort();
+        flags = receivedBuffer.getShort();
+        numQuestions = receivedBuffer.getShort();
+        numAnswerRRs = receivedBuffer.getShort();
+        numAuthorityRRs = receivedBuffer.getShort();
+        numAdditionalRRs = receivedBuffer.getShort();
 
-        System.out.println("Query ID: " + queryId);
-        System.out.println("Query Type: " + queryType);
-        System.out.println("Query Class: " + queryClass);
-        System.out.println("Message Length: " + messageLength2);
+        messageLength = receivedBuffer.getInt();
+        messageBytes = new byte[messageLength];
+        receivedBuffer.get(messageBytes, 0, messageLength);
+        String message = new String(messageBytes);
+
+        System.out.println("identification: " + identification);
+        System.out.println("flags: " + flags);
+        System.out.println("numQuestions: " + numQuestions);
+        System.out.println("numAnswerRRs: " + numAnswerRRs);
+        System.out.println("numAuthorityRRs: " + numAuthorityRRs);
+        System.out.println("numAdditionalRRs: " + numAdditionalRRs);
+        System.out.println("Message Length: " + messageLength);
         System.out.println("Message: " + message);
 
         socket.close();
