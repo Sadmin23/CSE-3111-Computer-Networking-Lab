@@ -4,10 +4,10 @@ import java.io.*;
 import java.net.*;
 import java.nio.*;
 
-public class RootDnsServer {
+public class TLDDnsServer {
 
     public static void main(String[] args) throws IOException {
-        DatagramSocket socket = new DatagramSocket(7000);
+        DatagramSocket socket = new DatagramSocket(9876);
         InetAddress address = InetAddress.getByName("localhost");
 
         short identification;
@@ -32,6 +32,7 @@ public class RootDnsServer {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
+
         identification = receivedBuffer.getShort();
         flags = receivedBuffer.getShort();
         numQuestions = receivedBuffer.getShort();
@@ -43,16 +44,8 @@ public class RootDnsServer {
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
-        String[] strings = message.split("##");
 
-        Name = strings[0];
-        Type = strings[1];
-        TTL = strings[2];
-        Value = "9876";
-
-        System.out.println("Received from Local DNS: " + message);
-
-        message = Name + "##" + Value + "##" + Type + "##" + TTL;
+        System.out.println("Receiving from local DNS: " + message);
 
         // Sending message from Local DNS Server
 

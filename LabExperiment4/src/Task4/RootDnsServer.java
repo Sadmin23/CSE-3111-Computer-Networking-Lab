@@ -43,16 +43,7 @@ public class RootDnsServer {
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
-        String[] strings = message.split("##");
-
-        Name = strings[0];
-        Type = strings[1];
-        TTL = strings[2];
-        Value = "9876";
-
         System.out.println("Received from Local DNS: " + message);
-
-        message = Name + "##" + Value + "##" + Type + "##" + TTL;
 
         // Sending message from Local DNS Server
 

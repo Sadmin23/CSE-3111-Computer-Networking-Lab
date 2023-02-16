@@ -24,9 +24,6 @@ public class LocalDnsServer {
         String TTL;
 
         String message;
-        String[] strings;
-
-        int port;
 
         // receive message from client
 
@@ -96,15 +93,6 @@ public class LocalDnsServer {
         message = new String(messageBytes);
         System.out.println("Received from Root DNS: " + message);
 
-        strings = message.split("##");
-
-        Name = strings[0];
-        Value = strings[1];
-        Type = strings[2];
-        TTL = strings[3];
-
-        port = Integer.valueOf(Value);
-
         // send message to Root TLD DNS Server
 
         System.out.println("Sending to TLD DNS: " + message);
@@ -124,7 +112,7 @@ public class LocalDnsServer {
 
         sendData = buffer.array();
 
-        sendPacket = new DatagramPacket(sendData, sendData.length, address, port);
+        sendPacket = new DatagramPacket(sendData, sendData.length, address, 9876);
         socket.send(sendPacket);
 
         // receive message from TLD DNS Server
@@ -149,15 +137,6 @@ public class LocalDnsServer {
         message = new String(messageBytes);
         System.out.println("Received from TLD DNS: " + message);
 
-        strings = message.split("##");
-
-        Name = strings[0];
-        Value = strings[1];
-        Type = strings[2];
-        TTL = strings[3];
-
-        port = Integer.valueOf(Value);
-
         // send message to Root Auth DNS Server
 
         System.out.println("Sending to Auth DNS: " + message);
@@ -177,7 +156,7 @@ public class LocalDnsServer {
 
         sendData = buffer.array();
 
-        sendPacket = new DatagramPacket(sendData, sendData.length, address, port);
+        sendPacket = new DatagramPacket(sendData, sendData.length, address, 9000);
         socket.send(sendPacket);
 
         // receive message from Auth DNS Server
