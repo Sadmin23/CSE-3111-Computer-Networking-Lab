@@ -100,7 +100,6 @@ public class AuthDnsServer {
         System.out.println("numAnswerRRs: " + numAnswerRRs);
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
-        System.out.println("Message Length: " + messageLength);
         System.out.println("\nName: " + Name);
         System.out.println("Type: " + Type);
         System.out.println("TTL: " + TTL);
@@ -116,10 +115,10 @@ public class AuthDnsServer {
 
         identification = 1;
         flags = 1;
-        numQuestions = 1;
+        numQuestions = 0;
         numAnswerRRs = 1;
-        numAuthorityRRs = 1;
-        numAdditionalRRs = 1;
+        numAuthorityRRs = 0;
+        numAdditionalRRs = 0;
 
         ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
         buffer.putShort(identification);

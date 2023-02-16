@@ -41,9 +41,9 @@ public class Client {
         identification = 1;
         flags = 1;
         numQuestions = 1;
-        numAnswerRRs = 1;
-        numAuthorityRRs = 1;
-        numAdditionalRRs = 1;
+        numAnswerRRs = 0;
+        numAuthorityRRs = 0;
+        numAdditionalRRs = 0;
 
         ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
         buffer.putShort(identification);
@@ -93,8 +93,7 @@ public class Client {
         System.out.println("numAnswerRRs: " + numAnswerRRs);
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
-        System.out.println("Message Length: " + messageLength);
-        System.out.println("\nReceived IP: " + Value);
+        System.out.println("\nReceived IP: " + Value + "\n");
 
         socket.close();
     }

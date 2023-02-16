@@ -115,10 +115,10 @@ public class AuthDnsServer {
 
         identification = 1;
         flags = 1;
-        numQuestions = 1;
+        numQuestions = 0;
         numAnswerRRs = 1;
-        numAuthorityRRs = 1;
-        numAdditionalRRs = 1;
+        numAuthorityRRs = 0;
+        numAdditionalRRs = 0;
 
         ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
         buffer.putShort(identification);

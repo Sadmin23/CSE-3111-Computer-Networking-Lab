@@ -112,6 +112,13 @@ public class LocalDnsServer {
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
+        identification = 1;
+        flags = 1;
+        numQuestions = 1;
+        numAnswerRRs = 0;
+        numAuthorityRRs = 0;
+        numAdditionalRRs = 0;
+
         buffer = ByteBuffer.allocate(24 + messageLength);
         buffer.putShort(identification);
         buffer.putShort(flags);
@@ -165,6 +172,13 @@ public class LocalDnsServer {
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
+        identification = 1;
+        flags = 1;
+        numQuestions = 1;
+        numAnswerRRs = 0;
+        numAuthorityRRs = 0;
+        numAdditionalRRs = 0;
+
         buffer = ByteBuffer.allocate(24 + messageLength);
         buffer.putShort(identification);
         buffer.putShort(flags);
@@ -208,6 +222,13 @@ public class LocalDnsServer {
 
         messageBytes = message.getBytes();
         messageLength = messageBytes.length;
+
+        identification = 1;
+        flags = 1;
+        numQuestions = 0;
+        numAnswerRRs = 1;
+        numAuthorityRRs = 0;
+        numAdditionalRRs = 0;
 
         buffer = ByteBuffer.allocate(24 + messageLength);
         buffer.putShort(identification);
