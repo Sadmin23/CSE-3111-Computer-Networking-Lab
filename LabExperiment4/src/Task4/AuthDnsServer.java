@@ -46,7 +46,7 @@ public class AuthDnsServer {
         String TTL;
 
         String message;
-
+        String[] strings;
         // Receiving domain name from client
 
         byte[] receiveData = new byte[1024];
@@ -66,7 +66,7 @@ public class AuthDnsServer {
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
-        String[] strings = message.split("##");
+        strings = message.split("##");
 
         Name = strings[0];
         Value = strings[1];

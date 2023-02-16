@@ -3,6 +3,7 @@ package Task4;
 import java.io.*;
 import java.net.*;
 import java.nio.*;
+import java.util.*;
 
 public class LocalDnsServer {
 
@@ -10,6 +11,24 @@ public class LocalDnsServer {
 
         DatagramSocket socket = new DatagramSocket(5000);
         InetAddress address = InetAddress.getByName("localhost");
+
+        Map<String, String> A = new HashMap<>();
+        Map<String, String> AAAA = new HashMap<>();
+        Map<String, String> CNAME = new HashMap<>();
+        Map<String, String> MX = new HashMap<>();
+        Map<String, String> NS = new HashMap<>();
+
+        A.put("cse.du.ac.bd.", "192.0.2.1");
+        A.put("ns1.cse.du.ac.bd.", "192.0.2.2");
+
+        AAAA.put("cse.du.ac.bd.", "2001:db8::1");
+        AAAA.put("ns1.cse.du.ac.bd.", "2001:db8::2");
+
+        CNAME.put("www.cse.du.ac.bd.", "cse.du.ac.bd.");
+
+        MX.put("cse.du.ac.bd.", "10 mail.cse.du.ac.bd.");
+
+        NS.put("cse.du.ac.bd.", "ns1.cse.du.ac.bd.");
 
         short identification;
         short flags;
@@ -48,6 +67,11 @@ public class LocalDnsServer {
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         message = new String(messageBytes);
+        strings = message.split("##");
+
+        Name = strings[0];
+        Type = strings[1];
+        TTL = strings[2];
 
         System.out.println("Received from client: " + message);
 
