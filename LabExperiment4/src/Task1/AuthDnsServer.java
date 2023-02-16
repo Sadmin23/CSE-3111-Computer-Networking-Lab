@@ -10,6 +10,18 @@ public class AuthDnsServer {
         DatagramSocket socket = new DatagramSocket(9876);
         InetAddress address = InetAddress.getByName("localhost");
 
+        short identification;
+        short flags;
+        short numQuestions;
+        short numAnswerRRs;
+        short numAuthorityRRs;
+        short numAdditionalRRs;
+
+        String Name;
+        String Value;
+        String Type;
+        String TTL;
+
         // Receiving domain name from client
 
         byte[] receiveData = new byte[1024];
@@ -18,17 +30,18 @@ public class AuthDnsServer {
         socket.receive(receivePacket);
 
         ByteBuffer receivedBuffer = ByteBuffer.wrap(receiveData);
-        short identification = receivedBuffer.getShort();
-        short flags = receivedBuffer.getShort();
-        short numQuestions = receivedBuffer.getShort();
-        short numAnswerRRs = receivedBuffer.getShort();
-        short numAuthorityRRs = receivedBuffer.getShort();
-        short numAdditionalRRs = receivedBuffer.getShort();
+        identification = receivedBuffer.getShort();
+        flags = receivedBuffer.getShort();
+        numQuestions = receivedBuffer.getShort();
+        numAnswerRRs = receivedBuffer.getShort();
+        numAuthorityRRs = receivedBuffer.getShort();
+        numAdditionalRRs = receivedBuffer.getShort();
 
         int messageLength = receivedBuffer.getInt();
         byte[] messageBytes = new byte[messageLength];
         receivedBuffer.get(messageBytes, 0, messageLength);
         String message = new String(messageBytes);
+        String[] strings = message.split("##");
 
         System.out.println("identification: " + identification);
         System.out.println("flags: " + flags);
@@ -37,7 +50,7 @@ public class AuthDnsServer {
         System.out.println("numAuthorityRRs: " + numAuthorityRRs);
         System.out.println("numAdditionalRRs: " + numAdditionalRRs);
         System.out.println("Message Length: " + messageLength);
-        System.out.println("Message: " + message);
+        System.out.println("Message: " + strings[0]);
 
         // Sending IP address to client
 

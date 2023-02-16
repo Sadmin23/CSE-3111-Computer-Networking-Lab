@@ -10,21 +10,41 @@ public class Client {
         DatagramSocket socket = new DatagramSocket(1234);
         InetAddress address = InetAddress.getByName("localhost");
 
+        short identification;
+        short flags;
+        short numQuestions;
+        short numAnswerRRs;
+        short numAuthorityRRs;
+        short numAdditionalRRs;
+
+        String Name;
+        String Value;
+        String Type;
+        String TTL;
+
+        String Combined;
+
         // Sending Domain to Auth DNS Server
 
         byte[] sendData;
 
-        String domain = "www.cse.du.ac.bd";
-        System.out.println("Sending: " + domain);
-        byte[] messageBytes = domain.getBytes();
+        Name = "www.cse.du.ac.bd";
+        Value = "ns1.cse.du.ac.bd.";
+        Type = "NS";
+        TTL = "86400";
+
+        Combined = Name + "##" + Value + "##" + Type + "##" + TTL;
+
+        System.out.println("Sending: " + Combined);
+        byte[] messageBytes = Combined.getBytes();
         int messageLength = messageBytes.length;
 
-        short identification = 1;
-        short flags = 1;
-        short numQuestions = 1;
-        short numAnswerRRs = 1;
-        short numAuthorityRRs = 1;
-        short numAdditionalRRs = 1;
+        identification = 1;
+        flags = 1;
+        numQuestions = 1;
+        numAnswerRRs = 1;
+        numAuthorityRRs = 1;
+        numAdditionalRRs = 1;
 
         ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
         buffer.putShort(identification);
