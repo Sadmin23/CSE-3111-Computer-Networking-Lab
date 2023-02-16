@@ -52,13 +52,11 @@ public class RootDnsServer {
 
         // send message to Root TLD DNS Server
 
-        String IP = "0.0.1.0";
-
         byte[] sendData;
 
-        System.out.println("Sending to TLD DNS: " + IP);
+        System.out.println("Sending to TLD DNS: " + message);
 
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
@@ -101,11 +99,9 @@ public class RootDnsServer {
 
         // send message to Local DNS Server
 
-        IP = "1.1.1.1";
+        System.out.println("Sending to Root DNS: " + message);
 
-        System.out.println("Sending to Root DNS: " + IP);
-
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         buffer = ByteBuffer.allocate(24 + messageLength);

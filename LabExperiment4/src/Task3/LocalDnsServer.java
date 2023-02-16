@@ -52,13 +52,11 @@ public class LocalDnsServer {
 
         // send message to Root DNS Server
 
-        String IP = "0.0.0.0";
-
         byte[] sendData;
 
-        System.out.println("Sending to Root DNS: " + IP);
+        System.out.println("Sending to Root DNS: " + message);
 
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
@@ -101,11 +99,9 @@ public class LocalDnsServer {
 
         // send message to client
 
-        IP = "1.1.1.1";
+        System.out.println("Sending to Client: " + message);
 
-        System.out.println("Sending to Client: " + IP);
-
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         buffer = ByteBuffer.allocate(24 + messageLength);

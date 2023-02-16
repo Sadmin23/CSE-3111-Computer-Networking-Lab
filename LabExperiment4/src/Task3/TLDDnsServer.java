@@ -52,13 +52,11 @@ public class TLDDnsServer {
 
         // send message to Auth DNS Server
 
-        String IP = "1.1.0.0";
-
         byte[] sendData;
 
-        System.out.println("Sending to Auth DNS: " + IP);
+        System.out.println("Sending to Auth DNS: " + message);
 
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         ByteBuffer buffer = ByteBuffer.allocate(24 + messageLength);
@@ -101,11 +99,9 @@ public class TLDDnsServer {
 
         // send message to Root DNS Server
 
-        IP = "1.1.1.1";
+        System.out.println("Sending to Root DNS: " + message);
 
-        System.out.println("Sending to Root DNS: " + IP);
-
-        messageBytes = IP.getBytes();
+        messageBytes = message.getBytes();
         messageLength = messageBytes.length;
 
         buffer = ByteBuffer.allocate(24 + messageLength);
