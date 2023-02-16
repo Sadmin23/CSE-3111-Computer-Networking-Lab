@@ -51,7 +51,7 @@ public class TLDDnsServer {
         TTL = strings[3];
         Value = "9000";
 
-        System.out.println("Receiving from local DNS: " + message);
+        System.out.println("Received message from local DNS ...");
 
         message = Name + "##" + Value + "##" + Type + "##" + TTL;
 
@@ -81,7 +81,7 @@ public class TLDDnsServer {
 
         sendData = buffer.array();
 
-        System.out.println("Sending to Local DNS: " + message);
+        System.out.println("Sending message to Local DNS ...");
 
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);
