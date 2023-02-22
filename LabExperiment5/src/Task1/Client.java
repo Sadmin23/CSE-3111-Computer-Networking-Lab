@@ -22,11 +22,11 @@ public class Client {
         int ack = buffer.get();
         int sf = buffer.get();
         int rwnd = buffer.getShort();
-        return new int[] {seqNum, ackNum, ack, sf, rwnd};
+        return new int[] { seqNum, ackNum, ack, sf, rwnd };
     }
 
     public static void main(String[] args) throws IOException {
-        Socket clientSocket = new Socket("127.0.0.1", 8888);
+        Socket clientSocket = new Socket("localhost", 8888);
         int recvBufferSize = 2;
         int windowSize = 4 * recvBufferSize;
         clientSocket.setReceiveBufferSize(recvBufferSize);
@@ -70,4 +70,3 @@ public class Client {
         clientSocket.close();
     }
 }
-
