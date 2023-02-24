@@ -94,7 +94,7 @@ public class Client {
                     "RTT: " + df.format(SampleRTT) + " ms\n" +
                             "Estimated RTT: " + df.format(EstimatedRTT) + " ms\n" +
                             "Dev RTT: " + df.format(DevRTT) + " ms\n" +
-                            "Dev RTT: " + df.format(RTO) + " ms\n");
+                            "RTO: " + df.format(RTO) + " ms\n");
 
             int[] result = fromHeader(ackHeader);
 
