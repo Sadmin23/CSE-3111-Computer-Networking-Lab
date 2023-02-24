@@ -56,7 +56,7 @@ public class Client {
             if (!window.empty())
                 windowSize = window.pop();
 
-            if (window.empty())
+            else if (window.empty())
                 windowSize++;
 
             long RTT_starttime = System.nanoTime();

@@ -50,7 +50,7 @@ public class Server {
                 int ack = headerFields[2];
                 int sf = headerFields[3];
                 int rwnd = headerFields[4];
-                System.out.println(seqNum + " " + ackNum + " " + ack + " " + sf + " " + rwnd);
+                System.out.println("Seq Num: " + seqNum + "\nWindow Size: " + rwnd + "\nString sent: ");
 
                 byte[] data = new byte[rwnd];
                 int bytesRead = clientSocket.getInputStream().read(data);
@@ -77,7 +77,7 @@ public class Server {
             }
 
             String receivedDataStr = receivedData.toString("UTF-8");
-            System.out.println(receivedDataStr);
+            System.out.println(receivedDataStr + "\n");
 
             clientSocket.close();
             serverSocket.close();

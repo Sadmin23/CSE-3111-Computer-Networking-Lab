@@ -30,7 +30,7 @@ public class Client {
     public static void main(String[] args) throws IOException {
         Socket clientSocket = new Socket("localhost", 5000);
         int recvBufferSize = 2;
-        int windowSize = 2 * recvBufferSize;
+        int windowSize = 1;
         clientSocket.setReceiveBufferSize(recvBufferSize);
 
         int seqNum = 0;
@@ -38,6 +38,9 @@ public class Client {
         int expectedAckNum = 0;
 
         String data = "This is a sample test message send to the Sever to check the control algorithm.";
+
+        System.out.println("String to be sent: " + data);
+
         int dataLen = data.length();
 
         long timeout = 2; // in seconds
