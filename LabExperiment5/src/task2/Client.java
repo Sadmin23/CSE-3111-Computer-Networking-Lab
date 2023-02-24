@@ -3,6 +3,7 @@ package task2;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.text.*;
 import java.util.*;
 
 public class Client {
@@ -31,6 +32,8 @@ public class Client {
         int recvBufferSize = 2;
         int windowSize = 4 * recvBufferSize;
         clientSocket.setReceiveBufferSize(recvBufferSize);
+
+        DecimalFormat df = new DecimalFormat("#0.000");
 
         Stack<Integer> window = new Stack<>();
 
@@ -71,8 +74,10 @@ public class Client {
             byte[] ackHeader = new byte[12];
             clientSocket.getInputStream().read(ackHeader);
 
-            double EstimatedRTT = (long) 0.2;
-            long alpha = (long) 0.125;
+            double EstimatedRTT = 0.2;
+            double alpha = 0.125;
+            double DevRTT = 0.2;
+            double beta = 0.125;
 
             long RTT_endtime = System.nanoTime();
 
@@ -81,7 +86,15 @@ public class Client {
 
             EstimatedRTT = (1 - alpha) * EstimatedRTT + alpha * SampleRTT;
 
-            System.out.println("RTT: " + SampleRTT + " ms\n" + "Estimated RTT: " + EstimatedRTT + " ms");
+            DevRTT = (1 - beta) * DevRTT + beta * (SampleRTT - EstimatedRTT);
+
+            double RTO = EstimatedRTT + 4 * DevRTT;
+
+            System.out.println(
+                    "RTT: " + df.format(SampleRTT) + " ms\n" +
+                            "Estimated RTT: " + df.format(EstimatedRTT) + " ms\n" +
+                            "Dev RTT: " + df.format(DevRTT) + " ms\n" +
+                            "Dev RTT: " + df.format(RTO) + " ms\n");
 
             int[] result = fromHeader(ackHeader);
 
