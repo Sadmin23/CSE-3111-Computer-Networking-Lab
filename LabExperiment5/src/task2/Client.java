@@ -45,7 +45,7 @@ public class Client {
         int seqNum = 0;
         int expectedAckNum = 0;
 
-        String data = "This is a sample test message send to the Sever to check the flow control algorithm.";
+        String data = "This is a sample test message send to the Sever to check the control algorithm.";
         int dataLen = data.length();
 
         long timeout = 2; // in seconds

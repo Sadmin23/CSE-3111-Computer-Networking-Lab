@@ -1,11 +1,12 @@
-package task1;
+package task3;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.text.*;
 import java.util.*;
 
-public class Client {
+public class congestionClient {
     public static byte[] toHeader(int seqNum, int ackNum, int ack, int sf, int rwnd) {
         ByteBuffer buffer = ByteBuffer.allocate(12);
         buffer.putInt(seqNum);
@@ -26,24 +27,42 @@ public class Client {
         return new int[] { seqNum, ackNum, ack, sf, rwnd };
     }
 
-    // 1,2,4,8
     public static void main(String[] args) throws IOException {
-        Socket clientSocket = new Socket("localhost", 5000);
+        Socket clientSocket = new Socket("localhost", 5001);
         int recvBufferSize = 2;
-        int windowSize = 2 * recvBufferSize;
+        int windowSize = 4 * recvBufferSize;
         clientSocket.setReceiveBufferSize(recvBufferSize);
 
-        int seqNum = 0;
+        DecimalFormat df = new DecimalFormat("#0.000");
 
+        Stack<Integer> window = new Stack<>();
+
+        window.push(8);
+        window.push(4);
+        window.push(2);
+        window.push(1);
+
+        int seqNum = 0;
         int expectedAckNum = 0;
 
         String data = "This is a sample test message send to the Sever to check the control algorithm.";
         int dataLen = data.length();
 
         long timeout = 2; // in seconds
+        long StartTime = System.nanoTime();
         long startTime = System.currentTimeMillis();
+        double Avg_RTT = 0.2;
 
         while (expectedAckNum < dataLen) {
+
+            if (!window.empty())
+                windowSize = window.pop();
+
+            if (window.empty())
+                windowSize++;
+
+            long RTT_starttime = System.nanoTime();
+
             int sendSize = Math.min(windowSize, dataLen - expectedAckNum);
 
             byte[] header = toHeader(seqNum, expectedAckNum, 1, 0, sendSize);
@@ -57,6 +76,30 @@ public class Client {
             byte[] ackHeader = new byte[12];
             clientSocket.getInputStream().read(ackHeader);
 
+            double EstimatedRTT = 0.2;
+            double alpha = 0.125;
+            double DevRTT = 0.2;
+            double beta = 0.125;
+
+            long RTT_endtime = System.nanoTime();
+
+            long duration = (RTT_endtime - RTT_starttime);
+            double SampleRTT = (double) duration / 1_000_000.0;
+
+            EstimatedRTT = (1 - alpha) * EstimatedRTT + alpha * SampleRTT;
+
+            DevRTT = (1 - beta) * DevRTT + beta * (SampleRTT - EstimatedRTT);
+
+            double RTO = EstimatedRTT + 4 * DevRTT;
+
+            // System.out.println(
+            // "RTT: " + df.format(SampleRTT) + " ms\n" +
+            // "Estimated RTT: " + df.format(EstimatedRTT) + " ms\n" +
+            // "Dev RTT: " + df.format(DevRTT) + " ms\n" +
+            // "RTO: " + df.format(RTO) + " ms\n");
+
+            Avg_RTT = EstimatedRTT;
+
             int[] result = fromHeader(ackHeader);
 
             int ackNum = result[1];
@@ -69,6 +112,15 @@ public class Client {
                 startTime = System.currentTimeMillis();
             }
         }
+
+        long endtime = System.nanoTime();
+
+        long duration = (endtime - StartTime);
+        double delay = (double) duration / 1_000_000.0;
+
+        System.out.println(
+                "Total delay: " + df.format(delay) + " ms\n" +
+                        "Average RTT: " + df.format(Avg_RTT) + " ms\n");
 
         clientSocket.close();
     }
