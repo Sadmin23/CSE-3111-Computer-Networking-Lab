@@ -39,22 +39,6 @@ public class Client {
         window.push(2);
         window.push(1);
 
-        /*
-         * long startTime = System.nanoTime();
-         * 
-         * // Code to measure execution time of
-         * for (int i = 0; i < 1000000; i++) {
-         * // do something
-         * }
-         * 
-         * long endTime = System.nanoTime();
-         * 
-         * long duration = (endTime - startTime); // duration in nanoseconds
-         * double seconds = (double) duration / 1_000_000_000.0; // duration in seconds
-         * 
-         * System.out.println("Execution time: " + seconds + " seconds");
-         */
-
         int seqNum = 0;
         int expectedAckNum = 0;
 
@@ -72,6 +56,8 @@ public class Client {
             if (window.empty())
                 windowSize++;
 
+            long RTT_starttime = System.nanoTime();
+
             int sendSize = Math.min(windowSize, dataLen - expectedAckNum);
 
             byte[] header = toHeader(seqNum, expectedAckNum, 1, 0, sendSize);
@@ -84,6 +70,18 @@ public class Client {
 
             byte[] ackHeader = new byte[12];
             clientSocket.getInputStream().read(ackHeader);
+
+            double EstimatedRTT = (long) 0.2;
+            long alpha = (long) 0.125;
+
+            long RTT_endtime = System.nanoTime();
+
+            long duration = (RTT_endtime - RTT_starttime);
+            double SampleRTT = (double) duration / 1_000_000.0;
+
+            EstimatedRTT = (1 - alpha) * EstimatedRTT + alpha * SampleRTT;
+
+            System.out.println("RTT: " + SampleRTT + " ms\n" + "Estimated RTT: " + EstimatedRTT + " ms");
 
             int[] result = fromHeader(ackHeader);
 
