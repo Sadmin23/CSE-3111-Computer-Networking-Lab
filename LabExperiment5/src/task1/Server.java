@@ -50,7 +50,7 @@ public class Server {
                 int ack = headerFields[2];
                 int sf = headerFields[3];
                 int rwnd = headerFields[4];
-                System.out.println("Seq Num: " + seqNum + "\nWindow Size: " + rwnd + "\nString sent: ");
+                System.out.println("\nSeq Num: " + seqNum + "\nWindow Size: " + rwnd + "\nString sent: ");
 
                 byte[] data = new byte[rwnd];
                 int bytesRead = clientSocket.getInputStream().read(data);
