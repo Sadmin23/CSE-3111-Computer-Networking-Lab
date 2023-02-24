@@ -37,7 +37,6 @@ public class Server {
             ServerSocket serverSocket = new ServerSocket(5000);
             Socket clientSocket = serverSocket.accept();
             int recvBufferSize = 12;
-            int windowSize = 4 * recvBufferSize;
             clientSocket.setReceiveBufferSize(recvBufferSize);
             int expectedSeqNum = 0;
             int ackNum = 0;
@@ -88,4 +87,3 @@ public class Server {
         }
     }
 }
-

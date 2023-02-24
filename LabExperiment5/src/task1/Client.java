@@ -3,6 +3,7 @@ package task1;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
+import java.util.*;
 
 public class Client {
     public static byte[] toHeader(int seqNum, int ackNum, int ack, int sf, int rwnd) {
@@ -33,6 +34,7 @@ public class Client {
         clientSocket.setReceiveBufferSize(recvBufferSize);
 
         int seqNum = 0;
+
         int expectedAckNum = 0;
 
         String data = "This is a sample test message send to the Sever to check the flow control algorithm.";

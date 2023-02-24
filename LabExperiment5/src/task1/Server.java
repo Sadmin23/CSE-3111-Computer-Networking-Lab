@@ -37,10 +37,8 @@ public class Server {
             ServerSocket serverSocket = new ServerSocket(5000);
             Socket clientSocket = serverSocket.accept();
             int recvBufferSize = 12;
-            int windowSize = 4 * recvBufferSize;
             clientSocket.setReceiveBufferSize(recvBufferSize);
             int expectedSeqNum = 0;
-            int ackNum = 0;
             ByteArrayOutputStream receivedData = new ByteArrayOutputStream();
 
             while (true) {
@@ -48,7 +46,7 @@ public class Server {
                 clientSocket.getInputStream().read(header);
                 int[] headerFields = fromHeader(header);
                 int seqNum = headerFields[0];
-                int ackNumm = headerFields[1];
+                int ackNum = headerFields[1];
                 int ack = headerFields[2];
                 int sf = headerFields[3];
                 int rwnd = headerFields[4];
@@ -88,4 +86,3 @@ public class Server {
         }
     }
 }
-
