@@ -61,6 +61,7 @@ public class Client {
 
         long timeout = 2; // in seconds
         long startTime = System.currentTimeMillis();
+        long StartTime = System.nanoTime();
 
         while (expectedAckNum < dataLen) {
 
@@ -127,6 +128,13 @@ public class Client {
                 startTime = System.currentTimeMillis();
             }
         }
+        long endtime = System.nanoTime();
+
+        long duration = (endtime - StartTime);
+        double delay = (double) duration / 1_000_000.0;
+
+        System.out.println(
+                "\nTotal delay: " + df.format(delay) + " ms\n\n");
 
         clientSocket.close();
     }

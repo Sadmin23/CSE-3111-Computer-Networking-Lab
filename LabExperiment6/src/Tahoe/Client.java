@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.util.*;
+import java.text.*;
 
 public class Client {
     public static byte[] toHeader(int seqNum, int ackNum, int ack, int sf, int rwnd) {
@@ -41,7 +42,8 @@ public class Client {
         int windowSize = 4 * recvBufferSize;
         clientSocket.setReceiveBufferSize(recvBufferSize);
 
-        // int[] cwnd = { 1, 2, 4, 8 };
+        DecimalFormat df = new DecimalFormat("#0.000");
+
         int cwnd = 1;
         int ssthrs = 8;
         int flag = 0;
@@ -49,11 +51,12 @@ public class Client {
         int seqNum = 0;
         int expectedAckNum = 0;
 
-        String data = "This is a sample test message send to the Sever to check the control algorithm. This is a sample test message send to the Sever to check the control algorithm.";
+        String data = "This is a sample test message send to the Sever to check the control algorithm.";
         int dataLen = data.length();
 
         long timeout = 2; // in seconds
         long startTime = System.currentTimeMillis();
+        long StartTime = System.nanoTime();
 
         while (expectedAckNum < dataLen) {
 
@@ -76,7 +79,7 @@ public class Client {
                     windowSize = cwnd;
                     if (cwnd * 2 <= ssthrs)
                         cwnd *= 2;
-                    System.out.println("Duplicate occured");
+                    System.out.println("Duplicate Acks received...");
                 }
             }
 
@@ -97,7 +100,7 @@ public class Client {
 
             int ackNum = result[1];
 
-            System.out.println("Seq No." + seqNum);
+            System.out.println("\nSeq Num: " + seqNum + "\nWindow Size: " + windowSize);
 
             seqNum += sendSize;
             expectedAckNum = ackNum;
@@ -107,6 +110,13 @@ public class Client {
                 startTime = System.currentTimeMillis();
             }
         }
+        long endtime = System.nanoTime();
+
+        long duration = (endtime - StartTime);
+        double delay = (double) duration / 1_000_000.0;
+
+        System.out.println(
+                "\nTotal delay: " + df.format(delay) + " ms\n\n");
 
         clientSocket.close();
     }
