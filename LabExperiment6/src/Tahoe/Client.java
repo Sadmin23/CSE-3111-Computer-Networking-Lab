@@ -3,7 +3,6 @@ package Tahoe;
 import java.io.IOException;
 import java.net.Socket;
 import java.nio.ByteBuffer;
-import java.text.*;
 import java.util.*;
 
 public class Client {
@@ -31,7 +30,7 @@ public class Client {
         Random random = new Random();
         int randomNumber = random.nextInt(100);
         System.out.println(randomNumber);
-        if (randomNumber < 30)
+        if (randomNumber < 10)
             return true;
         return false;
     }
@@ -42,17 +41,15 @@ public class Client {
         int windowSize = 4 * recvBufferSize;
         clientSocket.setReceiveBufferSize(recvBufferSize);
 
-        DecimalFormat df = new DecimalFormat("#0.000");
-
-        int[] cwnd = { 1, 2, 4, 8 };
+        // int[] cwnd = { 1, 2, 4, 8 };
+        int cwnd = 1;
         int ssthrs = 8;
-
-        int i = 0, size = 4;
+        int flag = 0;
 
         int seqNum = 0;
         int expectedAckNum = 0;
 
-        String data = "This is a sample test message send to the Sever to check the control algorithm.";
+        String data = "This is a sample test message send to the Sever to check the control algorithm. This is a sample test message send to the Sever to check the control algorithm.";
         int dataLen = data.length();
 
         long timeout = 2; // in seconds
@@ -60,23 +57,28 @@ public class Client {
 
         while (expectedAckNum < dataLen) {
 
-            if (i < size)
-                windowSize = cwnd[i];
-
-            else {
-                if (!duplicate_Acks())
-                    windowSize++;
+            if (cwnd <= ssthrs && flag == 0) {
+                windowSize = cwnd;
+                if (cwnd * 2 <= ssthrs)
+                    cwnd *= 2;
                 else {
-                    i = 0;
-                    windowSize = cwnd[i];
+                    flag = 1;
+                    cwnd = ssthrs;
+                }
+            } else {
+                if (!duplicate_Acks()) {
+                    cwnd++;
+                    windowSize = cwnd;
+                } else {
+                    ssthrs = cwnd / 2 - 1;
+                    cwnd = 1;
+                    flag = 0;
+                    windowSize = cwnd;
+                    if (cwnd * 2 <= ssthrs)
+                        cwnd *= 2;
                     System.out.println("Duplicate occured");
                 }
-
             }
-
-            i++;
-
-            long RTT_starttime = System.nanoTime();
 
             int sendSize = Math.min(windowSize, dataLen - expectedAckNum);
 
@@ -91,31 +93,11 @@ public class Client {
             byte[] ackHeader = new byte[12];
             clientSocket.getInputStream().read(ackHeader);
 
-            double EstimatedRTT = 0.2;
-            double alpha = 0.125;
-            double DevRTT = 0.2;
-            double beta = 0.125;
-
-            long RTT_endtime = System.nanoTime();
-
-            long duration = (RTT_endtime - RTT_starttime);
-            double SampleRTT = (double) duration / 1_000_000.0;
-
-            EstimatedRTT = (1 - alpha) * EstimatedRTT + alpha * SampleRTT;
-
-            DevRTT = (1 - beta) * DevRTT + beta * (SampleRTT - EstimatedRTT);
-
-            double RTO = EstimatedRTT + 4 * DevRTT;
-
-            System.out.println(
-                    "RTT: " + df.format(SampleRTT) + " ms\n" +
-                            "Estimated RTT: " + df.format(EstimatedRTT) + " ms\n" +
-                            "Dev RTT: " + df.format(DevRTT) + " ms\n" +
-                            "RTO: " + df.format(RTO) + " ms\n");
-
             int[] result = fromHeader(ackHeader);
 
             int ackNum = result[1];
+
+            System.out.println("Seq No." + seqNum);
 
             seqNum += sendSize;
             expectedAckNum = ackNum;
