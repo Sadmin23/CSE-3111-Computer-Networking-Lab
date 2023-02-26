@@ -27,9 +27,14 @@ public class Client {
         return new int[] { seqNum, ackNum, ack, sf, rwnd };
     }
 
-    // public static int duplicate_ACKs() {
-    // return 1;
-    // }
+    public static boolean duplicate_ACKs() {
+        Random rand = new Random();
+        int randomNumber = rand.nextInt(100);
+        // System.out.println(randomNumber);
+        if (randomNumber < 30)
+            return true;
+        return false;
+    }
 
     public static void main(String[] args) throws IOException {
         Socket clientSocket = new Socket("localhost", 5000);
@@ -62,12 +67,20 @@ public class Client {
             if (!window.empty())
                 windowSize = window.pop();
 
-            else if (window.empty() /* not error */)
-                windowSize++;
+            else if (window.empty()) {
+                if (!duplicate_ACKs())
+                    windowSize++;
+                else {
+                    windowSize = windowSize / 2 + 3;
+                    System.out.println("Duplicate Acks recieved...");
+                }
+            }
 
             long RTT_starttime = System.nanoTime();
 
             int sendSize = Math.min(windowSize, dataLen - expectedAckNum);
+
+            System.out.println("\nSeq Num: " + seqNum + "\nWindow Size: " + sendSize + "\n");
 
             byte[] header = toHeader(seqNum, expectedAckNum, 1, 0, sendSize);
             byte[] message = data.substring(seqNum, seqNum + sendSize).getBytes();
