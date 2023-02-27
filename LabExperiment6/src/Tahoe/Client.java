@@ -30,8 +30,7 @@ public class Client {
     public static boolean duplicate_Acks() {
         Random random = new Random();
         int randomNumber = random.nextInt(100);
-        System.out.println(randomNumber);
-        if (randomNumber < 10)
+        if (randomNumber < 20)
             return true;
         return false;
     }
@@ -79,7 +78,7 @@ public class Client {
                     windowSize = cwnd;
                     if (cwnd * 2 <= ssthrs)
                         cwnd *= 2;
-                    System.out.println("Duplicate Acks received...");
+                    System.out.println("\nDuplicate Acks received...");
                 }
             }
 
