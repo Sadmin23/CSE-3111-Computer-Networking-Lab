@@ -27,6 +27,15 @@ public class Client {
         return new int[] { seqNum, ackNum, ack, sf, rwnd };
     }
 
+    public static boolean duplicate_Acks() {
+        Random random = new Random();
+        int randomNumber = random.nextInt(100);
+        System.out.println(randomNumber);
+        if (randomNumber < 10)
+            return true;
+        return false;
+    }
+
     public static void main(String[] args) throws IOException {
         Socket clientSocket = new Socket("localhost", 5000);
         int recvBufferSize = 2;
@@ -37,10 +46,9 @@ public class Client {
 
         Stack<Integer> window = new Stack<>();
 
-        window.push(8);
-        window.push(4);
-        window.push(2);
-        window.push(1);
+        int cwnd = 1;
+        int ssthrs = 8;
+        int flag = 0;
 
         int seqNum = 0;
         int expectedAckNum = 0;
@@ -53,12 +61,28 @@ public class Client {
 
         while (expectedAckNum < dataLen) {
 
-            if (!window.empty())
-                windowSize = window.pop();
-
-            else if (window.empty())
-                windowSize++;
-
+            if (cwnd <= ssthrs && flag == 0) {
+                windowSize = cwnd;
+                if (cwnd * 2 <= ssthrs)
+                    cwnd *= 2;
+                else {
+                    flag = 1;
+                    cwnd = ssthrs;
+                }
+            } else {
+                if (!duplicate_Acks()) {
+                    cwnd++;
+                    windowSize = cwnd;
+                } else {
+                    ssthrs = cwnd / 2 - 1;
+                    cwnd = 1;
+                    flag = 0;
+                    windowSize = cwnd;
+                    if (cwnd * 2 <= ssthrs)
+                        cwnd *= 2;
+                    System.out.println("Duplicate Acks received...");
+                }
+            }
             long RTT_starttime = System.nanoTime();
 
             int sendSize = Math.min(windowSize, dataLen - expectedAckNum);

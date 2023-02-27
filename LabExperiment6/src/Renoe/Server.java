@@ -55,12 +55,12 @@ public class Server {
 
                 byte[] data = new byte[rwnd];
                 int bytesRead = clientSocket.getInputStream().read(data);
-                String str = new String(data, 0, bytesRead);
-                System.out.println(str);
-
-                if (bytesRead == -1) {
+                if (bytesRead == 0) {
                     break;
                 }
+
+                String str = new String(data, 0, bytesRead);
+                System.out.println(str);
 
                 seqNum = ackNum;
 

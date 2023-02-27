@@ -51,16 +51,17 @@ public class Server {
                 int ack = headerFields[2];
                 int sf = headerFields[3];
                 int rwnd = headerFields[4];
-                System.out.println("\nString sent: ");
 
                 byte[] data = new byte[rwnd];
                 int bytesRead = clientSocket.getInputStream().read(data);
-                String str = new String(data, 0, bytesRead);
-                System.out.println(str);
 
-                if (bytesRead == -1) {
+                if (bytesRead == 0) {
                     break;
                 }
+
+                String str = new String(data, 0, bytesRead);
+
+                System.out.println("\nString sent: " + str);
 
                 seqNum = ackNum;
 
