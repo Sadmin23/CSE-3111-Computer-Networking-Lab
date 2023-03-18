@@ -66,41 +66,51 @@ public class DV {
                 { 7, 1, 0 }
         };
 
-        System.out.println(compareSubArrays(Router, Router, 0, 0, 1, 1));
+        int flag;
+        int iteration = 0;
 
-        int flag = 1;
+        while (true) {
 
-        // while (true) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (i != j) {
-                    if (compareSubArrays(Router, Router, j, i, i, i))
-                        continue;
-                    else {
-                        System.arraycopy(Router[i][i], 0, Router[j][i], 0, 3);
-                        flag = 0;
-                    }
-                }
-            }
-        }
-        // }
+            System.out.println("i = " + iteration + "\n");
 
-        if (flag != 1) {
             for (int i = 0; i < 3; i++) {
-                updateArray(Router, D, i);
-            }
-        }
+                for (int j = 0; j < 3; j++) {
+                    for (int k = 0; k < 3; k++) {
 
-        for (int i = 0; i < Router.length; i++) {
-            for (int j = 0; j < Router[i].length; j++) {
-                for (int k = 0; k < Router[i][j].length; k++) {
-                    System.out.print(Router[i][j][k] + " ");
+                        int x = Router[i][j][k];
+
+                        if (x == MAX)
+                            System.out.print("∞ ");
+                        else
+                            System.out.print(Router[i][j][k] + " ");
+                    }
+                    System.out.println();
                 }
                 System.out.println();
             }
-            System.out.println();
+
+            flag = 1;
+
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    if (i != j) {
+                        if (compareSubArrays(Router, Router, j, i, i, i))
+                            continue;
+                        else {
+                            System.arraycopy(Router[i][i], 0, Router[j][i], 0, 3);
+                            flag = 0;
+                        }
+                    }
+                }
+            }
+            if (flag != 1) {
+                for (int i = 0; i < 3; i++) {
+                    updateArray(Router, D, i);
+                }
+            } else
+                break;
+
+            iteration++;
         }
-
     }
-
 }
