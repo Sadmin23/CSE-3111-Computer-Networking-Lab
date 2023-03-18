@@ -4,6 +4,16 @@ public class DV {
 
     private static final int MAX = Integer.MAX_VALUE;
 
+    public static int getValue(int x, int y) {
+        if ((x == 0 && y == 1) || (x == 1 && y == 0)) {
+            return 2;
+        } else if ((x == 0 && y == 2) || (x == 2 && y == 0)) {
+            return 1;
+        } else {
+            return 0;
+        }
+    }
+
     public static boolean compareSubArrays(int[][][] A, int[][][] B, int i1, int j1, int i2, int j2) {
         for (int k = 0; k < A[0][0].length; k++) {
             if (A[i1][j1][k] != B[i2][j2][k]) {
@@ -19,18 +29,13 @@ public class DV {
         }
     }
 
-    public static void updateArray(int[][][] A, int x) {
+    public static void updateArray(int[][][] A, int[][] D, int x) {
 
-        for (int j = 0; j < 3; j++) {
-            for (int k = 0; k < 3; k++) {
-                if (A[x][j][k] + A[x][k][j] < A[x][x][j] && j != k) {
+        for (int y = 0; y < 3; y++) {
 
-                    System.out.println(A[x][j][k] + " " + A[x][k][j] + " " + A[x][x][j]);
-                    System.out.println(j + " " + k);
+            int v = getValue(x, y);
 
-                    A[x][x][j] = A[x][j][k] + A[x][k][j];
-                }
-            }
+            A[x][x][y] = Math.min(D[x][y] + A[x][y][y], D[x][v] + A[x][v][y]);
         }
     }
 
@@ -81,12 +86,10 @@ public class DV {
         // }
 
         if (flag != 1) {
-            // for (int i = 0; i < 3; i++) {
-            updateArray(Router, 0);
-            // }
+            for (int i = 0; i < 3; i++) {
+                updateArray(Router, D, i);
+            }
         }
-
-        System.out.println("\n");
 
         for (int i = 0; i < Router.length; i++) {
             for (int j = 0; j < Router[i].length; j++) {
