@@ -19,7 +19,29 @@ public class DV {
         }
     }
 
+    public static void updateArray(int[][][] A, int x) {
+
+        for (int j = 0; j < 3; j++) {
+            for (int k = 0; k < 3; k++) {
+                if (A[x][j][k] + A[x][k][j] < A[x][x][j] && j != k) {
+
+                    System.out.println(A[x][j][k] + " " + A[x][k][j] + " " + A[x][x][j]);
+                    System.out.println(j + " " + k);
+
+                    A[x][x][j] = A[x][j][k] + A[x][k][j];
+                }
+            }
+        }
+    }
+
     public static void main(String[] args) {
+
+        int[][] D = {
+                { 0, 2, 7 },
+                { 2, 0, 1 },
+                { 7, 1, 0 }
+
+        };
 
         int[][][] Router = new int[3][3][3];
 
@@ -57,6 +79,14 @@ public class DV {
             }
         }
         // }
+
+        if (flag != 1) {
+            // for (int i = 0; i < 3; i++) {
+            updateArray(Router, 0);
+            // }
+        }
+
+        System.out.println("\n");
 
         for (int i = 0; i < Router.length; i++) {
             for (int j = 0; j < Router[i].length; j++) {
