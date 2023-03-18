@@ -13,6 +13,15 @@ public class DV {
         return true;
     }
 
+    public static boolean compareSubArrays(int[][][] A, int[][][] B, int i1, int j1, int i2, int j2) {
+        for (int k = 0; k < A[0][0].length; k++) {
+            if (A[i1][j1][k] != B[i2][j2][k]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
 
         int[][][] Router = new int[3][3][3];
@@ -24,7 +33,7 @@ public class DV {
         };
         Router[1] = new int[][] {
                 { MAX, MAX, MAX },
-                { 2, 0, 1 },
+                { 0, 2, 7 },
                 { MAX, MAX, MAX }
         };
         Router[2] = new int[][] {
@@ -32,6 +41,8 @@ public class DV {
                 { MAX, MAX, MAX },
                 { 7, 1, 0 }
         };
+
+        System.out.println(compareSubArrays(Router, Router, 0, 0, 1, 1));
 
         for (int i = 0; i < Router.length; i++) {
             for (int j = 0; j < Router[i].length; j++) {
