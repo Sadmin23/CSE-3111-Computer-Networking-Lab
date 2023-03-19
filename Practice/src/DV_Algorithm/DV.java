@@ -6,16 +6,6 @@ public class DV {
 
     private static final int MAX = Integer.MAX_VALUE;
 
-    public static int getValue(int x, int y) {
-        if ((x == 0 && y == 1) || (x == 1 && y == 0)) {
-            return 2;
-        } else if ((x == 0 && y == 2) || (x == 2 && y == 0)) {
-            return 1;
-        } else {
-            return 0;
-        }
-    }
-
     public static boolean compareSubArrays(int[][][] A, int[][][] B, int i1, int j1, int i2, int j2) {
         for (int k = 0; k < A[0][0].length; k++) {
             if (A[i1][j1][k] != B[i2][j2][k]) {
@@ -25,29 +15,30 @@ public class DV {
         return true;
     }
 
-    public static void copyArrayt(int[][][] A, int[][][] B, int i1, int j1, int i2, int j2) {
-        for (int i = 0; i < A[i1][j1].length; i++) {
-            B[i2][j2][i] = A[i1][j1][i];
-        }
-    }
+    public static void print3DArray(int[][][] arr) {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[i].length; j++) {
+                for (int k = 0; k < arr[i][j].length; k++) {
+                    int x = arr[i][j][k];
 
-    public static void updateArray(int[][][] A, int[][] D, int x) {
-
-        for (int y = 0; y < 3; y++) {
-
-            int v = getValue(x, y);
-
-            A[x][x][y] = Math.min(D[x][y] + A[x][y][y], D[x][v] + A[x][v][y]);
+                    if (x == MAX)
+                        System.out.print("∞ ");
+                    else
+                        System.out.print(x + " ");
+                }
+                System.out.println();
+            }
+            System.out.println();
         }
     }
 
     public static void main(String[] args) {
 
         int[][] D = {
-                { 0, 2, 7, },
-                { 2, 0, 1 },
-                { 7, 1, 0 }
-
+                { 0, 2, 7, MAX },
+                { 2, 0, 1, 3 },
+                { 7, 1, 0, 2 },
+                { MAX, 3, 2, 0 }
         };
 
         int[][][] Router = new int[4][4][4];
@@ -110,21 +101,7 @@ public class DV {
 
             System.out.println("I: " + i + "\n");
 
-            for (int a = 0; a < 4; a++) {
-                for (int b = 0; b < 4; b++) {
-                    for (int c = 0; c < 4; c++) {
-
-                        int x = Router[a][b][c];
-
-                        if (x == MAX)
-                            System.out.print("∞ ");
-                        else
-                            System.out.print(Router[a][b][c] + " ");
-                    }
-                    System.out.println();
-                }
-                System.out.println("\n");
-            }
+            print3DArray(Router);
 
             for (int j = 0; j < send[xyz].size(); j++) {
                 for (int k = 0; k < adj[xyz].size(); k++) {
@@ -148,20 +125,6 @@ public class DV {
 
         System.out.println("I= " + i + "\n");
 
-        for (int a = 0; a < 4; a++) {
-            for (int b = 0; b < 4; b++) {
-                for (int c = 0; c < 4; c++) {
-
-                    int x = Router[a][b][c];
-
-                    if (x == MAX)
-                        System.out.print("∞ ");
-                    else
-                        System.out.print(Router[a][b][c] + " ");
-                }
-                System.out.println();
-            }
-            System.out.println("\n");
-        }
+        print3DArray(Router);
     }
 }
