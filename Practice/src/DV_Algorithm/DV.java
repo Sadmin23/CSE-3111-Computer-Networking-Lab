@@ -93,15 +93,20 @@ public class DV {
             send[i] = new Vector<Integer>();
         }
 
-        int[] checked = new int[4];
-        Arrays.fill(checked, 1);
-
         send[0].add(0);
         send[1].add(1);
         send[2].add(2);
         send[3].add(3);
 
-        for (int i = 0; i < 4; i++) {
+        Queue<Integer> queue = new ArrayDeque<>();
+
+        queue.add(0);
+
+        int i = 0;
+
+        while (!queue.isEmpty()) {
+
+            int xyz = queue.remove();
 
             System.out.println("I: " + i + "\n");
 
@@ -121,25 +126,25 @@ public class DV {
                 System.out.println("\n");
             }
 
-            for (int j = 0; j < send[i].size(); j++) {
-                for (int k = 0; k < adj[i].size(); k++) {
+            for (int j = 0; j < send[xyz].size(); j++) {
+                for (int k = 0; k < adj[xyz].size(); k++) {
 
-                    int x = send[i].get(j);
-                    int y = adj[i].get(k);
+                    int x = send[xyz].get(j);
+                    int y = adj[xyz].get(k);
 
-                    if (checked[y] == 1) {
-                        System.arraycopy(Router[i][x], 0, Router[y][x], 0, 3);
+                    queue.add(y);
 
-                        if (!send[y].contains(x))
-                            send[y].add(x);
-                    }
+                    System.arraycopy(Router[xyz][x], 0, Router[y][x], 0, 4);
+
+                    if (!send[y].contains(x))
+                        send[y].add(x);
                 }
-
-                checked[i] = 0;
             }
+
+            i++;
         }
 
-        System.out.println("I= 4\n");
+        System.out.println("I= " + i + "\n");
 
         for (int a = 0; a < 4; a++) {
             for (int b = 0; b < 4; b++) {
