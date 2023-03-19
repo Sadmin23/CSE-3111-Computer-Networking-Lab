@@ -1,31 +1,31 @@
 package LS;
 
 import java.net.*;
+import java.util.*;
 import java.io.*;
 
 public class Router2 {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        // Create socket and set listening port
-        DatagramSocket socket = new DatagramSocket(5000);
 
-        // Create a buffer to receive the data
-        byte[] receiveData = new byte[1024];
-        DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+        DatagramSocket datagramSocket = new DatagramSocket(5000);
 
-        // Receive the data
-        socket.receive(receivePacket);
+        // Create a buffer for the received data
+        byte[] buffer = new byte[1024];
+        DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
 
-        // Convert the bytes to an array
-        ByteArrayInputStream byteStream = new ByteArrayInputStream(receiveData);
-        ObjectInputStream objStream = new ObjectInputStream(byteStream);
-        int[] data = (int[]) objStream.readObject();
+        // Receive the datagram packet containing the byte array with the serialized
+        // vector
+        datagramSocket.receive(datagramPacket);
+        System.out.println("Vector received");
 
-        // Print the received data
-        for (int i = 0; i < data.length; i++) {
-            System.out.println(data[i]);
+        // Deserialize the byte array to a vector
+        ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(datagramPacket.getData());
+        ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
+        Vector<Integer> vector = (Vector<Integer>) objectInputStream.readObject();
+
+        // Print the elements of the vector
+        for (int element : vector) {
+            System.out.println(element);
         }
-
-        // Close the socket
-        socket.close();
     }
 }
