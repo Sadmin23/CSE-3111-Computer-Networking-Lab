@@ -132,9 +132,11 @@ public class DV {
                     int x = send[xyz].get(j);
                     int y = adj[xyz].get(k);
 
-                    queue.add(y);
-
-                    System.arraycopy(Router[xyz][x], 0, Router[y][x], 0, 4);
+                    if (!compareSubArrays(Router, Router, xyz, x, y, x)) {
+                        System.arraycopy(Router[xyz][x], 0, Router[y][x], 0, 4);
+                        if (!queue.contains(y))
+                            queue.add(y);
+                    }
 
                     if (!send[y].contains(x))
                         send[y].add(x);
@@ -161,19 +163,5 @@ public class DV {
             }
             System.out.println("\n");
         }
-
-        // for (int i = 0; i < 4; i++) {
-        // for (int j = 0; j < 4; j++) {
-        // if (i != j) {
-        // if (compareSubArrays(Router, Router, j, i, i, i))
-        // continue;
-        // else {
-        // System.arraycopy(Router[i][i], 0, Router[j][i], 0, 3);
-        // }
-        // }
-        // }
-        // }
-
     }
-
 }
