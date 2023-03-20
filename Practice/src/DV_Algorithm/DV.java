@@ -32,6 +32,44 @@ public class DV {
         }
     }
 
+    public static int minDistance(int dist[], Boolean sptSet[]) {
+        int min = Integer.MAX_VALUE, min_index = -1;
+
+        for (int v = 0; v < 4; v++)
+            if (sptSet[v] == false && dist[v] <= min) {
+                min = dist[v];
+                min_index = v;
+            }
+
+        return min_index;
+    }
+
+    public static void dijkstra(int graph[][], int src) {
+        int dist[] = new int[4]; // The output array. dist[i] will hold the shortest distance from src to i.
+
+        Boolean sptSet[] = new Boolean[4]; // sptSet[i] will be true if vertex i is included in shortest path tree or
+                                           // shortest distance from src to i is finalized.
+
+        for (int i = 0; i < 4; i++) {
+            dist[i] = Integer.MAX_VALUE;
+            sptSet[i] = false;
+        }
+
+        dist[src] = 0;
+
+        for (int count = 0; count < 3; count++) {
+            int u = minDistance(dist, sptSet);
+
+            sptSet[u] = true;
+
+            for (int v = 0; v < 4; v++)
+                if (!sptSet[v] && graph[u][v] != Integer.MAX_VALUE && dist[u] != Integer.MAX_VALUE
+                        && dist[u] + graph[u][v] < dist[v])
+                    dist[v] = dist[u] + graph[u][v];
+        }
+
+    }
+
     public static void main(String[] args) {
 
         int[][] D = {
@@ -125,6 +163,9 @@ public class DV {
 
         System.out.println("I= " + i + "\n");
 
+        dijkstra(Router[0], 0);
+
         print3DArray(Router);
+
     }
 }
