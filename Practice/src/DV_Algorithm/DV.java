@@ -6,6 +6,8 @@ public class DV {
 
     private static final int MAX = Integer.MAX_VALUE;
 
+    int change = 1;
+
     public static boolean compareSubArrays(int[][][] A, int[][][] B, int i1, int j1, int i2, int j2) {
         for (int k = 0; k < A[0][0].length; k++) {
             if (A[i1][j1][k] != B[i2][j2][k]) {
@@ -32,42 +34,51 @@ public class DV {
         }
     }
 
+    public static void printArray(int[] arr) {
+        for (int i = 0; i < 4; i++) {
+
+            int x = arr[i];
+
+            System.out.print(x + " ");
+        }
+        System.out.println();
+    }
+
     public static void dijkstra(int[] distance, int[][] graph, int source) {
         int count = 4;
         boolean[] visitedVertex = new boolean[count];
-        // int[] distance = new int[count];
+
         for (int i = 0; i < count; i++) {
             visitedVertex[i] = false;
-            distance[i] = Integer.MAX_VALUE;
+            distance[i] = MAX;
         }
 
-        // Distance of self loop is zero
         distance[source] = 0;
+
         for (int i = 0; i < count; i++) {
 
-            // Update the distance between neighbouring vertex and source vertex
             int u = findMinDistance(distance, visitedVertex);
             visitedVertex[u] = true;
 
-            // Update all the neighbouring vertex distances
             for (int v = 0; v < count; v++) {
-                if (!visitedVertex[v] && graph[u][v] != 0 && (distance[u] + graph[u][v] < distance[v])) {
+                if (!visitedVertex[v] && graph[u][v] != 0 && graph[u][v] != MAX
+                        && (distance[u] + graph[u][v] < distance[v])) {
                     distance[v] = distance[u] + graph[u][v];
                 }
             }
         }
     }
 
-    // Finding the minimum distance
     private static int findMinDistance(int[] distance, boolean[] visitedVertex) {
-        int minDistance = Integer.MAX_VALUE;
+        int minDistance = MAX;
         int minDistanceVertex = -1;
-        for (int i = 0; i < distance.length; i++) {
+        for (int i = 0; i < 4; i++) {
             if (!visitedVertex[i] && distance[i] < minDistance) {
                 minDistance = distance[i];
                 minDistanceVertex = i;
             }
         }
+
         return minDistanceVertex;
     }
 
@@ -164,7 +175,14 @@ public class DV {
 
         System.out.println("I= " + i + "\n");
 
-        dijkstra(Router[0][0], D, 0);
+        print3DArray(Router);
+
+        for (int a = 0; a < 4; a++)
+            dijkstra(Router[a][a], D, a);
+
+        i++;
+
+        System.out.println("I= " + i + "\n");
 
         print3DArray(Router);
 
