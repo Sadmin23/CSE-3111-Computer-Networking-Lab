@@ -148,9 +148,9 @@ public class DV {
 
         Queue<Integer> queue = new ArrayDeque<>();
 
-        int iii = 0;
+        while (change != 0) {
 
-        while (iii < 2) {
+            change = 0;
 
             for (int i = 0; i < 4; i++) {
                 send[i].clear();
@@ -199,15 +199,11 @@ public class DV {
 
             for (int a = 0; a < 4; a++)
                 dijkstra(Router[a][a], D, a);
-            // dijkstra(Router[0][0], D, 0);
             i++;
 
             System.out.println("I= " + i + "\n");
 
             print3DArray(Router);
-
-            iii++;
-
         }
     }
 }
