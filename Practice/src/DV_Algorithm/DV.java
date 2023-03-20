@@ -32,42 +32,43 @@ public class DV {
         }
     }
 
-    public static int minDistance(int dist[], Boolean sptSet[]) {
-        int min = Integer.MAX_VALUE, min_index = -1;
+    public static void dijkstra(int[] distance, int[][] graph, int source) {
+        int count = 4;
+        boolean[] visitedVertex = new boolean[count];
+        // int[] distance = new int[count];
+        for (int i = 0; i < count; i++) {
+            visitedVertex[i] = false;
+            distance[i] = Integer.MAX_VALUE;
+        }
 
-        for (int v = 0; v < 4; v++)
-            if (sptSet[v] == false && dist[v] <= min) {
-                min = dist[v];
-                min_index = v;
+        // Distance of self loop is zero
+        distance[source] = 0;
+        for (int i = 0; i < count; i++) {
+
+            // Update the distance between neighbouring vertex and source vertex
+            int u = findMinDistance(distance, visitedVertex);
+            visitedVertex[u] = true;
+
+            // Update all the neighbouring vertex distances
+            for (int v = 0; v < count; v++) {
+                if (!visitedVertex[v] && graph[u][v] != 0 && (distance[u] + graph[u][v] < distance[v])) {
+                    distance[v] = distance[u] + graph[u][v];
+                }
             }
-
-        return min_index;
+        }
     }
 
-    public static void dijkstra(int graph[][], int src) {
-        int dist[] = new int[4]; // The output array. dist[i] will hold the shortest distance from src to i.
-
-        Boolean sptSet[] = new Boolean[4]; // sptSet[i] will be true if vertex i is included in shortest path tree or
-                                           // shortest distance from src to i is finalized.
-
-        for (int i = 0; i < 4; i++) {
-            dist[i] = Integer.MAX_VALUE;
-            sptSet[i] = false;
+    // Finding the minimum distance
+    private static int findMinDistance(int[] distance, boolean[] visitedVertex) {
+        int minDistance = Integer.MAX_VALUE;
+        int minDistanceVertex = -1;
+        for (int i = 0; i < distance.length; i++) {
+            if (!visitedVertex[i] && distance[i] < minDistance) {
+                minDistance = distance[i];
+                minDistanceVertex = i;
+            }
         }
-
-        dist[src] = 0;
-
-        for (int count = 0; count < 3; count++) {
-            int u = minDistance(dist, sptSet);
-
-            sptSet[u] = true;
-
-            for (int v = 0; v < 4; v++)
-                if (!sptSet[v] && graph[u][v] != Integer.MAX_VALUE && dist[u] != Integer.MAX_VALUE
-                        && dist[u] + graph[u][v] < dist[v])
-                    dist[v] = dist[u] + graph[u][v];
-        }
-
+        return minDistanceVertex;
     }
 
     public static void main(String[] args) {
@@ -163,7 +164,7 @@ public class DV {
 
         System.out.println("I= " + i + "\n");
 
-        dijkstra(Router[0], 0);
+        dijkstra(Router[0][0], D, 0);
 
         print3DArray(Router);
 
