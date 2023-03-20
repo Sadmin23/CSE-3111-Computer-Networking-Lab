@@ -148,49 +148,66 @@ public class DV {
 
         Queue<Integer> queue = new ArrayDeque<>();
 
-        queue.add(0);
+        int iii = 0;
 
-        int i = 0;
+        while (iii < 2) {
 
-        while (!queue.isEmpty()) {
+            for (int i = 0; i < 4; i++) {
+                send[i].clear();
+            }
 
-            int xyz = queue.remove();
+            send[0].add(0);
+            send[1].add(1);
+            send[2].add(2);
+            send[3].add(3);
 
-            System.out.println("I: " + i + "\n");
+            queue.add(0);
+
+            int i = 0;
+
+            while (!queue.isEmpty()) {
+
+                int xyz = queue.remove();
+
+                System.out.println("I: " + i + "\n");
+
+                print3DArray(Router);
+
+                for (int j = 0; j < send[xyz].size(); j++) {
+                    for (int k = 0; k < adj[xyz].size(); k++) {
+
+                        int x = send[xyz].get(j);
+                        int y = adj[xyz].get(k);
+
+                        if (!compareSubArrays(Router, Router, xyz, x, y, x)) {
+                            System.arraycopy(Router[xyz][x], 0, Router[y][x], 0, 4);
+                            if (!queue.contains(y))
+                                queue.add(y);
+                        }
+
+                        if (!send[y].contains(x))
+                            send[y].add(x);
+                    }
+                }
+
+                i++;
+            }
+
+            System.out.println("I= " + i + "\n");
 
             print3DArray(Router);
 
-            for (int j = 0; j < send[xyz].size(); j++) {
-                for (int k = 0; k < adj[xyz].size(); k++) {
-
-                    int x = send[xyz].get(j);
-                    int y = adj[xyz].get(k);
-
-                    if (!compareSubArrays(Router, Router, xyz, x, y, x)) {
-                        System.arraycopy(Router[xyz][x], 0, Router[y][x], 0, 4);
-                        if (!queue.contains(y))
-                            queue.add(y);
-                    }
-
-                    if (!send[y].contains(x))
-                        send[y].add(x);
-                }
-            }
-
+            for (int a = 0; a < 4; a++)
+                dijkstra(Router[a][a], D, a);
+            // dijkstra(Router[0][0], D, 0);
             i++;
+
+            System.out.println("I= " + i + "\n");
+
+            print3DArray(Router);
+
+            iii++;
+
         }
-
-        System.out.println("I= " + i + "\n");
-
-        print3DArray(Router);
-
-        for (int a = 0; a < 4; a++)
-            dijkstra(Router[a][a], D, a);
-        // dijkstra(Router[0][0], D, 0);
-        i++;
-
-        System.out.println("I= " + i + "\n");
-
-        print3DArray(Router);
     }
 }
