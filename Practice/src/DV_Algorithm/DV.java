@@ -207,6 +207,14 @@ public class DV {
 
             print3DArray(Router);
 
+            Socket socket = new Socket("localhost", 12345);
+
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+
+            out.writeObject(Router[0]);
+            out.writeInt(1);
+            out.flush();
+
             for (int a = 0; a < 4; a++)
                 dijkstra(Router[a][a], D, a);
             i++;
@@ -214,6 +222,17 @@ public class DV {
             System.out.println("I= " + i + "\n");
 
             print3DArray(Router);
+
+            Socket socket2 = new Socket("localhost", 12345);
+
+            ObjectOutputStream out2 = new ObjectOutputStream(socket2.getOutputStream());
+
+            out2.writeObject(Router[0]);
+            if (change == 1)
+                out2.writeInt(1);
+            else
+                out2.writeInt(0);
+            out2.flush();
         }
     }
 }

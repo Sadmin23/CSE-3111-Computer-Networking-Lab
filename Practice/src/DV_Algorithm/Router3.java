@@ -24,7 +24,7 @@ public class Router3 {
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         while (true) {
-            ServerSocket serverSocket = new ServerSocket(12345);
+            ServerSocket serverSocket = new ServerSocket(7000);
             Socket socket = serverSocket.accept();
 
             // Get the input stream
