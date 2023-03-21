@@ -1,5 +1,7 @@
 package DV_Algorithm;
 
+import java.io.*;
+import java.net.*;
 import java.util.*;
 
 public class DV {
@@ -89,7 +91,7 @@ public class DV {
         return minDistanceVertex;
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, ClassNotFoundException {
 
         int[][] D = {
                 { 0, 2, 7, MAX },
@@ -172,6 +174,14 @@ public class DV {
                 System.out.println("I: " + i + "\n");
 
                 print3DArray(Router);
+
+                Socket socket = new Socket("localhost", 12345);
+
+                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+
+                out.writeObject(Router[0]);
+                out.writeInt(1);
+                out.flush();
 
                 for (int j = 0; j < send[xyz].size(); j++) {
                     for (int k = 0; k < adj[xyz].size(); k++) {
