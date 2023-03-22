@@ -1,4 +1,4 @@
-package DV_Algorithm;
+package Task1;
 
 import java.io.*;
 import java.net.*;
@@ -152,7 +152,7 @@ public class DV {
 
         Queue<Integer> queue = new ArrayDeque<>();
 
-        while (change != 0) {
+        while (change != 1) {
 
             change = 0;
 

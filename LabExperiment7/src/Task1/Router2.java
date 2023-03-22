@@ -1,7 +1,10 @@
-package DV_Algorithm;
+package Task1;
 
-import java.io.*;
-import java.net.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 
 public class Router2 {
 

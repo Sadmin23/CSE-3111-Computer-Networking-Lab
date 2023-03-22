@@ -1,9 +1,9 @@
-package DV_Algorithm;
+package Task2;
 
 import java.io.*;
 import java.net.*;
 
-public class Router1 {
+public class Router2 {
 
     private static final int MAX = Integer.MAX_VALUE;
 
@@ -23,7 +23,7 @@ public class Router1 {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
-        DatagramSocket socket = new DatagramSocket(5000);
+        DatagramSocket socket = new DatagramSocket(6000);
 
         while (true) {
 
@@ -54,5 +54,7 @@ public class Router1 {
                 break;
             }
         }
+
     }
+
 }
