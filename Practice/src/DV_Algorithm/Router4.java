@@ -17,28 +17,26 @@ public class Router4 {
                 else
                     System.out.print(x + " ");
             }
-            System.out.println();
+            System.out.println("\n");
         }
+        System.out.println();
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        DatagramSocket socket = new DatagramSocket(8000);
 
-        ServerSocket serverSocket = new ServerSocket(8000);
-        Socket socket = serverSocket.accept();
+        while (true) {
 
-        // Get the input stream
-        ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+            byte[] buffer = new byte[1024];
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
 
-        // Receive the 2D array and the integer value
-        int[][] array = (int[][]) in.readObject();
-        int value = in.readInt();
+            socket.receive(packet);
 
-        print3DArray(array);
+            ByteArrayInputStream bais = new ByteArrayInputStream(packet.getData());
+            ObjectInputStream in = new ObjectInputStream(bais);
+            int[][] array = (int[][]) in.readObject();
 
-        if (value == 0) {
-            // Close the socket and the input stream
-            in.close();
-            socket.close();
+            print3DArray(array);
         }
 
     }

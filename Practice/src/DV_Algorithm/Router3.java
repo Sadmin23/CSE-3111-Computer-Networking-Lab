@@ -19,6 +19,7 @@ public class Router3 {
             }
             System.out.println();
         }
+        System.out.println();
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
@@ -28,11 +29,8 @@ public class Router3 {
 
             byte[] buffer = new byte[1024];
             DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-            // System.out.println("Server 1 is listening on port ");
 
             socket.receive(packet);
-            // System.out.println("Server 1 has received a packet from " +
-            // packet.getAddress().getHostName());
 
             ByteArrayInputStream bais = new ByteArrayInputStream(packet.getData());
             ObjectInputStream in = new ObjectInputStream(bais);

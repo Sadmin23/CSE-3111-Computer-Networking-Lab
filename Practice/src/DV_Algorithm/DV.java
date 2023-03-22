@@ -177,23 +177,31 @@ public class DV {
 
                 print3DArray(Router);
 
+                DatagramSocket[] socket;
+                ByteArrayOutputStream[] baos;
+                ObjectOutputStream[] out;
+
                 DatagramSocket socket1 = new DatagramSocket();
                 InetAddress address1 = InetAddress.getByName("localhost");
-                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-                ObjectOutputStream out1 = new ObjectOutputStream(baos1);
-                out1.writeObject(Router[0]);
-                byte[] data1 = baos1.toByteArray();
-                DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, 9000);
-                socket1.send(packet1);
 
-                DatagramSocket socket2 = new DatagramSocket();
-                InetAddress address2 = InetAddress.getByName("localhost");
-                ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-                ObjectOutputStream out2 = new ObjectOutputStream(baos2);
-                out2.writeObject(Router[1]);
-                byte[] data2 = baos2.toByteArray();
-                DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address2, 7000);
-                socket2.send(packet2);
+                for (int ii = 0; ii < 4; ii++) {
+                    ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                    ObjectOutputStream out1 = new ObjectOutputStream(baos1);
+                    out1.writeObject(Router[ii]);
+                    byte[] data1 = baos1.toByteArray();
+                    DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
+                    socket1.send(packet1);
+                }
+
+                // DatagramSocket socket2 = new DatagramSocket();
+                // InetAddress address2 = InetAddress.getByName("localhost");
+                // ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+                // ObjectOutputStream out2 = new ObjectOutputStream(baos2);
+                // out2.writeObject(Router[1]);
+                // byte[] data2 = baos2.toByteArray();
+                // DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address2,
+                // 7000);
+                // socket2.send(packet2);
 
                 // Socket socket1 = new Socket("localhost", 5000);
                 // ObjectOutputStream out1 = new ObjectOutputStream(socket1.getOutputStream());

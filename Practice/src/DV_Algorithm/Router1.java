@@ -23,26 +23,20 @@ public class Router1 {
     }
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
+        DatagramSocket socket = new DatagramSocket(5000);
 
-        ServerSocket serverSocket = new ServerSocket(5000);
         while (true) {
-            Socket socket = serverSocket.accept();
-            // Get the input stream
-            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 
-            // Receive the 2D array and the integer value
+            byte[] buffer = new byte[1024];
+            DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
+
+            socket.receive(packet);
+
+            ByteArrayInputStream bais = new ByteArrayInputStream(packet.getData());
+            ObjectInputStream in = new ObjectInputStream(bais);
             int[][] array = (int[][]) in.readObject();
-            int value = in.readInt();
 
             print3DArray(array);
-
-            if (value == 0) {
-                // Close the socket and the input stream
-                in.close();
-                socket.close();
-                break;
-            }
-
         }
     }
 }
