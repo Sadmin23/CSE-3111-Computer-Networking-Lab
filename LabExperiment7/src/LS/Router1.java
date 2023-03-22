@@ -25,7 +25,7 @@ public class Router1 {
         // Create a packet and send the data
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, 5000);
         socket.send(sendPacket);
-        DatagramPacket sendPacket2 = new DatagramPacket(sendData, sendData.length, address, 5000);
+        DatagramPacket sendPacket2 = new DatagramPacket(sendData, sendData.length, address, 6000);
         socket.send(sendPacket2);
         // Close the socket
         socket.close();

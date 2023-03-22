@@ -127,6 +127,8 @@ public class DV {
                 { MAX, 3, 2, 0 }
         };
 
+        int[] port = new int[] { 5000, 6000, 7000, 8000 };
+
         Vector<Integer>[] adj = new Vector[4];
 
         adj[0] = new Vector<Integer>(Arrays.asList(1, 2));
@@ -175,13 +177,40 @@ public class DV {
 
                 print3DArray(Router);
 
-                Socket socket = new Socket("localhost", 12345);
+                DatagramSocket socket1 = new DatagramSocket();
+                InetAddress address1 = InetAddress.getByName("localhost");
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                ObjectOutputStream out1 = new ObjectOutputStream(baos1);
+                out1.writeObject(Router[0]);
+                byte[] data1 = baos1.toByteArray();
+                DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, 9000);
+                socket1.send(packet1);
 
-                ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+                DatagramSocket socket2 = new DatagramSocket();
+                InetAddress address2 = InetAddress.getByName("localhost");
+                ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
+                ObjectOutputStream out2 = new ObjectOutputStream(baos2);
+                out2.writeObject(Router[1]);
+                byte[] data2 = baos2.toByteArray();
+                DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address2, 7000);
+                socket2.send(packet2);
 
-                out.writeObject(Router[0]);
-                out.writeInt(1);
-                out.flush();
+                // Socket socket1 = new Socket("localhost", 5000);
+                // ObjectOutputStream out1 = new ObjectOutputStream(socket1.getOutputStream());
+
+                // out1.writeObject(Router[0]);
+                // out1.writeInt(1);
+                // out1.flush();
+
+                // Socket socket2 = new Socket("localhost", 9000);
+                // ObjectOutputStream out2 = new ObjectOutputStream(socket2.getOutputStream());
+
+                // out2.writeObject(Router[1]);
+                // out2.writeInt(1);
+                // out2.flush();
+
+                // socket1.close();
+                // socket2.close();
 
                 for (int j = 0; j < send[xyz].size(); j++) {
                     for (int k = 0; k < adj[xyz].size(); k++) {
@@ -207,13 +236,13 @@ public class DV {
 
             print3DArray(Router);
 
-            Socket socket = new Socket("localhost", 12345);
+            // Socket socket1 = new Socket("localhost", 5000);
 
-            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            // ObjectOutputStream out1 = new ObjectOutputStream(socket1.getOutputStream());
 
-            out.writeObject(Router[0]);
-            out.writeInt(1);
-            out.flush();
+            // out1.writeObject(Router[0]);
+            // out1.writeInt(1);
+            // out1.flush();
 
             for (int a = 0; a < 4; a++)
                 dijkstra(Router[a][a], D, a);
@@ -223,16 +252,16 @@ public class DV {
 
             print3DArray(Router);
 
-            Socket socket2 = new Socket("localhost", 12345);
+            // Socket socket3 = new Socket("localhost", 5000);
 
-            ObjectOutputStream out2 = new ObjectOutputStream(socket2.getOutputStream());
+            // ObjectOutputStream out3 = new ObjectOutputStream(socket3.getOutputStream());
 
-            out2.writeObject(Router[0]);
-            if (change == 1)
-                out2.writeInt(1);
-            else
-                out2.writeInt(0);
-            out2.flush();
+            // out3.writeObject(Router[0]);
+            // if (change == 1)
+            // out3.writeInt(1);
+            // else
+            // out3.writeInt(0);
+            // out3.flush();
         }
     }
 }
