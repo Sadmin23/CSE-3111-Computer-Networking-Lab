@@ -17,7 +17,7 @@ public class Router4 {
                 else
                     System.out.print(x + " ");
             }
-            System.out.println("\n");
+            System.out.println();
         }
         System.out.println();
     }
@@ -37,6 +37,16 @@ public class Router4 {
             int[][] array = (int[][]) in.readObject();
 
             print3DArray(array);
+
+            socket.receive(packet);
+            String string = new String(packet.getData(), 0, packet.getLength());
+            int number = Integer.parseInt(string);
+
+            if (number == 0) {
+                socket.close();
+                in.close();
+                break;
+            }
         }
 
     }

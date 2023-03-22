@@ -37,6 +37,16 @@ public class Router1 {
             int[][] array = (int[][]) in.readObject();
 
             print3DArray(array);
+
+            socket.receive(packet);
+            String string = new String(packet.getData(), 0, packet.getLength());
+            int number = Integer.parseInt(string);
+
+            if (number == 0) {
+                socket.close();
+                in.close();
+                break;
+            }
         }
     }
 }

@@ -175,11 +175,7 @@ public class DV {
 
                 System.out.println("I: " + i + "\n");
 
-                print3DArray(Router);
-
-                DatagramSocket[] socket;
-                ByteArrayOutputStream[] baos;
-                ObjectOutputStream[] out;
+                // print3DArray(Router);
 
                 DatagramSocket socket1 = new DatagramSocket();
                 InetAddress address1 = InetAddress.getByName("localhost");
@@ -191,34 +187,10 @@ public class DV {
                     byte[] data1 = baos1.toByteArray();
                     DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
                     socket1.send(packet1);
+                    byte[] data2 = String.valueOf(1).getBytes();
+                    DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
+                    socket1.send(packet2);
                 }
-
-                // DatagramSocket socket2 = new DatagramSocket();
-                // InetAddress address2 = InetAddress.getByName("localhost");
-                // ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-                // ObjectOutputStream out2 = new ObjectOutputStream(baos2);
-                // out2.writeObject(Router[1]);
-                // byte[] data2 = baos2.toByteArray();
-                // DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address2,
-                // 7000);
-                // socket2.send(packet2);
-
-                // Socket socket1 = new Socket("localhost", 5000);
-                // ObjectOutputStream out1 = new ObjectOutputStream(socket1.getOutputStream());
-
-                // out1.writeObject(Router[0]);
-                // out1.writeInt(1);
-                // out1.flush();
-
-                // Socket socket2 = new Socket("localhost", 9000);
-                // ObjectOutputStream out2 = new ObjectOutputStream(socket2.getOutputStream());
-
-                // out2.writeObject(Router[1]);
-                // out2.writeInt(1);
-                // out2.flush();
-
-                // socket1.close();
-                // socket2.close();
 
                 for (int j = 0; j < send[xyz].size(); j++) {
                     for (int k = 0; k < adj[xyz].size(); k++) {
@@ -242,15 +214,22 @@ public class DV {
 
             System.out.println("I= " + i + "\n");
 
-            print3DArray(Router);
+            // print3DArray(Router);
 
-            // Socket socket1 = new Socket("localhost", 5000);
+            DatagramSocket socket1 = new DatagramSocket();
+            InetAddress address1 = InetAddress.getByName("localhost");
 
-            // ObjectOutputStream out1 = new ObjectOutputStream(socket1.getOutputStream());
-
-            // out1.writeObject(Router[0]);
-            // out1.writeInt(1);
-            // out1.flush();
+            for (int ii = 0; ii < 4; ii++) {
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                ObjectOutputStream out1 = new ObjectOutputStream(baos1);
+                out1.writeObject(Router[ii]);
+                byte[] data1 = baos1.toByteArray();
+                DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
+                socket1.send(packet1);
+                byte[] data2 = String.valueOf(1).getBytes();
+                DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
+                socket1.send(packet2);
+            }
 
             for (int a = 0; a < 4; a++)
                 dijkstra(Router[a][a], D, a);
@@ -258,18 +237,29 @@ public class DV {
 
             System.out.println("I= " + i + "\n");
 
-            print3DArray(Router);
+            // print3DArray(Router);
 
-            // Socket socket3 = new Socket("localhost", 5000);
+            socket1 = new DatagramSocket();
+            address1 = InetAddress.getByName("localhost");
 
-            // ObjectOutputStream out3 = new ObjectOutputStream(socket3.getOutputStream());
+            int value;
 
-            // out3.writeObject(Router[0]);
-            // if (change == 1)
-            // out3.writeInt(1);
-            // else
-            // out3.writeInt(0);
-            // out3.flush();
+            if (change == 1)
+                value = 1;
+            else
+                value = 0;
+
+            for (int ii = 0; ii < 4; ii++) {
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                ObjectOutputStream out1 = new ObjectOutputStream(baos1);
+                out1.writeObject(Router[ii]);
+                byte[] data1 = baos1.toByteArray();
+                DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
+                socket1.send(packet1);
+                byte[] data2 = String.valueOf(change).getBytes();
+                DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
+                socket1.send(packet2);
+            }
         }
     }
 }
