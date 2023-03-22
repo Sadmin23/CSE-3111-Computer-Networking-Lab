@@ -173,7 +173,7 @@ public class DV {
 
                 int xyz = queue.remove();
 
-                System.out.println("I: " + i + "\n");
+                // System.out.println("I: " + i + "\n");
 
                 // print3DArray(Router);
 
@@ -212,7 +212,7 @@ public class DV {
                 i++;
             }
 
-            System.out.println("I= " + i + "\n");
+            // System.out.println("I= " + i + "\n");
 
             // print3DArray(Router);
 
@@ -235,7 +235,7 @@ public class DV {
                 dijkstra(Router[a][a], D, a);
             i++;
 
-            System.out.println("I= " + i + "\n");
+            // System.out.println("I= " + i + "\n");
 
             // print3DArray(Router);
 

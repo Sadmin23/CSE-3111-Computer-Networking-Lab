@@ -38,6 +38,12 @@ public class Router3 {
 
             print3DArray(array);
 
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             socket.receive(packet);
             String string = new String(packet.getData(), 0, packet.getLength());
             int number = Integer.parseInt(string);
