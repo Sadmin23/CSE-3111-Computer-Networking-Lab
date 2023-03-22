@@ -152,7 +152,7 @@ public class DV {
 
         Queue<Integer> queue = new ArrayDeque<>();
 
-        while (change != 1) {
+        while (true) {
 
             change = 0;
 

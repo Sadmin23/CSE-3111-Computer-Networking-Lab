@@ -157,7 +157,9 @@ public class DV {
 
         Queue<Integer> queue = new ArrayDeque<>();
 
-        while (duration <= 10000) {
+        int flag = 0;
+
+        while (change != 0) {
 
             change = 0;
 
@@ -220,6 +222,15 @@ public class DV {
             // System.out.println("I= " + i + "\n");
 
             // print3DArray(Router);
+            if (System.currentTimeMillis() - starttime >= 10000 && flag == 0) {
+                int r_no = (int) Math.floor(Math.random() * (4));
+                int edge_no = (int) Math.floor(Math.random() * (4));
+                int cost = (int) Math.floor(Math.random() * (5));
+
+                Router[r_no][r_no][edge_no] = cost;
+                queue.add(r_no);
+                flag = 1;
+            }
 
             DatagramSocket socket1 = new DatagramSocket();
             InetAddress address1 = InetAddress.getByName("localhost");
