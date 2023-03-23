@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class DV {
+public class LS {
 
     private static final int MAX = Integer.MAX_VALUE;
 
@@ -163,10 +163,6 @@ public class DV {
 
                 int xyz = queue.remove();
 
-                // System.out.println("I: " + i + "\n");
-
-                // print3DArray(Router);
-
                 DatagramSocket socket1 = new DatagramSocket();
                 InetAddress address1 = InetAddress.getByName("localhost");
 
@@ -177,9 +173,14 @@ public class DV {
                     byte[] data1 = baos1.toByteArray();
                     DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
                     socket1.send(packet1);
-                    byte[] data2 = String.valueOf(1).getBytes();
+                    byte[] data2 = String.valueOf(xyz + 1).getBytes();
                     DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
                     socket1.send(packet2);
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 for (int j = 0; j < send[xyz].size(); j++) {
@@ -202,10 +203,6 @@ public class DV {
                 i++;
             }
 
-            // System.out.println("I= " + i + "\n");
-
-            // print3DArray(Router);
-
             DatagramSocket socket1 = new DatagramSocket();
             InetAddress address1 = InetAddress.getByName("localhost");
 
@@ -216,18 +213,22 @@ public class DV {
                 byte[] data1 = baos1.toByteArray();
                 DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
                 socket1.send(packet1);
-                byte[] data2 = String.valueOf(1).getBytes();
+                byte[] data2 = String.valueOf(5).getBytes();
                 DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
                 socket1.send(packet2);
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
 
             for (int a = 0; a < 4; a++)
                 dijkstra(Router[a][a], D, a);
             i++;
 
-            // System.out.println("I= " + i + "\n");
-
-            // print3DArray(Router);
+            System.out.println("Dijkstra started");
 
             socket1 = new DatagramSocket();
             address1 = InetAddress.getByName("localhost");

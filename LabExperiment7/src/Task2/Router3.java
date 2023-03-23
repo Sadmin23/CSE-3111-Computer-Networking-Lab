@@ -52,7 +52,7 @@ public class Router3 {
             if (number == 3)
                 System.out.println("\nSending data from Router 3 -> Router 1, Router 2 & Router 4\n");
 
-            if (number == 0) {
+            else if (number == 0) {
                 socket.close();
                 in.close();
                 break;

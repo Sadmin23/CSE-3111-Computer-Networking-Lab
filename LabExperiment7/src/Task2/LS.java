@@ -4,7 +4,7 @@ import java.io.*;
 import java.net.*;
 import java.util.*;
 
-public class DV {
+public class LS {
 
     private static final int MAX = Integer.MAX_VALUE;
 
