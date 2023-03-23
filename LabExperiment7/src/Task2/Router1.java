@@ -2,6 +2,7 @@ package Task2;
 
 import java.io.*;
 import java.net.*;
+import java.util.*;
 
 public class Router1 {
 
@@ -37,6 +38,8 @@ public class Router1 {
             int[][] array = (int[][]) in.readObject();
 
             print3DArray(array);
+
+            System.out.println("Sending data from Router 1 -> Router 2 & Router 3");
 
             try {
                 Thread.sleep(1000);

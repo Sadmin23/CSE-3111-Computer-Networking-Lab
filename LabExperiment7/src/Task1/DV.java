@@ -36,16 +36,6 @@ public class DV {
         }
     }
 
-    public static void printArray(int[] arr) {
-        for (int i = 0; i < 4; i++) {
-
-            int x = arr[i];
-
-            System.out.print(x + " ");
-        }
-        System.out.println();
-    }
-
     public static void dijkstra(int[] router, int[][] graph, int source) {
         int count = 4;
         boolean[] visitedVertex = new boolean[count];
