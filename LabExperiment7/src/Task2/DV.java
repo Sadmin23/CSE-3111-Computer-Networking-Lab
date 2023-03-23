@@ -155,6 +155,7 @@ public class DV {
         send[3].add(3);
 
         Queue<Integer> queue = new ArrayDeque<>();
+        Queue<Integer> rqueue = new ArrayDeque();
 
         int flag = 0;
 
@@ -197,7 +198,7 @@ public class DV {
                     DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
                     socket1.send(packet2);
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(1000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -223,8 +224,23 @@ public class DV {
 
                 if (System.currentTimeMillis() - starttime >= 10000 && flag == 0) {
                     Router[1][1][3] = 2;
-                    if (!queue.contains(1))
-                        queue.add(1);
+
+                    D[1][3] = 2;
+                    D[2][0] = 2;
+
+                    rqueue.add(1);
+
+                    while (!queue.isEmpty()) {
+                        int value = queue.poll();
+                        if (value != 1) {
+                            rqueue.add(value);
+                        }
+                    }
+
+                    while (!rqueue.isEmpty()) {
+                        queue.add(rqueue.poll());
+                    }
+
                     flag = 1;
                     System.out.println("Values changed\n");
                     print3DArray(Router);
@@ -253,10 +269,12 @@ public class DV {
             }
 
             try {
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+
+            System.out.println("Dijkstra started");
 
             for (int a = 0; a < 4; a++)
                 dijkstra(Router[a][a], D, a);
@@ -283,9 +301,6 @@ public class DV {
                 DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
                 socket1.send(packet2);
             }
-
-            long endtime = System.currentTimeMillis();
-            duration = endtime - starttime;
         }
     }
 }
