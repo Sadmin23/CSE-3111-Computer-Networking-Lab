@@ -159,7 +159,7 @@ public class DV {
 
         int flag = 0;
 
-        while (change != 0) {
+        while (true) {
 
             change = 0;
 
@@ -213,24 +213,24 @@ public class DV {
 
                         if (!send[y].contains(x))
                             send[y].add(x);
+
+                        if (System.currentTimeMillis() - starttime >= 10000 && flag == 0) {
+                            Router[1][1][3] = 2;
+                            if (!queue.contains(1))
+                                queue.add(1);
+                            flag = 1;
+                            System.out.println("Values changed\n");
+                            print3DArray(Router);
+                        }
                     }
                 }
 
                 i++;
             }
 
-            // System.out.println("I= " + i + "\n");
+            System.out.println("I= " + i + "\n");
 
-            // print3DArray(Router);
-            if (System.currentTimeMillis() - starttime >= 10000 && flag == 0) {
-                int r_no = (int) Math.floor(Math.random() * (4));
-                int edge_no = (int) Math.floor(Math.random() * (4));
-                int cost = (int) Math.floor(Math.random() * (5));
-
-                Router[r_no][r_no][edge_no] = cost;
-                queue.add(r_no);
-                flag = 1;
-            }
+            print3DArray(Router);
 
             DatagramSocket socket1 = new DatagramSocket();
             InetAddress address1 = InetAddress.getByName("localhost");
@@ -247,13 +247,15 @@ public class DV {
                 socket1.send(packet2);
             }
 
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             for (int a = 0; a < 4; a++)
                 dijkstra(Router[a][a], D, a);
             i++;
-
-            // System.out.println("I= " + i + "\n");
-
-            // print3DArray(Router);
 
             socket1 = new DatagramSocket();
             address1 = InetAddress.getByName("localhost");
