@@ -142,7 +142,7 @@ public class LS {
 
         Queue<Integer> queue = new ArrayDeque<>();
 
-        while (true) {
+        while (change != 0) {
 
             change = 0;
 

@@ -53,6 +53,8 @@ public class Router2 {
 
             if (number == 2)
                 System.out.println("Sending data from Router 2 -> Router 1, Router 3 & Router 4\n");
+            else if (number == 5)
+                System.out.println("Dijkstra running\n");
             else if (number == 0) {
                 socket.close();
                 in.close();
