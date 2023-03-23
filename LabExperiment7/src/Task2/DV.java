@@ -180,7 +180,7 @@ public class DV {
                     byte[] data1 = baos1.toByteArray();
                     DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
                     socket1.send(packet1);
-                    byte[] data2 = String.valueOf(1).getBytes();
+                    byte[] data2 = String.valueOf(xyz + 1).getBytes();
                     DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
                     socket1.send(packet2);
                     try {
@@ -245,7 +245,7 @@ public class DV {
                 byte[] data1 = baos1.toByteArray();
                 DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
                 socket1.send(packet1);
-                byte[] data2 = String.valueOf(1).getBytes();
+                byte[] data2 = String.valueOf(5).getBytes();
                 DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
                 socket1.send(packet2);
             }

@@ -39,8 +39,6 @@ public class Router1 {
 
             print3DArray(array);
 
-            System.out.println("Sending data from Router 1 -> Router 2 & Router 3");
-
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -51,7 +49,10 @@ public class Router1 {
             String string = new String(packet.getData(), 0, packet.getLength());
             int number = Integer.parseInt(string);
 
-            if (number == 0) {
+            if (number == 1)
+                System.out.println("\nSending data from Router 1 -> Router 2 & Router 3\n");
+
+            else if (number == 0) {
                 socket.close();
                 in.close();
                 break;
