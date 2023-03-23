@@ -3,7 +3,6 @@ package Task2;
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.util.concurrent.*;
 
 public class DV {
 
@@ -197,6 +196,11 @@ public class DV {
                     byte[] data2 = String.valueOf(1).getBytes();
                     DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
                     socket1.send(packet2);
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
 
                 for (int j = 0; j < send[xyz].size(); j++) {
@@ -214,15 +218,16 @@ public class DV {
                         if (!send[y].contains(x))
                             send[y].add(x);
 
-                        if (System.currentTimeMillis() - starttime >= 10000 && flag == 0) {
-                            Router[1][1][3] = 2;
-                            if (!queue.contains(1))
-                                queue.add(1);
-                            flag = 1;
-                            System.out.println("Values changed\n");
-                            print3DArray(Router);
-                        }
                     }
+                }
+
+                if (System.currentTimeMillis() - starttime >= 10000 && flag == 0) {
+                    Router[1][1][3] = 2;
+                    if (!queue.contains(1))
+                        queue.add(1);
+                    flag = 1;
+                    System.out.println("Values changed\n");
+                    print3DArray(Router);
                 }
 
                 i++;
