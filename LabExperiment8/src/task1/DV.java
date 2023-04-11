@@ -77,7 +77,7 @@ public class DV {
 
         while (true) {
 
-            System.out.println("i = " + iteration + "\n");
+            // System.out.println("i = " + iteration + "\n");
 
             DatagramSocket socket1 = new DatagramSocket();
             InetAddress address1 = InetAddress.getByName("localhost");
@@ -114,21 +114,6 @@ public class DV {
                 }
             }
 
-            socket1 = new DatagramSocket();
-            address1 = InetAddress.getByName("localhost");
-
-            for (int ii = 0; ii < 3; ii++) {
-                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
-                ObjectOutputStream out1 = new ObjectOutputStream(baos1);
-                out1.writeObject(Router[ii]);
-                byte[] data1 = baos1.toByteArray();
-                DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
-                socket1.send(packet1);
-                byte[] data2 = String.valueOf(5).getBytes();
-                DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
-                socket1.send(packet2);
-            }
-
             try {
                 Thread.sleep(1000);
             } catch (InterruptedException e) {
@@ -136,11 +121,42 @@ public class DV {
             }
 
             if (flag != 1) {
+
+                socket1 = new DatagramSocket();
+                address1 = InetAddress.getByName("localhost");
+
+                for (int ii = 0; ii < 3; ii++) {
+                    ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                    ObjectOutputStream out1 = new ObjectOutputStream(baos1);
+                    out1.writeObject(Router[ii]);
+                    byte[] data1 = baos1.toByteArray();
+                    DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
+                    socket1.send(packet1);
+                    byte[] data2 = String.valueOf(5).getBytes();
+                    DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
+                    socket1.send(packet2);
+                }
+
                 for (int i = 0; i < 3; i++) {
                     BellmanFord(Router, D, i);
                 }
-            } else
+            } else {
+                socket1 = new DatagramSocket();
+                address1 = InetAddress.getByName("localhost");
+
+                for (int ii = 0; ii < 3; ii++) {
+                    ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                    ObjectOutputStream out1 = new ObjectOutputStream(baos1);
+                    out1.writeObject(Router[ii]);
+                    byte[] data1 = baos1.toByteArray();
+                    DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
+                    socket1.send(packet1);
+                    byte[] data2 = String.valueOf(0).getBytes();
+                    DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
+                    socket1.send(packet2);
+                }
                 break;
+            }
 
             iteration++;
         }
