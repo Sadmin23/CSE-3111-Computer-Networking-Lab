@@ -113,6 +113,28 @@ public class DV {
                     }
                 }
             }
+
+            socket1 = new DatagramSocket();
+            address1 = InetAddress.getByName("localhost");
+
+            for (int ii = 0; ii < 3; ii++) {
+                ByteArrayOutputStream baos1 = new ByteArrayOutputStream();
+                ObjectOutputStream out1 = new ObjectOutputStream(baos1);
+                out1.writeObject(Router[ii]);
+                byte[] data1 = baos1.toByteArray();
+                DatagramPacket packet1 = new DatagramPacket(data1, data1.length, address1, port[ii]);
+                socket1.send(packet1);
+                byte[] data2 = String.valueOf(5).getBytes();
+                DatagramPacket packet2 = new DatagramPacket(data2, data2.length, address1, port[ii]);
+                socket1.send(packet2);
+            }
+
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
             if (flag != 1) {
                 for (int i = 0; i < 3; i++) {
                     BellmanFord(Router, D, i);

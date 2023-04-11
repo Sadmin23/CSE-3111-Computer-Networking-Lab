@@ -49,10 +49,10 @@ public class Router1 {
             String string = new String(packet.getData(), 0, packet.getLength());
             int number = Integer.parseInt(string);
 
-            if (number == 4)
-                System.out.println("\nSending data from Router 4 -> Router 2 & Router 3\n");
+            if (number == 1)
+                System.out.println("\nSending data from Router 1 -> Router 2 & Router 3\n");
             else if (number == 5)
-                System.out.println("Dijkstra running\n");
+                System.out.println("Bellman Ford running\n");
             else if (number == 0) {
                 socket.close();
                 in.close();
