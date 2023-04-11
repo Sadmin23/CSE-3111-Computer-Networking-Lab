@@ -45,6 +45,10 @@ public class DV {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException {
 
+        long starttime = System.currentTimeMillis();
+
+        long duration = 0;
+
         int[][] D = {
                 { 0, 2, 7 },
                 { 2, 0, 1 },
@@ -141,14 +145,15 @@ public class DV {
                     BellmanFord(Router, D, i);
                 }
 
-                if (iteration == 1) {
-                    System.out.println("Gotcha");
+                if (System.currentTimeMillis() - starttime >= 5000) {
 
                     Router[2][2][0] = 2;
                     Router[0][0][2] = 2;
 
                     D[0][2] = 2;
                     D[2][0] = 2;
+
+                    System.out.println("Values changed\n");
                 }
 
             } else {
