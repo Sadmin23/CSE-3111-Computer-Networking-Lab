@@ -141,9 +141,14 @@ public class DV {
                     BellmanFord(Router, D, i);
                 }
 
-                if (iteration == 2) {
+                if (iteration == 1) {
+                    System.out.println("Gotcha");
+
                     Router[2][2][0] = 2;
                     Router[0][0][2] = 2;
+
+                    D[0][2] = 2;
+                    D[2][0] = 2;
                 }
 
             } else {
